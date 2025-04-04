@@ -7,6 +7,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Text,
 } from "react-native";
 import TextGradient from "../../components/TextGradient";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -149,7 +150,7 @@ const Login = () => {
               <ButtonLinear onPress={onLoginPress} title={t("Login")} />
               <View
                 style={{
-                  marginTop: sizes.width / 1.9,
+                  marginTop: sizes.width / 2.2,
                 }}
               >
                 <View>
@@ -159,6 +160,22 @@ const Login = () => {
                     }}
                     title={t("SignUp")}
                   />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate(routes.GuestMode);
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#FFF",
+                        fontFamily: fonts.medium,
+                        textAlign: "center",
+                        marginTop: 15,
+                      }}
+                    >
+                      {t("GuestMode")}
+                    </Text>
+                  </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={() => {
@@ -223,7 +240,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-    marginTop: 25,
+    marginTop: 10,
   },
   key: {
     width: 15.71,

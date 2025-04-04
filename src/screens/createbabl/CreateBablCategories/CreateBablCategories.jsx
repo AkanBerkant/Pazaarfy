@@ -18,11 +18,9 @@ import { useAtom, useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import { createThumbnail } from "react-native-create-thumbnail";
 import ImageCropPicker from "react-native-image-crop-picker";
 import { Notifier } from "react-native-notifier";
-
-import { VESDK } from "react-native-videoeditorsdk";
+import HeicConverter from "react-native-heic-converter"; // başa ekle
 
 import { ButtonLinear } from "../../../components";
 import PercentLoader from "../../../components/PercentLoader";
@@ -46,12 +44,14 @@ const CreateBablCategories = () => {
   const [bablForm, setBablForm] = useAtom(bablFormAtom);
   const resetBablForm = useResetAtom(bablFormAtom);
   const [loadingPercent, setLoadingPercent] = React.useState();
+  const [activeIndex, setActiveIndex] = React.useState(0);
 
   const [cover, setCover] = React.useState(null);
   const { t } = useTranslation();
 
   const uploadMediaMutation = useMutation(Queries.uploadMedia, {
     onSuccess: (res, body) => {
+      setLoadingPercent(false); // loading % sıfırla
       setCover(res);
       const type = "PHOTO_MANUAL";
 
@@ -73,9 +73,7 @@ const CreateBablCategories = () => {
         };
       });
     },
-    onError: (err) => {
-      console.log("TESTTESTETS", err);
-    },
+    onError: (err) => {},
   });
 
   const onUploadProgress = (event) => {
@@ -116,50 +114,42 @@ const CreateBablCategories = () => {
     },
   );
 
-  console.log("test", cover);
-
-  const setSelectedVideo = async (selectedVideo) => {
+  const setSelectedPhoto = async (selectedPhoto) => {
     try {
-      const editedVideo = await VESDK.openEditor({
-        uri: selectedVideo.path,
-      });
-
-      const thumbnail = await createThumbnail({
-        url: editedVideo.video,
-      });
-
-      const { cover } = await Queries.uploadMedia(thumbnail);
-
-      if (!editedVideo) {
+      const currentCount = Object.keys(
+        bablForm.items.PHOTO_MANUAL || {},
+      ).length;
+      if (currentCount >= 5) {
+        Alert.alert(t("Warnings"), t("PhotoFive"));
         return;
       }
 
-      navigation.navigate(routes.VideoEditor, {
-        src: editedVideo.video,
-        onDone: (txt) => {
-          uploadVideoMutation.mutate({
-            mime: selectedVideo.mime,
-            path: editedVideo.video,
-            cover,
-            txt,
-          });
-          navigation.goBack();
-        },
+      let filePath = selectedPhoto.sourceURL || selectedPhoto.path;
+
+      if (filePath?.toLowerCase().endsWith(".heic")) {
+        const converted = await HeicConverter.convert({
+          path: filePath,
+          quality: 1,
+        });
+
+        if (converted?.success) {
+          filePath = converted.path;
+        } else {
+          throw new Error("HEIC conversion failed");
+        }
+      }
+
+      uploadMediaMutation.mutate({
+        mime: selectedPhoto.mime,
+        path: filePath,
+        txt: "akana",
       });
     } catch (error) {
-      console.log("err", error);
+      console.log("Photo conversion/upload error:", error);
       Notifier.showNotification({
-        title: t("AnUnexpectedErrorOccurred"),
+        title: "An error occurred while processing the image",
       });
     }
-  };
-
-  const setSelectedPhoto = async (selectedPhoto) => {
-    uploadMediaMutation.mutate({
-      mime: selectedPhoto.mime,
-      path: selectedPhoto.sourceURL,
-      txt: "akana",
-    });
   };
 
   const bablEmbedCallback = (item, cb) => {
@@ -376,7 +366,7 @@ const CreateBablCategories = () => {
           }}
           onPhotoPress={() => {
             ImageCropPicker.openPicker({
-              cropping: false,
+              cropping: true,
             })
               .then((res) => {
                 setSelectedPhoto(res).finally(() => {
@@ -388,12 +378,12 @@ const CreateBablCategories = () => {
               });
           }}
           onVideoPress={() => {
-            ImageCropPicker.openPicker({
-              mediaType: "video",
-              compressVideoPreset: "HighestQuality",
+            ImageCropPicker.openCamera({
+              cropping: true,
+              mediaType: "photo",
             })
               .then((res) => {
-                setSelectedVideo(res).finally(() => {
+                setSelectedPhoto(res).finally(() => {
                   return setVisible(false);
                 });
               })
@@ -435,7 +425,6 @@ const CreateBablCategories = () => {
         />
         <View style={{ flex: 1 }} backgroundColor="#000" scrollview={false}>
           <CreateBablHeader title={title} dark iconwhite />
-
           <ImageBackground
             style={{
               width: sizes.width,
@@ -445,19 +434,114 @@ const CreateBablCategories = () => {
             }}
             source={require("../../../assets/screenbg.png")}
           >
-            {cover && (
-              <Image
-                style={{
-                  width: sizes.width / 1.1,
-                  height: sizes.width / 1.1,
+            {uploadMediaMutation.isLoading || loadingPercent > 0 ? (
+              <>
+                <ActivityIndicator size="large" color="#fff" />
+                {loadingPercent && (
+                  <Text
+                    style={{
+                      color: "#fff",
+                      fontSize: 16,
+                      marginTop: 10,
+                      fontFamily: fonts.medium,
+                    }}
+                  >
+                    %{Math.round(loadingPercent)} Yükleniyor...
+                  </Text>
+                )}
+              </>
+            ) : (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                onScroll={(e) => {
+                  const index = Math.round(
+                    e.nativeEvent.contentOffset.x / sizes.width,
+                  );
+                  setActiveIndex(index);
                 }}
-                resizeMode="contain"
-                source={{
-                  uri: cover?.cover,
-                }}
-              />
+                scrollEventThrottle={16}
+                style={{ width: sizes.width }}
+              >
+                {Object.values(bablForm.items.PHOTO_MANUAL || {}).map(
+                  (item) => (
+                    <View
+                      key={item.id}
+                      style={{
+                        width: sizes.width,
+                        height: sizes.width,
+                        position: "relative",
+                      }}
+                    >
+                      <Image
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="contain"
+                        source={{ uri: item.cover }}
+                      />
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          setBablForm((prev) => {
+                            const { [item.id]: removed, ...remaining } =
+                              prev.items.PHOTO_MANUAL || {};
+                            return {
+                              ...prev,
+                              items: {
+                                ...prev.items,
+                                PHOTO_MANUAL: remaining,
+                              },
+                            };
+                          });
+                        }}
+                        style={{
+                          position: "absolute",
+                          top: 10,
+                          right: 10,
+                          backgroundColor: "rgba(0,0,0,0.6)",
+                          borderRadius: 20,
+                          padding: 6,
+                          zIndex: 10,
+                        }}
+                      >
+                        {/* Eğer PNG ikon kullanıyorsan */}
+                        <Image
+                          source={require("../../../assets/bin.png")}
+                          style={{ width: 20, height: 20, tintColor: "#fff" }}
+                        />
+
+                        {/* Eğer vector icon kullanıyorsan: */}
+                        {/* <Icon name="trash-can-outline" size={20} color="#fff" /> */}
+                      </TouchableOpacity>
+                    </View>
+                  ),
+                )}
+              </ScrollView>
             )}
           </ImageBackground>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+            }}
+          >
+            {Object.values(bablForm.items.PHOTO_MANUAL || {}).map(
+              (_, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: 4,
+                    marginHorizontal: 4,
+                    backgroundColor: activeIndex === index ? "#fff" : "#888",
+                  }}
+                />
+              ),
+            )}
+          </View>
 
           <Text
             style={{
@@ -473,39 +557,70 @@ const CreateBablCategories = () => {
           </Text>
         </View>
 
-        {cover?.cover ? null : (
-          <View style={styles.row}>
-            {buttons.map((item, index) => {
-              if (!item) return null;
+        <View style={styles.row}>
+          {buttons.map((item, index) => {
+            if (!item) return null;
 
-              return (
-                <View style={styles.margin}>
-                  <ButtonLinear
-                    icon={item.icon}
-                    width={sizes.width / 2.1}
-                    linearWidth={sizes.width / 2.12}
-                    title={item.label}
-                    radius={26}
-                    onPress={item.onPress}
-                  />
-                </View>
-              );
-            })}
-          </View>
-        )}
+            return (
+              <View style={styles.margin}>
+                <ButtonLinear
+                  icon={item.icon}
+                  width={sizes.width / 2.1}
+                  linearWidth={sizes.width / 2.12}
+                  title={item.label}
+                  radius={26}
+                  onPress={item.onPress}
+                />
+                {!!item.count && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      right: -70,
+                      width: 20,
+                      height: 20,
+                      top: 7,
+                      borderRadius: 20,
+                      backgroundColor: "#FFF",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#000",
+                        fontFamily: fonts.medium,
+                      }}
+                    >
+                      {item.count}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            );
+          })}
+        </View>
 
         <ButtonLinear
           width={sizes.width / 1.07}
           title={t("continue")}
           onPress={() => {
-            if (cover == undefined) {
-              notify({ title: t("PleaseSelectPhotoOrVideo") });
-            } else {
-              navigation.navigate(routes.EditBabl, {
-                title,
-                cover,
-              });
+            const photoCount = Object.keys(
+              bablForm.items.PHOTO_MANUAL || {},
+            ).length;
+
+            if (photoCount === 0) {
+              Alert.alert(t("Warnings"), t("PhotoWarning"));
+              return;
             }
+
+            if (photoCount > 5) {
+              Alert.alert(t("Warnings"), t("PhotoFive"));
+              return;
+            }
+
+            navigation.navigate(routes.EditBabl, {
+              cover: cover ? cover : bablForm.items.PHOTO_MANUAL,
+            });
           }}
         />
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -8,16 +8,16 @@ import {
   TouchableOpacity,
   Animated,
   Alert,
-} from 'react-native';
+} from "react-native";
 
-import { useMutation } from '@tanstack/react-query';
-import { t } from 'i18next';
+import { useMutation } from "@tanstack/react-query";
+import { t } from "i18next";
 
-import { notify } from '../../helpers/notify';
-import fonts from '../../theme/fonts';
-import * as Queries from '../../utils/queries';
+import { notify } from "../../helpers/notify";
+import fonts from "../../theme/fonts";
+import * as Queries from "../../utils/queries";
 
-import Other from './Other';
+import Other from "./Other";
 
 const BablWarnModal = ({ bablId, visible, onClose }) => {
   const [showModal, setShowModal] = React.useState(visible);
@@ -51,48 +51,48 @@ const BablWarnModal = ({ bablId, visible, onClose }) => {
 
   const sections = [
     {
-      id: 'SEXUAL_CONTENT',
-      label: t('SexualContent'),
+      id: "SEXUAL_CONTENT",
+      label: t("SexualContent"),
     },
     {
-      id: 'VIOLENT_CONTENT',
-      label: t('ViolentOrRepulsiveContent'),
+      id: "VIOLENT_CONTENT",
+      label: t("ViolentOrRepulsiveContent"),
     },
     {
-      id: 'HATEFUL_CONTENT',
-      label: t('HatefulOrAbusiveContent'),
+      id: "HATEFUL_CONTENT",
+      label: t("HatefulOrAbusiveContent"),
     },
     {
-      id: 'HARASSMENT',
-      label: t('HarassmentOrBullying'),
+      id: "HARASSMENT",
+      label: t("HarassmentOrBullying"),
     },
     {
-      id: 'HARMFUL_ACTS',
-      label: t('HarmfulOrDangerousActs'),
+      id: "HARMFUL_ACTS",
+      label: t("HarmfulOrDangerousActs"),
     },
     {
-      id: 'MISINFORMATION',
-      label: t('Misinformation'),
+      id: "MISINFORMATION",
+      label: t("Misinformation"),
     },
     {
-      id: 'CHILD_ABUSE',
-      label: t('ChildAbuse'),
+      id: "CHILD_ABUSE",
+      label: t("ChildAbuse"),
     },
     {
-      id: 'LEGAL_ISSUE',
-      label: t('LegalIssue'),
+      id: "LEGAL_ISSUE",
+      label: t("LegalIssue"),
     },
     {
-      id: 'PROMOTES_TERRORISM',
-      label: t('PromotesTerrorism'),
+      id: "PROMOTES_TERRORISM",
+      label: t("PromotesTerrorism"),
     },
     {
-      id: 'SPAM',
-      label: t('SpamOrMisleading'),
+      id: "SPAM",
+      label: t("SpamOrMisleading"),
     },
     {
-      id: 'OTHER',
-      label: t('Other'),
+      id: "OTHER",
+      label: t("Other"),
     },
   ];
 
@@ -101,7 +101,7 @@ const BablWarnModal = ({ bablId, visible, onClose }) => {
       onClose();
 
       notify({
-        title: t('YourReportSent'),
+        title: t("YourReportSent"),
       });
     },
   });
@@ -113,13 +113,18 @@ const BablWarnModal = ({ bablId, visible, onClose }) => {
   return (
     <Modal transparent visible={showModal}>
       <View style={styles.modalBackGround}>
-        <Animated.View style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+        <Animated.View
+          style={[
+            styles.modalContainer,
+            { transform: [{ scale: scaleValue }] },
+          ]}
+        >
           <View
             style={{
-              display: !other ? 'flex' : 'none',
+              display: !other ? "flex" : "none",
             }}
           >
-            <Text style={styles.title}>{t('Report')}</Text>
+            <Text style={styles.title}>{t("Report")}</Text>
             {sections.map((item) => {
               const isSelected = selected === item.id;
               return (
@@ -135,15 +140,15 @@ const BablWarnModal = ({ bablId, visible, onClose }) => {
                       height: 23,
                       borderRadius: 23,
                       borderWidth: 1,
-                      borderColor: '#FFF',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      borderColor: "#FFF",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
                     {isSelected ? (
                       <View
                         style={{
-                          backgroundColor: '#FFF',
+                          backgroundColor: "#FFF",
                           width: 18,
                           height: 18,
                           borderRadius: 18,
@@ -157,20 +162,20 @@ const BablWarnModal = ({ bablId, visible, onClose }) => {
             })}
             <View
               style={{
-                flexDirection: 'row',
-                alignSelf: 'flex-end',
+                flexDirection: "row",
+                alignSelf: "flex-end",
               }}
             >
-              <Button title="Close" onPress={onClose} color="#4b9fe3" />
+              <Button title={t("Close")} onPress={onClose} color="#4b9fe3" />
               <Button
-                title="Report"
+                title={t("Report")}
                 color="#8A8A8A"
                 onPress={() => {
                   if (!selected) {
-                    return Alert.alert(t('PleaseSelectOption'));
+                    return Alert.alert(t("PleaseSelectOption"));
                   }
 
-                  if (selected === 'OTHER') {
+                  if (selected === "OTHER") {
                     setOther(true);
                   } else {
                     onSendPress(
@@ -200,32 +205,32 @@ const BablWarnModal = ({ bablId, visible, onClose }) => {
 const styles = StyleSheet.create({
   modalBackGround: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContainer: {
-    width: '80%',
-    backgroundColor: '#212121',
+    width: "80%",
+    backgroundColor: "#212121",
     paddingHorizontal: 20,
     paddingVertical: 30,
 
     elevation: 20,
   },
   title: {
-    color: '#FFF',
+    color: "#FFF",
     fontFamily: fonts.roboto,
     fontSize: 18,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 15,
   },
   label: {
     fontFamily: fonts.regular,
     fontSize: 15,
-    color: '#FFF',
+    color: "#FFF",
     marginLeft: 8,
   },
 });

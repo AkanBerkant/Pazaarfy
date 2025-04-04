@@ -21,6 +21,8 @@ import StackNavigation from "./src/navigation/StackNavigation";
 import "moment/locale/tr";
 import fonts from "./src/theme/fonts";
 
+import storage from "@react-native-firebase/storage";
+
 // use https://www.npmjs.com/package/react-native-global-props if need more default props
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;

@@ -40,7 +40,7 @@ export default Situation;
 
 const styles = StyleSheet.create({
   gridContainer: {
-    width: sizes.width,
+    width: sizes.width / 1.6,
     height: 180,
     borderRadius: 17,
     elevation: 5,

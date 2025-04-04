@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "966332905085",
+    "project_id": "pazaarfy-48d4d",
+    "storage_bucket": "pazaarfy-48d4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966332905085:android:4490f4f3b4d7f9e7f3e314",
+        "android_client_info": {
+          "package_name": "com.pazaarfy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFlEfn8Vojp-ak3RasGGuyu3r6m9yaSxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

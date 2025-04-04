@@ -8,17 +8,17 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Keyboard,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 
 import {
-  CommonActions,
   useFocusEffect,
   useIsFocused,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { useMutation } from "@tanstack/react-query";
+
 import { t as trx } from "i18next";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslation } from "react-i18next";
@@ -38,7 +38,7 @@ export const getBablCategories = (translate) => {
   return [
     {
       label: translate("all"),
-      icon: require("../../assets/category.png"),
+      icon: require("../../assets/device.png"),
       _id: "ALL",
       id: 1,
     },
@@ -73,8 +73,8 @@ export const getBablCategories = (translate) => {
       id: 6,
     },
     {
-      label: translate("Technology"),
-      icon: require("../../assets/tecno.png"),
+      label: translate("Other"),
+      icon: require("../../assets/other.png"),
       _id: "TECH",
       id: 7,
     },
@@ -188,7 +188,7 @@ const CreateBabl = () => {
   const bablCategories = getBablCategories(t);
   const isFocused = useIsFocused();
 
-  const { isSubBabl } = route.params || {};
+  const { isSubBabl, edit, editData } = route.params || {};
 
   const requestGalleryPermission = async () => {
     if (Platform.OS === "android") {
@@ -243,21 +243,6 @@ const CreateBabl = () => {
       }
     }, [isSubBabl]),
   );
-
-  React.useEffect(() => {
-    if (!isFocused) {
-      Storage.setItem("bablForm", bablForm);
-    }
-  }, [bablForm, isFocused]);
-
-  React.useEffect(() => {
-    setBablForm((prev) => {
-      return {
-        ...prev,
-        category: bablCategories[0]._id,
-      };
-    });
-  }, []);
 
   const toggleSwitch = () => {
     setIsEnabled((previousState) => {
@@ -318,6 +303,8 @@ const CreateBabl = () => {
     navigation.navigate(routes.CreateBablCategories, {
       title: bablForm?.title,
       photo: selectedImage?.uri,
+      edit: edit,
+      editData: editData,
     });
   };
 
@@ -336,12 +323,12 @@ const CreateBabl = () => {
                 placeholder={t("enterBablTitle")}
                 value={bablForm?.title}
                 style={styles.input}
+                textAlignVertical="top" // 👈 Bu satırı ekle
                 multiline
                 placeholderTextColor="#454545"
+                onSubmitEditing={() => Keyboard.dismiss()} // <-- klavyeyi kapatır
                 onChangeText={(text) => {
-                  return setBablForm((prev) => {
-                    return { ...prev, title: text };
-                  });
+                  setBablForm((prev) => ({ ...prev, title: text }));
                 }}
               />
             </View>
@@ -471,70 +458,6 @@ const CreateBabl = () => {
                             }}
                           >
                             {item.label}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    )}
-
-                    {index == 6 && (
-                      <TouchableOpacity
-                        style={{
-                          marginTop: 0,
-                          marginBottom: 40,
-                          marginLeft: 14.5,
-                          alignItems: "center",
-                          height: 33,
-                          justifyContent: "center",
-                          width: 97,
-                        }}
-                        onPress={() => {
-                          navigation.navigate(routes.OtherCategories);
-                        }}
-                      >
-                        <View
-                          style={[
-                            {
-                              width: 97,
-                              height: 33,
-                              borderRadius: 51,
-                              alignItems: "center",
-                              justifyContent: "center",
-                              backgroundColor: "#212121",
-                              flexDirection: "row",
-                            },
-                            bablForm.category &&
-                              !bablCategories
-                                .slice(0, 7)
-                                .map((item) => {
-                                  return item._id;
-                                })
-                                .includes(bablForm.category) && {
-                                borderWidth: 1,
-                                borderColor: "#CDCDCD",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              },
-                          ]}
-                        >
-                          <Image
-                            source={require("../../assets/other.png")}
-                            style={{
-                              width: 16,
-                              height: 18,
-                              tintColor: "#755CCC",
-                              resizeMode: "contain",
-                            }}
-                          />
-                          <Text
-                            numberOfLines={1}
-                            style={{
-                              fontSize: 14,
-                              marginLeft: 5,
-                              fontFamily: fonts.medium,
-                              color: "#FFF",
-                            }}
-                          >
-                            {t("Other")}
                           </Text>
                         </View>
                       </TouchableOpacity>
@@ -712,6 +635,8 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: fonts.regular,
     color: "#FFF",
+    width: sizes.width / 1.1,
+    height: sizes.width,
   },
   row: {
     flexDirection: "row",

@@ -57,7 +57,7 @@ const BablContentModal = ({
     return item._id;
   });
 
-  const [visibleWarnModal, setVisibleWarnModal] = React.useState(null);
+  const [visibleWarnModal, setVisibleWarnModal] = React.useState(false);
 
   React.useEffect(() => {
     toggleModal();
@@ -152,28 +152,42 @@ const BablContentModal = ({
         }
       },
     },
+
     {
-      label: t("AddCollections"),
-    },
-    user._id !== creatorUser?._id && {
-      label: t("GoToProfile"),
+      label: t("Hide"),
       onPress: () => {
-        navigation.dispatch(
-          StackActions.push(routes.UserProfile, {
-            userId: bablContent.user._id,
-          }),
-        );
+        onClose();
+        Alert.alert(t("GetNotification"), t("HideDescription"), [
+          { text: t("OK") },
+        ]);
       },
     },
-
     user._id !== creatorUser?._id && {
       label: t("Report"),
-      onPress: async () => {},
+      onPress: () => {
+        setVisibleWarnModal(!visibleWarnModal);
+      },
     },
-
-    /* {
-      label: 'Manage Suggested Content',
-    }, */
+    user._id !== creatorUser?._id && {
+      label: t("BlockUser"),
+      onPress: () => {
+        Alert.alert(t("AreYouUser"), null, [
+          {
+            text: t("Yes"),
+            onPress: () => {
+              blockUserMutation.mutate({ user: creatorUser._id });
+            },
+            style: "destructive",
+          },
+          {
+            text: t("no"),
+            onPress: () => {
+              onClose();
+            },
+          },
+        ]);
+      },
+    },
 
     user._id === creatorUser?._id && {
       delete: true,
@@ -253,7 +267,7 @@ const BablContentModal = ({
         setBablForm(editData);
 
         setTimeout(() => {
-          navigation.navigate(routes.EditBabl, { edit: true });
+          navigation.navigate(routes.CreateBabl, { edit: true, editData });
           setShowLoading(false);
         }, 500);
       },
@@ -307,17 +321,11 @@ const BablContentModal = ({
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    if (index == 1) {
+                    // Eğer buton "Report" ise modal'ı kapatma!
+                    if (item.label !== t("Report")) {
                       onClose();
-                      onCollectionPress();
-                    } else if (index === 4) {
-                      setVisibleWarnModal(true);
-                    } else if (!item.delete) {
-                      item.onPress?.();
-                      onClose();
-                    } else {
-                      item.onPress?.();
                     }
+                    item.onPress?.();
                   }}
                   style={[
                     styles.item,
@@ -354,16 +362,15 @@ const BablContentModal = ({
               );
             })}
           </Animated.View>
+          <BablWarnModal
+            visible={visibleWarnModal}
+            bablId={bablId}
+            onClose={() => {
+              setVisibleWarnModal(false);
+            }}
+          />
         </BlurView>
       </TouchableOpacity>
-      <BablWarnModal
-        visible={visibleWarnModal}
-        bablId={bablId}
-        onClose={() => {
-          setVisibleWarnModal(false);
-          onClose();
-        }}
-      />
     </Modal>
   );
 };

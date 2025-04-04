@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>12.0</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -34,11 +34,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Uygulamanızın fotoğraf ve video çekmek için kameraya erişmesi gerekiyor.</string>
+	<string>Fotoğraf ve video çekebilmek ve bunları kayıtlarınıza ekleyebilmek için lütfen kamera erişimini etkinleştirin. Pazaarfy galerinizi kayıt etmez. Pazaarfy veri güvenliğinizi ihlal edicek hiçbir şey yapmaz.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Uygulamanızın fotoğrafları kaydetmesi için izin gerekiyor.</string>
+	<string>Fotoğraf ve video çekebilmek ve bunları kayıtlarınıza ekleyebilmek için lütfen kamera erişimini etkinleştirin. Pazaarfy galerinizi kayıt etmez. Pazaarfy veri güvenliğinizi ihlal edicek hiçbir şey yapmaz.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Uygulamanızın fotoğraflara erişmesi için izin gerekiyor.</string>
+	<string>Fotoğraf ve video çekebilmek ve bunları kayıtlarınıza ekleyebilmek için lütfen galeri erişimini etkinleştirin. Pazaarfy galerinizi kayıt etmez. Pazaarfy veri güvenliğinizi ihlal edicek hiçbir şey yapmaz.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GeorgiaPro-Regular.ttf</string>

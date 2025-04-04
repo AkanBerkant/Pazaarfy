@@ -44,20 +44,6 @@ const ChangeLanguge = () => {
         });
       },
     },
-    // {
-    //   label: 'German',
-    //   icon: require('../../assets/german.png'),
-    //   onPress: () => {
-    //     i18n.changeLanguage('ge');
-    //   },
-    // },
-    // {
-    //   label: 'Swedish',
-    //   icon: require('../../assets/sw.png'),
-    //   onPress: () => {
-    //     i18n.changeLanguage('sw');
-    //   },
-    // },
     {
       id: "tr",
       label: "Türkçe",
@@ -75,6 +61,26 @@ const ChangeLanguge = () => {
       onPress: () => {
         updateProfileMutation.mutate({
           lang: "ar",
+        });
+      },
+    },
+    {
+      id: "zh",
+      label: "中國人",
+      icon: require("../../assets/china.png"),
+      onPress: () => {
+        updateProfileMutation.mutate({
+          lang: "zh",
+        });
+      },
+    },
+    {
+      id: "ru",
+      label: "Русский",
+      icon: require("../../assets/russia.png"),
+      onPress: () => {
+        updateProfileMutation.mutate({
+          lang: "ru",
         });
       },
     },

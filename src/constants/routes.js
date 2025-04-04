@@ -94,6 +94,14 @@ const routes = {
   PrivacyAgreement: "PrivacyAgreement",
   VisionApi: "VisionApi",
   Pro: "Pro",
+  PeopleSearch: "PeopleSearch",
+  ImagesSlider: "ImagesSlider",
+  TermsScreen: "TermsScreen",
+  GuestMode: "GuestMode",
+  SearchGuest: "SearchGuest",
+  GuestDetail: "GuestDetail",
+  GuestDetailContent: "GuestDetailContent",
+  GuestPeople: "GuestPeople",
 };
 
 export default routes;

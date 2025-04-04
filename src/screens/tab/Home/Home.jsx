@@ -1,5 +1,15 @@
 import React from "react";
-import { DeviceEventEmitter, Platform, StyleSheet, View } from "react-native";
+import {
+  DeviceEventEmitter,
+  Platform,
+  Text,
+  StyleSheet,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator, // <-- loading için eklendi
+} from "react-native";
 
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import messaging from "@react-native-firebase/messaging";
@@ -15,6 +25,9 @@ import { helpAtom, tabBarVisibleAtom } from "../../../utils/atoms";
 import * as Queries from "../../../utils/queries";
 import Babls from "../Profile/Babls";
 import HomeTab from "./HomeTab";
+import Snap from "./Snap";
+import fonts from "../../../theme/fonts";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -24,6 +37,23 @@ const Home = () => {
   const queryClient = useQueryClient();
   const tabsRef = React.useRef();
   const [helpState, setHelpState] = useAtom(helpAtom);
+
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  const searchBablsQuery = useQuery(
+    ["SEARCH_BABLS", searchTerm],
+    () => {
+      return Queries.searchBabls(`search=${searchTerm}`);
+    },
+    {
+      placeholderData: {
+        babls: [],
+        forYou: [],
+        hashtag: [],
+        people: [],
+      },
+    },
+  );
 
   const {
     data: { forYouFeed, followingFeed },
@@ -53,6 +83,12 @@ const Home = () => {
     },
   );
 
+  React.useEffect(() => {
+    if (isSuccess) {
+      console.log("AKO", followingFeed);
+    }
+  }, [isSuccess, followingFeed]);
+
   const onLink = async (link) => {
     if (link?.url?.includes("?bablId=")) {
       const [_, bablId] = link.url.split("?bablId=");
@@ -66,44 +102,35 @@ const Home = () => {
       return;
     }
 
-    if (remoteMessage.data.type === "CHAT") {
-      return navigation.navigate(routes.MessageScreen, {
-        item: {
-          user: remoteMessage.data,
-        },
-      });
-    }
+    const { type, bablId } = remoteMessage.data;
 
-    if (remoteMessage.data.type === "COMMENT") {
-      return navigation.navigate(routes.Comments, {
-        bablId: remoteMessage.data.bablId,
-      });
-    }
+    const navigateMap = {
+      CHAT: () =>
+        navigation.navigate(routes.MessageScreen, {
+          item: { user: remoteMessage.data },
+        }),
+      COMMENT: () =>
+        navigation.navigate(routes.Comments, {
+          bablId,
+        }),
+      SHARED_SAVING: () => navigation.navigate(routes.SharedSavings),
+      GIFT: () =>
+        navigation.navigate(routes.Giff, {
+          initialTab: "mygiff",
+        }),
+      COIN_GIFT: () =>
+        navigation.navigate(routes.BablContent, {
+          bablId,
+        }),
+      INTERACTION_REQUEST: () => navigation.navigate(routes.ControlPanel),
+      BABL_PUBLISHED: () =>
+        navigation.navigate(routes.BablContent, {
+          bablId,
+        }),
+    };
 
-    if (remoteMessage.data.type === "SHARED_SAVING") {
-      return navigation.navigate(routes.SharedSavings);
-    }
-
-    if (remoteMessage.data.type === "GIFT") {
-      return navigation.navigate(routes.Giff, {
-        initialTab: "mygiff",
-      });
-    }
-
-    if (remoteMessage.data.type === "COIN_GIFT") {
-      return navigation.navigate(routes.BablContent, {
-        bablId: remoteMessage.data.bablId,
-      });
-    }
-
-    if (remoteMessage.data.type === "INTERACTION_REQUEST") {
-      return navigation.navigate(routes.ControlPanel);
-    }
-
-    if (remoteMessage.data.type === "BABL_PUBLISHED") {
-      return navigation.navigate(routes.BablContent, {
-        bablId: remoteMessage.data.bablId,
-      });
+    if (navigateMap[type]) {
+      return navigateMap[type]();
     }
 
     navigation.navigate(routes.Notification);
@@ -111,37 +138,21 @@ const Home = () => {
 
   React.useEffect(() => {
     messaging().onNotificationOpenedApp(onNotificationOpen);
-
     messaging().getInitialNotification().then(onNotificationOpen);
   }, []);
 
   React.useEffect(() => {
     dynamicLinks().getInitialLink().then(onLink);
-
     dynamicLinks().onLink(onLink);
   }, []);
 
   const handleShare = React.useCallback((item) => {
-    if (!item) {
-      return;
-    }
-
+    if (!item) return;
     navigation.navigate(routes.CollectionShareAndroid, { item });
   }, []);
 
   const onScroll = async (currentOffset) => {
-    // const currentOffset = event.nativeEvent.contentOffset.y;
     const dif = currentOffset - currentPosRef.current;
-
-    /*
-    if (
-      currentOffset < 0 ||
-      event.nativeEvent.layoutMeasurement.height + currentOffset >
-        event.nativeEvent.contentSize.height
-    ) {
-      return false;
-    } */
-
     const playingRow = Math.floor(currentOffset / (sizes.width / 2.42));
     const inScreenRows = [
       playingRow,
@@ -151,11 +162,7 @@ const Home = () => {
     ];
 
     if (currentPlayingRowRef.current === null) {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 2000);
-      });
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     }
 
     if (!inScreenRows.includes(currentPlayingRowRef.current)) {
@@ -163,17 +170,7 @@ const Home = () => {
       DeviceEventEmitter.emit("PLAYING_ROW", playingRow);
     }
 
-    if (currentOffset === 0) {
-      setTabBarVisible(true);
-    }
-    if (Math.abs(dif) < 3) {
-      // do nothing
-    } else if (dif < 0) {
-      setTabBarVisible(true);
-    } else {
-      setTabBarVisible(false);
-    }
-
+    setTabBarVisible(currentOffset <= 0 || dif < 0);
     currentPosRef.current = currentOffset;
   };
 
@@ -181,15 +178,78 @@ const Home = () => {
     queryClient.invalidateQueries(["FEED"]);
   };
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate(routes.HotBablDetail, item)}
+    >
+      <Image
+        source={{ uri: item.cover }}
+        style={{
+          width: sizes.width / 1.3,
+          height: 180,
+          borderRadius: 17,
+          margin: 5,
+        }}
+      />
+    </TouchableOpacity>
+  );
+
+  const { t } = useTranslation();
+
   const renderHeader = React.useCallback(() => {
-    return <HomeMenu style={styles.homeMenu} tabsRef={tabsRef} />;
-  }, []);
+    return (
+      <View
+        style={{ backgroundColor: Platform.OS == "ios" ? "#000" : "#121212" }}
+      >
+        {Platform.OS == "android" && (
+          <View
+            style={{
+              marginTop: 20,
+            }}
+          />
+        )}
+        <HomeMenu style={styles.homeMenu} tabsRef={tabsRef} />
+        <View style={{ marginTop: 10 }} />
 
-  const renderTabBar = React.useCallback(() => {
-    return null;
-  }, []);
+        <Snap
+          tabName="Following"
+          isFetching={isFetching}
+          onRefresh={onRefresh}
+          onScroll={onScroll}
+          data={followingFeed}
+        />
+        <Text
+          style={{
+            color: "#FFF",
+            fontSize: 16,
+            fontFamily: fonts.bold,
+            width: sizes.width / 1.07,
+            alignSelf: "center",
+            marginTop: 20,
+          }}
+        >
+          {t("PreHome")}
+        </Text>
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={searchBablsQuery.data.babls}
+          renderItem={renderItem}
+        />
+      </View>
+    );
+  }, [followingFeed, isFetching, searchBablsQuery.data.babls]);
 
-  if (isFetching || !isSuccess) return <View style={styles.container} />;
+  const renderTabBar = React.useCallback(() => null, []);
+
+  // 🔥 Loading ekranı
+  if (isFetching || !isSuccess) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#FFF" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -199,9 +259,7 @@ const Home = () => {
         lazy
         renderHeader={renderHeader}
         renderTabBar={renderTabBar}
-        pagerProps={{
-          scrollEnabled: false,
-        }}
+        pagerProps={{ scrollEnabled: false }}
       >
         <Tabs.Tab name="ForYou">
           <HomeTab
@@ -232,6 +290,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0E0E0E",
+  },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#0E0E0E",
+    justifyContent: "center",
+    alignItems: "center",
   },
   homeMenu: {
     position: "flex",

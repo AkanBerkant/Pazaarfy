@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,21 +8,21 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
-} from 'react-native';
+} from "react-native";
 
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useAtomValue } from 'jotai';
-import { useTranslation } from 'react-i18next';
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useAtomValue } from "jotai";
+import { useTranslation } from "react-i18next";
 
-import { sizes } from '../../theme';
-import fonts from '../../theme/fonts';
-import { userAtom } from '../../utils/atoms';
+import { sizes } from "../../theme";
+import fonts from "../../theme/fonts";
+import { userAtom } from "../../utils/atoms";
 
 const TextEditor = () => {
   const user = useAtomValue(userAtom);
   const navigation = useNavigation();
   const route = useRoute();
-  const [text, setText] = useState(''); // Yazı durumu için state
+  const [text, setText] = useState(""); // Yazı durumu için state
 
   const { t, i18n } = useTranslation();
 
@@ -37,7 +37,7 @@ const TextEditor = () => {
               }}
             >
               <Image
-                source={require('../../assets/cc.png')}
+                source={require("../../assets/cc.png")}
                 resizeMode="contain"
                 style={styles.cc}
               />
@@ -53,30 +53,33 @@ const TextEditor = () => {
             <Image
               source={
                 text.length > 0
-                  ? i18n.language == 'en'
-                    ? require('../../assets/postbutton.png')
-                    : require('../../assets/postbuttontr.png') // Eğer text varsa postbutton.png göster
-                  : i18n.language == 'en'
-                    ? require('../../assets/disablepostbutton.png')
-                    : require('../../assets/disableposttr.png')
+                  ? i18n.language == "en"
+                    ? require("../../assets/postbutton.png")
+                    : require("../../assets/postbuttontr.png") // Eğer text varsa postbutton.png göster
+                  : i18n.language == "en"
+                    ? require("../../assets/disablepostbutton.png")
+                    : require("../../assets/disableposttr.png")
               }
               style={styles.button}
             />
           </TouchableOpacity>
         </View>
 
-        <Image source={require('../../assets/linebordderline.png')} />
+        <Image source={require("../../assets/linebordderline.png")} />
       </View>
     );
   };
 
   return (
-    <ImageBackground source={require('../../assets/neon.png')} style={styles.container}>
+    <ImageBackground
+      source={require("../../assets/neon.png")}
+      style={styles.container}
+    >
       <SafeAreaView />
       <Header />
       <TextInput
         style={styles.input}
-        placeholder={t('AddYourText')}
+        placeholder={t("AddYourText")}
         placeholderTextColor="#A3A7AA"
         multiline
         value={text}
@@ -91,10 +94,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     padding: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   profile: {
     width: 53,
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   username: {
-    color: '#FFF',
+    color: "#FFF",
     fontSize: 16,
     fontFamily: fonts.roboto,
     marginLeft: 10,
@@ -117,8 +120,8 @@ const styles = StyleSheet.create({
     height: 37,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   headerContainer: {
     padding: 10,
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: fonts.avenir,
     padding: 20,
-    color: '#FFF',
+    color: "#FFF",
   },
 });
 

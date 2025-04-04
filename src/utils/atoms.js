@@ -1,27 +1,27 @@
-import { Platform } from 'react-native';
+import { Platform } from "react-native";
 
-import { atom } from 'jotai';
-import { atomWithReset, atomWithStorage, createJSONStorage } from 'jotai/utils';
-import { getLocales } from 'react-native-localize';
+import { atom } from "jotai";
+import { atomWithReset, atomWithStorage, createJSONStorage } from "jotai/utils";
+import { getLocales } from "react-native-localize";
 
-import Storage from './storage';
+import Storage from "./storage";
 
 export const getDeviceLang = () => {
-  return getLocales()[0].languageTag.split('-')[0].toUpperCase();
+  return getLocales()[0].languageTag.split("-")[0].toUpperCase();
 };
 
 export const userAtom = atomWithStorage(
-  'user',
+  "user",
   null,
   createJSONStorage(() => {
     return Storage;
   }),
 );
 
-const isAndroid = Platform.OS === 'android';
+const isAndroid = Platform.OS === "android";
 
 export const helpAtom = atomWithStorage(
-  'help',
+  "help",
   {
     automaticBabl: isAndroid,
     bablEdit: isAndroid,
@@ -42,8 +42,8 @@ export const helpAtom = atomWithStorage(
 );
 
 export const languageAtom = atomWithStorage(
-  'language',
-  getLocales()[0].languageTag.split('-')[0],
+  "language",
+  getLocales()[0].languageTag.split("-")[0],
   createJSONStorage(() => {
     return Storage;
   }),
@@ -58,14 +58,14 @@ export const splashAtom = atom(true);
 export const autoBablAtom = atom(false);
 
 export const bablFormAtom = atomWithReset({
-  category: 'ALL',
+  category: "ALL",
   items: {},
   hashtags: [],
   templateCategory: 0,
 });
 
 export const draftAtom = atomWithStorage(
-  'draft',
+  "draft",
   null,
   createJSONStorage(() => {
     return Storage;

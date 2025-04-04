@@ -6,6 +6,8 @@ import Storage from "./storage";
 import en from "./translates/en";
 import tr from "./translates/tr";
 import ar from "./translates/ar";
+import zh from "./translates/zh";
+import ru from "./translates/ru";
 const detectLocale = async (callback) => {
   const user = await Storage.getItem("user");
 
@@ -44,6 +46,12 @@ i18n
       },
       ar: {
         translation: ar,
+      },
+      zh: {
+        translation: zh,
+      },
+      ru: {
+        translation: ru,
       },
     },
   });

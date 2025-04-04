@@ -10,11 +10,12 @@ export const unseenMessageCount = () => {
 };
 
 export const uploadMedia = (media, onUploadProgress) => {
+  console.log("ad", media);
   const formData = new FormData();
   formData.append("file", {
     name: "file",
     type: media.mime,
-    uri: media.path,
+    uri: media.path.replace(/HEIC/g, "jpg"),
   });
 
   return instance.post("/media", formData, {

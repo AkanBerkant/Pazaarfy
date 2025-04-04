@@ -1,5 +1,11 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useAtomValue } from "jotai";
@@ -93,7 +99,7 @@ const TabBar = () => {
           justifyContent: "space-between",
           width: sizes.width,
           height: BOTTOM_TAB_HEIGHT,
-
+          backgroundColor: Platform.OS == "ios" ? null : "#000",
           alignSelf: "center",
           position: "absolute",
         },

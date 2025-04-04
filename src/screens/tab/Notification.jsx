@@ -63,6 +63,7 @@ const Notification = () => {
             ].includes(item?.notificationPayload?.type)
           ) {
           } else if (item?.notificationPayload?.type === "REBABL") {
+            navigation.navigate(routes.Comments, { bablId: item.babl._id });
           } else if (item.comment) {
             navigation.navigate(routes.Comments, { bablId: item.babl._id });
           } else if (item.babl) {

@@ -113,9 +113,7 @@ const CreateBablHeader = ({
             style={{
               color: bg || "#000",
             }}
-          >
-            asdaşklasnda
-          </Text>
+          ></Text>
         </TouchableOpacity>
         <Text style={[styles.title]}>{draft?.title || title}</Text>
         <View
@@ -127,9 +125,7 @@ const CreateBablHeader = ({
             style={{
               color: bg || "#000",
             }}
-          >
-            asdaşklasnda
-          </Text>
+          ></Text>
           <View
             resizeMode="contain"
             source={require("../../assets/bab.png")}
@@ -158,6 +154,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.roboto,
     color: "#FFF",
     textAlign: "center",
+    width: sizes.width / 2.2,
   },
   header: {
     width: sizes.width,

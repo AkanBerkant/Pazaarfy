@@ -54,7 +54,6 @@ const savedIcon = require("../../../assets/saved.png");
 
 const HotBablDetailContent = ({
   bablId,
-  // data,
   onPress,
   repostedBy,
   listenId,
@@ -106,7 +105,7 @@ const HotBablDetailContent = ({
   );
 
   const { _id, user, title, coverVideo, cover, coverItem } = data.babl;
-  const { commentCount } = data;
+  const { babl, commentCount } = data;
 
   React.useEffect(() => {
     if (coverVideo && !localAsset) {
@@ -165,9 +164,7 @@ const HotBablDetailContent = ({
       onSuccess: (res) => {
         queryClient.invalidateQueries(["LIKED_BABLS"]);
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
     },
   );
 
@@ -182,9 +179,7 @@ const HotBablDetailContent = ({
       onSuccess: (res) => {
         queryClient.invalidateQueries(["LIKED_BABLS"]);
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
     },
   );
 
@@ -249,9 +244,7 @@ const HotBablDetailContent = ({
         title: t("BablSaved"),
       });
     },
-    onError: (err) => {
-      console.log("err", err);
-    },
+    onError: (err) => {},
   });
 
   const [visible, setVisible] = React.useState(null);
@@ -293,7 +286,7 @@ const HotBablDetailContent = ({
       number: rebablCount,
       width: 25.91,
       height: 23.16,
-      disabled: currentUser._id === user._id,
+      disabled: currentUser?._id === user?._id,
       tintColor: rebablStatus ? "#5DFF77" : "#FFF",
       onPress: onRebablPress,
     },
@@ -302,7 +295,7 @@ const HotBablDetailContent = ({
   const onUserPress = () => {
     navigation.dispatch(
       StackActions.push(routes.UserProfile, {
-        userId: user._id,
+        userId: user?._id,
       }),
     );
   };
@@ -367,6 +360,7 @@ const HotBablDetailContent = ({
       imgItem
     );
 
+  const [imageModal, setImageModal] = React.useState(null);
   return (
     <>
       {Platform.OS == "ios" ? (
@@ -413,12 +407,27 @@ const HotBablDetailContent = ({
                         style={styles.backImg}
                       />
                     )}
-                    <Text style={styles.title} numberOfLines={2}>
-                      {title}
+                    <Text style={styles.title} numberOfLines={1}>
+                      {title?.length > 35
+                        ? title?.substring(0, 35) + "..."
+                        : title}
                     </Text>
 
                     <View style={styles.backImg} />
                   </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(routes.ImagesSlider, { data: data });
+                  }}
+                  style={styles.tapToEnter}
+                >
+                  <TapToEnter />
+
+                  <Text style={styles.tapToEnterText}>
+                    {t("TapScreenToEnter")}
+                  </Text>
                 </TouchableOpacity>
 
                 <View
@@ -438,15 +447,15 @@ const HotBablDetailContent = ({
                     style={styles.marginRowTop}
                     onPress={onUserPress}
                   >
-                    <Image style={styles.pp} source={{ uri: user.photo }} />
-                    <Text style={styles.name}>{user.username}</Text>
+                    <Image style={styles.pp} source={{ uri: user?.photo }} />
+                    <Text style={styles.name}>{user?.username}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
 
               <BablContentModal
-                // onCollectionPress={onCollectionPress}
                 bablId={bablId}
+                bablContent={{ ...babl }}
                 user={user}
                 visible={visible}
                 onClose={() => {
@@ -493,7 +502,7 @@ const HotBablDetailContent = ({
                           style={styles.center}
                         >
                           <Image
-                            source={item.image}
+                            source={item?.image}
                             resizeMode="contain"
                             style={[
                               styles.icon,
@@ -508,7 +517,7 @@ const HotBablDetailContent = ({
                             style={styles.number}
                             onPress={item.onTextPress}
                           >
-                            {item.number}
+                            {item?.number}
                           </Text>
                         </TouchableOpacity>
                       );
@@ -521,7 +530,7 @@ const HotBablDetailContent = ({
                       style={styles.eye}
                       source={require("../../../assets/eyed.png")}
                     />
-                    <Text style={styles.eyeText}>{data.viewCount}</Text>
+                    <Text style={styles.eyeText}>{data?.viewCount}</Text>
                   </View>
                 </View>
               </View>
@@ -616,21 +625,36 @@ const HotBablDetailContent = ({
                         />
                       </BoxShadow>
                     )}
-                    <Text style={styles.title} numberOfLines={2}>
-                      {title}
+                    <Text style={[styles.title]} numberOfLines={1}>
+                      {title?.length > 35
+                        ? title?.substring(0, 35) + "..."
+                        : title}
                     </Text>
                   </View>
                 </TouchableOpacity>
 
-                {onPress && (
-                  <TouchableOpacity onPress={onPress} style={styles.tapToEnter}>
-                    <TapToEnter />
+                <BablContentModal
+                  bablId={bablId}
+                  bablContent={{ ...babl }}
+                  user={user}
+                  visible={visible}
+                  onClose={() => {
+                    setVisible(false);
+                  }}
+                />
 
-                    <Text style={styles.tapToEnterText}>
-                      {t("TapScreenToEnter")}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(routes.ImagesSlider, { data: data });
+                  }}
+                  style={styles.tapToEnter}
+                >
+                  <TapToEnter />
+
+                  <Text style={styles.tapToEnterText}>
+                    {t("TapScreenToEnter")}
+                  </Text>
+                </TouchableOpacity>
 
                 <View
                   style={
@@ -649,8 +673,8 @@ const HotBablDetailContent = ({
                     style={styles.marginRowTop}
                     onPress={onUserPress}
                   >
-                    <Image style={styles.pp} source={{ uri: user.photo }} />
-                    <Text style={styles.name}>{user.username}</Text>
+                    <Image style={styles.pp} source={{ uri: user?.photo }} />
+                    <Text style={styles.name}>{user?.username}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -671,36 +695,39 @@ const HotBablDetailContent = ({
               >
                 <View style={styles.disableTitle} />
 
-                {!!data.babl.coverUrl && data.babl.coverUrl !== "MANUAL" && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      Alert.alert(t("goOrigin"), null, [
-                        {
-                          text: t("yes"),
-                          onPress: () => {
-                            Linking.openURL(data.babl.coverUrl);
+                {!!data?.babl?.coverUrl &&
+                  data?.babl?.coverUrl !== "MANUAL" && (
+                    <TouchableOpacity
+                      onPress={() => {
+                        Alert.alert(t("goOrigin"), null, [
+                          {
+                            text: t("yes"),
+                            onPress: () => {
+                              Linking.openURL(data?.babl?.coverUrl);
+                            },
                           },
-                        },
-                        {
-                          text: t("no"),
-                        },
-                      ]);
-                    }}
-                  >
-                    <Image
-                      resizeMode="contain"
-                      style={{
-                        width: 30,
-                        height: 30,
-                        marginLeft: 7,
-                        marginTop: 40,
+                          {
+                            text: t("no"),
+                          },
+                        ]);
                       }}
-                      source={
-                        platformLogos[getPlatformFromUrl(data.babl.coverUrl)]
-                      }
-                    />
-                  </TouchableOpacity>
-                )}
+                    >
+                      <Image
+                        resizeMode="contain"
+                        style={{
+                          width: 30,
+                          height: 30,
+                          marginLeft: 7,
+                          marginTop: 40,
+                        }}
+                        source={
+                          platformLogos[
+                            getPlatformFromUrl(data?.babl?.coverUrl)
+                          ]
+                        }
+                      />
+                    </TouchableOpacity>
+                  )}
 
                 <View style={styles.between}>
                   <View
@@ -742,14 +769,14 @@ const HotBablDetailContent = ({
                             }}
                           >
                             <Image
-                              source={item.image}
+                              source={item?.image}
                               resizeMode="contain"
                               style={[
                                 styles.icon,
                                 {
                                   width: 25.91,
                                   height: 22.16,
-                                  tintColor: item.tintColor,
+                                  tintColor: item?.tintColor,
                                 },
                               ]}
                             />
@@ -758,7 +785,7 @@ const HotBablDetailContent = ({
                             style={styles.number}
                             onPress={item.onTextPress}
                           >
-                            {item.number}
+                            {item?.number}
                           </Text>
                         </TouchableOpacity>
                       );
@@ -790,7 +817,7 @@ const HotBablDetailContent = ({
                         source={require("../../../assets/eyed.png")}
                       />
                     </BoxShadow>
-                    <Text style={styles.eyeText}>{data.viewCount}</Text>
+                    <Text style={styles.eyeText}>{data?.viewCount}</Text>
                   </View>
                   <TouchableOpacity
                     style={{
@@ -805,7 +832,7 @@ const HotBablDetailContent = ({
                         {
                           text: t("yes"),
                           onPress: () => {
-                            Linking.openURL(data.babl.coverUrl);
+                            Linking.openURL(data?.babl?.coverUrl);
                           },
                         },
                       ]);
@@ -813,7 +840,7 @@ const HotBablDetailContent = ({
                   >
                     <Image
                       source={
-                        platformLogos[getPlatformFromUrl(data.babl.coverUrl)]
+                        platformLogos[getPlatformFromUrl(data?.babl?.coverUrl)]
                       }
                       resizeMode="contain"
                       style={{
@@ -842,18 +869,32 @@ const stylesAndroid = StyleSheet.create({
   },
   title: {
     color: "#FFF",
-
+    width: sizes.width / 1.5,
     fontFamily: fonts.medium,
     zIndex: 99,
 
     fontSize: 20,
-    marginTop: 30,
+    marginTop: Platform.OS == "android" ? 25 : 30,
 
-    shadowColor: "black",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
 
+    ...Platform.select({
+      ios: {
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+      },
+      android: {
+        textShadowColor: "rgba(0, 0, 0, 0.8)",
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+        elevation: 5, // Android'de gölge için
+      },
+    }),
     elevation: 2, // Sadece Android için gerekliadowColor: 'rgba(0, 0, 0, 0.5)',
   },
   image: {
@@ -1021,7 +1062,7 @@ const stylesAndroid = StyleSheet.create({
     position: "absolute",
     right: -60,
     zIndex: 99,
-    top: sizes.width / 3,
+    top: sizes.width / 4,
   },
   row: {
     flexDirection: "row",
@@ -1151,7 +1192,8 @@ const stylesApple = StyleSheet.create({
 
     fontSize: 16,
     marginTop: 30,
-
+    width: sizes.width / 1.2,
+    marginLeft: 5,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -1281,7 +1323,7 @@ const stylesApple = StyleSheet.create({
     position: "absolute",
     right: -60,
     zIndex: 99,
-    top: sizes.width / 3,
+    top: sizes.width / 4,
   },
   row: {
     flexDirection: "row",

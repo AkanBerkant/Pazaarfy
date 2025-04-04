@@ -87,6 +87,7 @@ import Search from "../screens/tab/Search/Search";
 import Shop from "../screens/tab/Shop";
 import TemplateSelection from "../screens/TemplateSelection/TemplateSelection";
 import Transactions from "../screens/Transactions/Transactions";
+import ImagesSlider from "../screens/tab/HotBabls/ImagesSlider";
 import { splashAtom, userAtom } from "../utils/atoms";
 import { navigationRef } from "../utils/navigation-ref";
 import * as Queries from "../utils/queries";
@@ -95,6 +96,12 @@ import BottomTabs from "./BottomTabs";
 import PrivacyAgreement from "../screens/PrivacyAgreement/PrivacyAgreement";
 import CreateBabl from "../screens/createbabl/CreateBabl";
 import Pro from "../screens/Pro/Pro";
+import PeopleSearch from "../screens/tab/Search/PeopleSearch";
+import TermsScreen from "../screens/authentication/TermsScreen";
+import GuestMode from "../screens/GuestMode/GuestMode";
+import SearchGuest from "../screens/GuestMode/SearchGuest";
+import GuestDetailContent from "../screens/GuestMode/GuestDetailContent";
+import GuestDetail from "../screens/GuestMode/GuestDetail";
 
 const Stack = createNativeStackNavigator();
 
@@ -174,6 +181,41 @@ const StackNavigation = () => {
               />
               <Stack.Screen name={routes.OnBoarding} component={OnBoarding} />
             </>
+          ) : user.email == "test@gmail.com" ? (
+            <>
+              <Stack.Screen name={routes.SearchGuest} component={SearchGuest} />
+              <Stack.Screen name={routes.GuestDetail} component={GuestDetail} />
+              <Stack.Screen
+                name={routes.GuestDetailContent}
+                component={GuestDetailContent}
+              />
+              <Stack.Screen
+                name={routes.Login}
+                component={Login}
+                options={{
+                  gestureEnabled: false,
+                }}
+              />
+
+              <Stack.Screen name={routes.TermsScreen} component={TermsScreen} />
+              <Stack.Screen name={routes.Register} component={Register} />
+              <Stack.Screen name={routes.GuestMode} component={GuestMode} />
+              <Stack.Screen
+                name={routes.ForgotPassword}
+                component={ForgotPassword}
+              />
+              <Stack.Screen
+                name={routes.EnterYourNewPassword}
+                component={EnterYourNewPassword}
+              />
+
+              <Stack.Screen
+                name={routes.DeleteAccountResponse}
+                component={DeleteAccountResponse}
+              />
+              <Stack.Screen name={routes.AddUserName} component={AddUserName} />
+              <Stack.Screen name={routes.Code} component={Code} />
+            </>
           ) : (
             <>
               <Stack.Screen name={routes.Tab} component={BottomTabs} />
@@ -184,6 +226,11 @@ const StackNavigation = () => {
               <Stack.Screen name={routes.VideoEditor} component={VideoEditor} />
               <Stack.Screen name={routes.TextEditor} component={TextEditor} />
               <Stack.Screen name={routes.Feedback} component={Feedback} />
+
+              <Stack.Screen
+                name={routes.ImagesSlider}
+                component={ImagesSlider}
+              />
               <Stack.Screen name={routes.Faq} component={Faq} />
               <Stack.Screen
                 name={routes.AppNotifications}
@@ -283,6 +330,10 @@ const StackNavigation = () => {
               />
               <Stack.Screen name={routes.AllRequests} component={AllRequests} />
               <Stack.Screen name={routes.EditCover} component={EditCover} />
+              <Stack.Screen
+                name={routes.PeopleSearch}
+                component={PeopleSearch}
+              />
               <Stack.Screen
                 name={routes.EnterYourNewPassword}
                 component={EnterYourNewPassword}
@@ -385,6 +436,7 @@ const StackNavigation = () => {
                 name={routes.OtherCategories}
                 component={OtherCategories}
               />
+              <Stack.Screen name={routes.TermsScreen} component={TermsScreen} />
               <Stack.Screen
                 name={routes.YourActivity}
                 component={YourActivity}
@@ -436,8 +488,10 @@ const StackNavigation = () => {
                 gestureEnabled: false,
               }}
             />
-            <Stack.Screen name={routes.Register} component={Register} />
 
+            <Stack.Screen name={routes.TermsScreen} component={TermsScreen} />
+            <Stack.Screen name={routes.Register} component={Register} />
+            <Stack.Screen name={routes.GuestMode} component={GuestMode} />
             <Stack.Screen
               name={routes.ForgotPassword}
               component={ForgotPassword}

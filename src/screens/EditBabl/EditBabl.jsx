@@ -42,6 +42,8 @@ const EditBabl = ({ route }) => {
   const { t } = useTranslation();
   const [helpState, setHelpState] = useAtom(helpAtom);
 
+  const [check, setCheck] = React.useState(null);
+
   const previewPositions = [
     { top: 100, left: 30, rotate: "-15deg" },
     { top: 200, left: 100, rotate: "10deg" },
@@ -78,7 +80,15 @@ const EditBabl = ({ route }) => {
 
   const { cover } = route.params || {};
 
+  const allItems = Object.values(bablForm.items.PHOTO_MANUAL);
+  const lastItem = allItems[allItems.length - 1];
+
   const onSharePress = async () => {
+    if (!check) {
+      return Notifier.showNotification({
+        title: t("errorKVKK"),
+      });
+    }
     const dto = {
       editId: bablForm.editId,
       hashtags: bablForm.hashtags,
@@ -86,9 +96,9 @@ const EditBabl = ({ route }) => {
       category: bablForm.category,
       templateCategory: 0,
       template: randomTemplate,
-      coverSource: cover.cover,
+      coverSource: cover?.cover ? cover?.cover : lastItem?.cover,
       coverUrl: "MANUAL",
-      coverItem: cover.cover,
+      coverItem: cover?.cover ? cover?.cover : lastItem?.cover,
       text: bablForm?.settings?.text,
       coverVideoCropped: bablForm?.selectedCoverCrop?.endsWith?.("mp4")
         ? bablForm?.selectedCoverCrop
@@ -298,7 +308,6 @@ const EditBabl = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      {/* ÖNİZLEME Yazıları */}
       <View style={styles.previewContainer}>
         {previewPositions.map((pos, index) => (
           <Text
@@ -313,7 +322,7 @@ const EditBabl = ({ route }) => {
               },
             ]}
           >
-            ÖNİZLEME
+            {t("preview")}
           </Text>
         ))}
       </View>
@@ -324,7 +333,7 @@ const EditBabl = ({ route }) => {
           height: sizes.height,
         }}
         source={{
-          uri: cover?.cover,
+          uri: cover?.cover ? cover?.cover : lastItem?.cover,
         }}
       />
 
@@ -336,6 +345,49 @@ const EditBabl = ({ route }) => {
           alignSelf: "center",
         }}
       >
+        <>
+          <TouchableOpacity
+            onPress={() => setCheck(!check)}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 15,
+              marginBottom: 10,
+
+              width: sizes.width / 1.1,
+              alignSelf: "center",
+
+              paddingHorizontal: 10,
+            }}
+          >
+            <View
+              style={{
+                width: 18,
+                height: 18,
+                borderWidth: 1,
+                borderColor: "#ccc",
+                marginRight: 8,
+                backgroundColor: check ? "#755CCC" : "transparent",
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(routes.TermsScreen);
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontFamily: fonts.bold,
+                  fontSize: 13,
+                  flex: 1,
+                }}
+              >
+                {t("TermsText")}
+              </Text>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </>
         <ButtonLinear
           title={t("share")}
           onPress={onSharePress}

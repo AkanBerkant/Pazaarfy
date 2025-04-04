@@ -58,11 +58,6 @@ const Search = () => {
       time: t("ForYou"),
       _id: "forYou",
     },
-
-    {
-      time: t("People"),
-      _id: "people",
-    },
   ];
 
   const pagerRef = React.useRef();
@@ -134,6 +129,9 @@ const Search = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.proButton}
+          onPress={() => {
+            navigation.navigate(routes.PeopleSearch);
+          }}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -143,17 +141,22 @@ const Search = () => {
           >
             <Image
               style={styles.proStar}
-              source={require("../../../assets/prostar.png")}
+              source={require("../../../assets/user.png")}
             />
-            <Text style={[styles.proButtonText]}>{"Pro"}</Text>
           </LinearGradient>
         </TouchableOpacity>
         <Text style={styles.title}>{t("Pazar")}</Text>
-        <Image
-          style={styles.notification}
-          resizeMode="contain"
-          source={require("../../../assets/notification.png")}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(routes.Notification);
+          }}
+        >
+          <Image
+            style={styles.notification}
+            resizeMode="contain"
+            source={require("../../../assets/notification.png")}
+          />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.between}>
@@ -188,7 +191,14 @@ const Search = () => {
           </View>
         </View>
       </View>
-      <View style={styles.header}>
+      <View
+        style={[
+          styles.header,
+          {
+            width: sizes.width / 2,
+          },
+        ]}
+      >
         {tabs.map((item) => {
           const isSelected = customFilter === item._id;
           return (
@@ -367,8 +377,8 @@ const styles = StyleSheet.create({
   },
   proStar: {
     tintColor: "#FFF",
-    width: 10,
-    height: 10,
+    width: 20,
+    height: 20,
   },
   notification: {
     width: 56,

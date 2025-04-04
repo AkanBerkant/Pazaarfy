@@ -141,7 +141,9 @@ const ListHeader = ({
                     marginLeft: 20,
                   },
                 ]}
-                onPress={onFollowPress}
+                onPress={() => {
+                  navigation.navigate(routes.CreateBabl);
+                }}
               >
                 <LinearGradient
                   style={styles.linearAddProduct}
@@ -504,20 +506,7 @@ const Profile = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.proButton}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={["#B5A0FF", "#755CCC"]}
-            style={styles.proButton}
-          >
-            <Image
-              style={styles.proStar}
-              source={require("../../../assets/prostar.png")}
-            />
-            <Text style={[styles.proButtonText]}>{"Pro"}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+        ></TouchableOpacity>
         <Text style={styles.store}>{t("MyStore")}</Text>
         <TouchableOpacity
           onPress={() => {
@@ -948,12 +937,12 @@ const styles = StyleSheet.create({
     height: 14.78,
   },
   linearAddProduct: {
-    width: 121,
     justifyContent: "center",
     alignItems: "center",
-    height: 26,
-    marginLeft: 10,
+    height: 40,
+    marginLeft: 50,
     borderRadius: 8,
+    padding: 10,
   },
   addProduct: {
     width: 111,

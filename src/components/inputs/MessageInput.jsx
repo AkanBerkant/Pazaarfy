@@ -6,6 +6,7 @@ import {
   View,
   Touchable,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 
 import { sizes } from "../../theme";
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 35,
+    height: Platform.OS == "ios" ? 35 : 0,
     marginBottom: 20,
     padding: 10,
   },

@@ -68,24 +68,15 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
       ]}
     >
       <View style={styles.menuContainer}>
-        <TouchableOpacity
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.proButton}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={["#B5A0FF", "#755CCC"]}
-            style={styles.proButton}
-          >
-            <Image
-              style={styles.proStar}
-              source={require("../../assets/prostar.png")}
-            />
-            <Text style={[styles.proButtonText]}>{"Pro"}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+        <Image
+          resizeMode="contain"
+          style={{
+            width: 56,
+            height: 30,
+            tintColor: "#8858EA",
+          }}
+          source={require("../../assets/plus-sign.png")}
+        />
         <Image
           style={styles.logo}
           resizeMode="contain"
@@ -114,9 +105,11 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
         </TouchableOpacity>
       </View>
 
-      {setSelected && (
-        <HomeMenu2 selected={selected} setSelected={setSelected} />
-      )}
+      <View
+        style={{
+          height: 35,
+        }}
+      />
     </Animated.View>
   );
 };
@@ -126,7 +119,7 @@ export default HomeMenu;
 const styles = StyleSheet.create({
   notification: {
     width: 56,
-    height: 29,
+    height: 30,
     tintColor: "#525252",
   },
   message: {

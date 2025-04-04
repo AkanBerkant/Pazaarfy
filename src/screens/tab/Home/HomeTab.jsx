@@ -152,10 +152,11 @@ const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
         >
           {t("MySituation")}
         </Text>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {dataBabl.map((item, index) => {
-            return (
-              <View style={styles.listContainer}>
+
+        {dataBabl.map((item, index) => {
+          return (
+            <View style={styles.listContainer}>
+              <ScrollView showsHorizontalScrollIndicator={false} horizontal>
                 <Situation
                   chunk={item}
                   getAllData={() => {
@@ -163,10 +164,11 @@ const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
                   }}
                   targetUserId={user._id}
                 />
-              </View>
-            );
-          })}
-        </ScrollView>
+              </ScrollView>
+            </View>
+          );
+        })}
+
         {data.map((categoryList, categoryIndex) => {
           if (!categoryList.length) return null;
 
@@ -183,22 +185,7 @@ const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
                     alignSelf: "center",
                   }}
                 >
-                  {t("Trend")}
-                </Text>
-              )}
-
-              {categoryIndex == 1 && (
-                <Text
-                  style={{
-                    color: "#FFF",
-                    marginBottom: 15,
-                    marginTop: 15,
-                    fontFamily: fonts.bold,
-                    width: sizes.width / 1.07,
-                    alignSelf: "center",
-                  }}
-                >
-                  {t("BestSellers")}
+                  {t("Stores")}
                 </Text>
               )}
               <HomeList

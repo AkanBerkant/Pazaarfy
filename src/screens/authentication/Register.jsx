@@ -47,6 +47,7 @@ const loginDto = yup.object({
     .min(8, t("YourPasswordLong"))
     .oneOf([yup.ref("password"), null], t("ItMustBeTheSameRepeat"))
     .required(),
+  termsAccepted: yup.boolean().oneOf([true], t("errorKVKK")),
 });
 
 const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -56,7 +57,11 @@ const Register = () => {
   const setUser = useSetAtom(userAtom);
   const { handleSubmit, control } = useForm({
     resolver: yupResolver(loginDto),
+    defaultValues: {
+      termsAccepted: false,
+    },
   });
+
   const [inputFocus, setInputFocus] = React.useState(null);
   const [hideForm, setHideForm] = React.useState(false);
 
@@ -233,6 +238,69 @@ const Register = () => {
               );
             }}
             name="passwordConfirm"
+          />
+
+          <Controller
+            control={control}
+            name="termsAccepted"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <>
+                <TouchableOpacity
+                  onPress={() => onChange(!value)}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 15,
+                    marginBottom: 10,
+
+                    width: sizes.width / 1.1,
+                    alignSelf: "center",
+
+                    paddingHorizontal: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 18,
+                      height: 18,
+                      borderWidth: 1,
+                      borderColor: "#ccc",
+                      marginRight: 8,
+                      backgroundColor: value ? "#755CCC" : "transparent",
+                    }}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate(routes.TermsScreen);
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#fff",
+                        fontFamily: fonts.bold,
+                        fontSize: 13,
+                        flex: 1,
+                      }}
+                    >
+                      {t("TermsText")}
+                    </Text>
+                  </TouchableOpacity>
+                </TouchableOpacity>
+                {error && (
+                  <Text
+                    style={{
+                      color: "red",
+                      fontFamily: fonts.medium,
+                      fontSize: 12,
+                      width: sizes.width / 1.4,
+                      alignSelf: "center",
+                    }}
+                  >
+                    {error.message}
+                  </Text>
+                )}
+              </>
+            )}
           />
 
           <ButtonBorder onPress={onRegisterPress} title={t("SignUp")} />
