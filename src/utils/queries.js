@@ -565,3 +565,11 @@ export const sendMessage = (dto) => {
 export const buyCoin = (dto) => {
   return instance.post("/purchase", dto);
 };
+
+export const getDefaultDataFindOne = (query) => {
+  return instance.get(`/defaultData?${query}`);
+};
+
+export const paytrPayment = async (body) => {
+  return instance.post(`/payment/paytrPayment`, body);
+};

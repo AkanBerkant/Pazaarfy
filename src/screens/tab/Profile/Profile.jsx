@@ -264,6 +264,26 @@ const Profile = () => {
 
   const [sharedModal, setSharedModal] = React.useState(null);
 
+  const { data: defaultData } = useQuery(
+    [
+      "getDefaultDataFindOne",
+      {
+        type: "AppSettings",
+      },
+    ],
+    async () => {
+      return Queries.getDefaultDataFindOne(
+        new URLSearchParams({
+          type: "AppSettings",
+        }).toString(),
+      );
+    },
+    {
+      placeholderData: {},
+      keepPreviousData: false,
+    },
+  );
+
   const [user, setUser] = useAtom(userAtom);
   const targetUserId = route.params ? route.params.userId : user._id;
   const isOtherUser = targetUserId !== user._id;
@@ -495,50 +515,55 @@ const Profile = () => {
       {backMenu ? <ProfileHeader title={profile.username} /> : null}
 
       <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate(routes.PazaaryPro);
-          }}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{
-            width: 76,
-            height: 31,
-            borderRadius: 99,
-          }}
-        >
-          <LinearGradient
+        {defaultData?.data?.package_purchase ? (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(routes.PazaaryPro);
+            }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={{
               width: 76,
               height: 31,
               borderRadius: 99,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
             }}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={["#B5A0FF", "#755CCC"]}
           >
-            <Image
+            <LinearGradient
               style={{
-                width: 10,
-                height: 10,
+                width: 76,
+                height: 31,
+                borderRadius: 99,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              source={require("../../../assets/star.png")}
-            />
-            <Text
-              style={{
-                color: "#fff",
-                fontFamily: fonts.medium,
-                fontSize: 14,
-                marginLeft: 3,
-              }}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              colors={["#B5A0FF", "#755CCC"]}
             >
-              {t("Pro")}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+              <Image
+                style={{
+                  width: 10,
+                  height: 10,
+                }}
+                source={require("../../../assets/star.png")}
+              />
+              <Text
+                style={{
+                  color: "#fff",
+                  fontFamily: fonts.medium,
+                  fontSize: 14,
+                  marginLeft: 3,
+                }}
+              >
+                {t("Pro")}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
+
         <Text style={styles.store}>{t("MySProore")}</Text>
         <TouchableOpacity
           onPress={() => {

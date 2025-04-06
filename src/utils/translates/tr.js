@@ -390,7 +390,7 @@ export default {
   enterDetailedPrompt: "Ayrıntılı bilgi istemini girin",
   SelectVideoOrPhotoToAddProduct: "Ürün eklemek için video veya fotoğraf seçin",
   areYouSureToCancelBabl: "Ürünü iptal etmek istediğinize emin misiniz?",
-  videoAndShortVideo: "Kameradan",
+  videoAndShortVideo: "Videodan",
   Done: "Tamamlandı",
   Recharge: "Bakiye Yükle",
   CongratulationsAccount: "Tebrikler, coin hesabınıza eklendi.",

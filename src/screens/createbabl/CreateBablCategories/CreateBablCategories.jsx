@@ -376,8 +376,6 @@ const CreateBablCategories = () => {
     setVisible(false);
   };
 
-  console.log("ad", bablForm.items);
-
   return (
     <>
       <View

@@ -14,7 +14,7 @@ import { sizes } from "../../theme";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import LinearGradient from "react-native-linear-gradient";
-
+import routes from "../../constants/routes";
 const mockItems = [
   { id: "1", uri: require("../../assets/1.png") },
   { id: "2", uri: require("../../assets/2.png") },
@@ -36,12 +36,19 @@ export default function Price({ route, navigation }) {
 
   const [selectedId, setSelectedId] = useState(item[0]?.id);
 
+  const [time, setTime] = React.useState(null);
+  const [priced, setPriced] = React.useState(null);
+
+  const [id, setId] = React.useState(item[0]._id);
+
   const renderItem = ({ item }) => {
     const selected = selectedId === item.id;
     return (
       <TouchableOpacity
         style={styles.gridItem}
-        onPress={() => setSelectedId(item.id)}
+        onPress={() => {
+          setSelectedId(item.id);
+        }}
         activeOpacity={0.8}
       >
         <Image source={item.uri} style={styles.gridImage} />
@@ -71,15 +78,18 @@ export default function Price({ route, navigation }) {
   const price = [
     {
       label: "24 saat",
-      price: "49₺",
+      price: 49,
+      time: "1Day",
     },
     {
       label: "3 gün",
-      price: "99₺",
+      price: 99,
+      time: "3Day",
     },
     {
       label: "7 gün",
-      price: "199₺",
+      price: 199,
+      time: "7Day",
     },
   ];
 
@@ -186,10 +196,13 @@ export default function Price({ route, navigation }) {
 
         {price.map((item, index) => {
           const isSelected = selected === index;
+
           return (
             <TouchableOpacity
               onPress={() => {
                 setSelected(index);
+                setTime(item.time);
+                setPriced(item.price);
               }}
               style={{
                 height: 88,
@@ -269,8 +282,14 @@ export default function Price({ route, navigation }) {
         })}
 
         <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(routes.PaymentPage, {
+              time: time,
+              price: priced,
+              id: id,
+            });
+          }}
           style={styles.buttonWrapper}
-          onPress={() => console.log("Tıklandı")}
         >
           <LinearGradient
             colors={["#A168F8", "#7F53E9"]}

@@ -106,7 +106,7 @@ export default {
   changeTemplate: "Change Template",
   regenerate: "Regenerate",
   enterHashtag: "#Enter hashtag",
-  videoAndShortVideo: "Video & Short Video",
+  videoAndShortVideo: "From the video",
   share: "Share",
   selectCover: "Select Cover",
   interaction: "Interaction",

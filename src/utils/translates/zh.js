@@ -373,6 +373,7 @@ export default {
   SelectVideoOrPhotoToAddProduct: "选择视频或照片以添加产品",
   areYouSureToCancelBabl: "您确定要取消此产品吗？",
   videoAndShortVideo: "视频 & 短视频",
+
   Done: "完成",
   Recharge: "充值",
   CongratulationsAccount: "恭喜，硬币已添加到您的账户。",
