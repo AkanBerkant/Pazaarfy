@@ -6292,10 +6292,10 @@ react-native-confirmation-code-field@^7.4.0:
   resolved "https://registry.yarnpkg.com/react-native-confirmation-code-field/-/react-native-confirmation-code-field-7.4.0.tgz#58cc2d5adad59882d1805bf164cd6099d432d21e"
   integrity sha512-Kw7rD0RXi6vZnt0Y67nkSW2wYmZFdnxJ23yxkKm3jqwvSxAvaA1NP3h3MHSPmJd25l0WK/+fjXOeCliDqWZ9rw==
 
-react-native-create-thumbnail@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-create-thumbnail/-/react-native-create-thumbnail-2.0.1.tgz#8a42f4a73fe6db8cc7ecc4673c55f13f89dd45fb"
-  integrity sha512-D3UEuFJ9hDuf4XTMyNsqsk1SsTxak8EeKTf68QclZQKngwe67YuYaCE8h6CWdzm6ncDH4nbq/MZtFs+d+lD+iA==
+react-native-create-thumbnail@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-create-thumbnail/-/react-native-create-thumbnail-2.1.1.tgz#633fa52ac17fdf78d19c2c5201382d449f296094"
+  integrity sha512-3rawLi0mZiKfPh53C3mbrI9EVVzLWLYiDynUdpAe/I36XbSSFupxP9+g10/rrhhTNX8NSg/4zAC8Z7P9epnt+g==
 
 react-native-easy-grid@^0.2.2:
   version "0.2.2"

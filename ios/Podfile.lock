@@ -2664,7 +2664,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-create-thumbnail (2.0.1):
+  - react-native-create-thumbnail (2.1.1):
     - React-Core
   - react-native-heic-converter (1.3.3):
     - React
@@ -3783,7 +3783,7 @@ SPEC CHECKSUMS:
   React-logger: 5cad0c76d056809523289e589309012215a393b5
   React-Mapbuffer: bfec84fd4dc022fcd29656030d0ddba0092376bd
   React-microtasksnativemodule: bd7c624bb83ddc4f8449cadc62674e8107a2bd99
-  react-native-create-thumbnail: 4bb224ef811cbb4fc9dd7345118491569494ec38
+  react-native-create-thumbnail: 733160dca9a548262e1030e7fcdae90a93d203ca
   react-native-heic-converter: dff4b6e0e37dab29d54e58e644ff9c6804d6db47
   react-native-insta-story: 2f1028459065547b4b4cd81dd0a3f5a08fa25eb1
   react-native-menu: c394bbb3578281165d0025e500c9711f164e8fe1

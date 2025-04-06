@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
 import ImageCropPicker from "react-native-image-crop-picker";
 import { Notifier } from "react-native-notifier";
 import HeicConverter from "react-native-heic-converter"; // başa ekle
-
+import { createThumbnail } from "react-native-create-thumbnail";
 import { ButtonLinear } from "../../../components";
 import PercentLoader from "../../../components/PercentLoader";
 import routes from "../../../constants/routes";
@@ -148,6 +148,31 @@ const CreateBablCategories = () => {
       console.log("Photo conversion/upload error:", error);
       Notifier.showNotification({
         title: "An error occurred while processing the image",
+      });
+    }
+  };
+
+  const setSelectedVideo = async (selectedVideo) => {
+    try {
+      const thumbnail = await createThumbnail({
+        url: selectedVideo.path,
+      });
+
+      const { cover } = await Queries.uploadMedia(thumbnail);
+
+      console.log("COVER", cover);
+      setCover(cover);
+
+      uploadVideoMutation.mutate({
+        mime: selectedVideo.mime,
+        path: selectedVideo.path,
+        cover: cover,
+        txt: "akana",
+      });
+    } catch (error) {
+      console.log("err", error);
+      Notifier.showNotification({
+        title: t("AnUnexpectedErrorOccurred"),
       });
     }
   };
@@ -351,6 +376,8 @@ const CreateBablCategories = () => {
     setVisible(false);
   };
 
+  console.log("ad", bablForm.items);
+
   return (
     <>
       <View
@@ -378,13 +405,22 @@ const CreateBablCategories = () => {
               });
           }}
           onVideoPress={() => {
-            ImageCropPicker.openCamera({
-              cropping: true,
-              mediaType: "photo",
+            ImageCropPicker.openPicker({
+              mediaType: "video",
+              compressVideoPreset: "HighestQuality",
             })
+
               .then((res) => {
-                setSelectedPhoto(res).finally(() => {
+                console.log("adsd", res);
+                setSelectedVideo(res).finally(() => {
                   return setVisible(false);
+                });
+
+                uploadVideoMutation.mutate({
+                  mime: res.mime,
+                  path: res.path,
+                  cover,
+                  txt,
                 });
               })
               .catch((err) => {
@@ -434,90 +470,74 @@ const CreateBablCategories = () => {
             }}
             source={require("../../../assets/screenbg.png")}
           >
-            {uploadMediaMutation.isLoading || loadingPercent > 0 ? (
-              <>
-                <ActivityIndicator size="large" color="#fff" />
-                {loadingPercent && (
-                  <Text
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled
+              onScroll={(e) => {
+                const index = Math.round(
+                  e.nativeEvent.contentOffset.x / sizes.width,
+                );
+                setActiveIndex(index);
+              }}
+              scrollEventThrottle={16}
+              style={{ width: sizes.width }}
+            >
+              {Object.values(
+                bablForm.items.PHOTO_MANUAL ||
+                  bablForm.items.VIDEO_MANUAL ||
+                  {},
+              ).map((item) => {
+                console.log("sol", alert(item.cover));
+                return (
+                  <View
+                    key={item.id}
                     style={{
-                      color: "#fff",
-                      fontSize: 16,
-                      marginTop: 10,
-                      fontFamily: fonts.medium,
+                      width: sizes.width,
+                      height: sizes.width,
+                      position: "relative",
                     }}
                   >
-                    %{Math.round(loadingPercent)} Yükleniyor...
-                  </Text>
-                )}
-              </>
-            ) : (
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled
-                onScroll={(e) => {
-                  const index = Math.round(
-                    e.nativeEvent.contentOffset.x / sizes.width,
-                  );
-                  setActiveIndex(index);
-                }}
-                scrollEventThrottle={16}
-                style={{ width: sizes.width }}
-              >
-                {Object.values(bablForm.items.PHOTO_MANUAL || {}).map(
-                  (item) => (
-                    <View
-                      key={item.id}
+                    <Image
+                      style={{ width: "100%", height: "100%" }}
+                      resizeMode="contain"
+                      source={{ uri: item.cover }}
+                    />
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        setBablForm((prev) => {
+                          const { [item.id]: removed, ...remaining } =
+                            prev.items.PHOTO_MANUAL || {};
+                          return {
+                            ...prev,
+                            items: {
+                              ...prev.items,
+                              PHOTO_MANUAL: remaining,
+                            },
+                          };
+                        });
+                      }}
                       style={{
-                        width: sizes.width,
-                        height: sizes.width,
-                        position: "relative",
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        backgroundColor: "rgba(0,0,0,0.6)",
+                        borderRadius: 20,
+                        padding: 6,
+                        zIndex: 10,
                       }}
                     >
+                      {/* Eğer PNG ikon kullanıyorsan */}
                       <Image
-                        style={{ width: "100%", height: "100%" }}
-                        resizeMode="contain"
-                        source={{ uri: item.cover }}
+                        source={require("../../../assets/bin.png")}
+                        style={{ width: 20, height: 20, tintColor: "#fff" }}
                       />
-
-                      <TouchableOpacity
-                        onPress={() => {
-                          setBablForm((prev) => {
-                            const { [item.id]: removed, ...remaining } =
-                              prev.items.PHOTO_MANUAL || {};
-                            return {
-                              ...prev,
-                              items: {
-                                ...prev.items,
-                                PHOTO_MANUAL: remaining,
-                              },
-                            };
-                          });
-                        }}
-                        style={{
-                          position: "absolute",
-                          top: 10,
-                          right: 10,
-                          backgroundColor: "rgba(0,0,0,0.6)",
-                          borderRadius: 20,
-                          padding: 6,
-                          zIndex: 10,
-                        }}
-                      >
-                        {/* Eğer PNG ikon kullanıyorsan */}
-                        <Image
-                          source={require("../../../assets/bin.png")}
-                          style={{ width: 20, height: 20, tintColor: "#fff" }}
-                        />
-
-                        {/* Eğer vector icon kullanıyorsan: */}
-                        {/* <Icon name="trash-can-outline" size={20} color="#fff" /> */}
-                      </TouchableOpacity>
-                    </View>
-                  ),
-                )}
-              </ScrollView>
-            )}
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
+            </ScrollView>
           </ImageBackground>
           <View
             style={{
@@ -527,20 +547,20 @@ const CreateBablCategories = () => {
               marginTop: 10,
             }}
           >
-            {Object.values(bablForm.items.PHOTO_MANUAL || {}).map(
-              (_, index) => (
-                <View
-                  key={index}
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: 4,
-                    marginHorizontal: 4,
-                    backgroundColor: activeIndex === index ? "#fff" : "#888",
-                  }}
-                />
-              ),
-            )}
+            {Object.values(
+              bablForm.items.PHOTO_MANUAL || bablForm.items.VIDEO_MANUAL || {},
+            ).map((_, index) => (
+              <View
+                key={index}
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  marginHorizontal: 4,
+                  backgroundColor: activeIndex === index ? "#fff" : "#888",
+                }}
+              />
+            ))}
           </View>
 
           <Text
@@ -605,7 +625,7 @@ const CreateBablCategories = () => {
           title={t("continue")}
           onPress={() => {
             const photoCount = Object.keys(
-              bablForm.items.PHOTO_MANUAL || {},
+              bablForm.items.PHOTO_MANUAL || bablForm.items.VIDEO_MANUAL || {},
             ).length;
 
             if (photoCount === 0) {

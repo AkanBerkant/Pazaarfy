@@ -80,7 +80,9 @@ const EditBabl = ({ route }) => {
 
   const { cover } = route.params || {};
 
-  const allItems = Object.values(bablForm.items.PHOTO_MANUAL);
+  const allItems = Object.values(
+    bablForm.items.PHOTO_MANUAL || bablForm.items.VIDEO_MANUAL,
+  );
   const lastItem = allItems[allItems.length - 1];
 
   const onSharePress = async () => {
@@ -187,6 +189,7 @@ const EditBabl = ({ route }) => {
 
   const createBablMutation = useMutation(Queries.createBabl, {
     onSuccess: async (res) => {
+      console.log("res", res);
       if (res.isHidden) {
         notify({
           title: t("congratsSubBablAdded"),

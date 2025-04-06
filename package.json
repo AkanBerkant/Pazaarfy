@@ -44,7 +44,7 @@
     "react-native": "0.76.7",
     "react-native-collapsible-tab-view": "^8.0.0",
     "react-native-confirmation-code-field": "^7.4.0",
-    "react-native-create-thumbnail": "^2.0.1",
+    "react-native-create-thumbnail": "^2.1.1",
     "react-native-easy-grid": "^0.2.2",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.24.0",
