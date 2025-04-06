@@ -221,11 +221,7 @@ const ListHeader = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  style={[
-                    styles.followBtn,
-                    { marginLeft: 90 },
-                    styles.messageBtn,
-                  ]}
+                  style={[styles.followBtn, styles.messageBtn]}
                   onPress={onMessagePress}
                 >
                   <LinearGradient
@@ -501,13 +497,49 @@ const Profile = () => {
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate(routes.Pro);
+            navigation.navigate(routes.PazaaryPro);
           }}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={styles.proButton}
-        ></TouchableOpacity>
-        <Text style={styles.store}>{t("MyStore")}</Text>
+          style={{
+            width: 76,
+            height: 31,
+            borderRadius: 99,
+          }}
+        >
+          <LinearGradient
+            style={{
+              width: 76,
+              height: 31,
+              borderRadius: 99,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            colors={["#B5A0FF", "#755CCC"]}
+          >
+            <Image
+              style={{
+                width: 10,
+                height: 10,
+              }}
+              source={require("../../../assets/star.png")}
+            />
+            <Text
+              style={{
+                color: "#fff",
+                fontFamily: fonts.medium,
+                fontSize: 14,
+                marginLeft: 3,
+              }}
+            >
+              {t("Pro")}
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <Text style={styles.store}>{t("MySProore")}</Text>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate(routes.Notification);
@@ -816,8 +848,6 @@ const styles = StyleSheet.create({
 
   followBtnContainer: {
     marginLeft: 3,
-    flexDirection: "row",
-    alignItems: "center",
 
     gap: 5,
     paddingHorizontal: 30,

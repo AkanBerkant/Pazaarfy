@@ -102,6 +102,8 @@ import GuestMode from "../screens/GuestMode/GuestMode";
 import SearchGuest from "../screens/GuestMode/SearchGuest";
 import GuestDetailContent from "../screens/GuestMode/GuestDetailContent";
 import GuestDetail from "../screens/GuestMode/GuestDetail";
+import PazaarfyPro from "../screens/PazaarfyPro/PazaarfyPro";
+import Price from "../screens/PazaarfyPro/Price";
 
 const Stack = createNativeStackNavigator();
 
@@ -219,6 +221,8 @@ const StackNavigation = () => {
           ) : (
             <>
               <Stack.Screen name={routes.Tab} component={BottomTabs} />
+              <Stack.Screen name={routes.Price} component={Price} />
+              <Stack.Screen name={routes.PazaaryPro} component={PazaarfyPro} />
               <Stack.Screen
                 name={routes.CollectionShareAndroid}
                 component={CollectionShareAndroid}

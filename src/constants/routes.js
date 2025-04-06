@@ -102,6 +102,8 @@ const routes = {
   GuestDetail: "GuestDetail",
   GuestDetailContent: "GuestDetailContent",
   GuestPeople: "GuestPeople",
+  PazaaryPro: "PazaarfyPro",
+  Price: "Price",
 };
 
 export default routes;
