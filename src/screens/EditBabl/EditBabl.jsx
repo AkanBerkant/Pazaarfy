@@ -85,6 +85,7 @@ const EditBabl = ({ route }) => {
   );
   const lastItem = allItems[allItems.length - 1];
 
+  console.log("ad", lastItem.coverVideo);
   const onSharePress = async () => {
     if (!check) {
       return Notifier.showNotification({
@@ -98,9 +99,9 @@ const EditBabl = ({ route }) => {
       category: bablForm.category,
       templateCategory: 0,
       template: randomTemplate,
-      coverSource: cover?.cover ? cover?.cover : lastItem?.cover,
+      coverSource: lastItem.coverVideo ? lastItem.coverVideo : lastItem?.cover,
       coverUrl: "MANUAL",
-      coverItem: cover?.cover ? cover?.cover : lastItem?.cover,
+      coverItem: lastItem.coverVideo ? lastItem.coverVideo : lastItem?.cover,
       text: bablForm?.settings?.text,
       coverVideoCropped: bablForm?.selectedCoverCrop?.endsWith?.("mp4")
         ? bablForm?.selectedCoverCrop
@@ -189,7 +190,7 @@ const EditBabl = ({ route }) => {
 
   const createBablMutation = useMutation(Queries.createBabl, {
     onSuccess: async (res) => {
-      console.log("res", res);
+      console.log("AKANRES", res);
       if (res.isHidden) {
         notify({
           title: t("congratsSubBablAdded"),

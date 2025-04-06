@@ -488,7 +488,6 @@ const CreateBablCategories = () => {
                   bablForm.items.VIDEO_MANUAL ||
                   {},
               ).map((item) => {
-                console.log("sol", alert(item.cover));
                 return (
                   <View
                     key={item.id}
