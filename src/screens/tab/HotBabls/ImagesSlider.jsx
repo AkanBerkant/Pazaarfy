@@ -10,7 +10,7 @@ import {
 import FastImage from "react-native-fast-image";
 import { sizes } from "../../../theme";
 import { BackHeader } from "../../../components";
-
+import CustomVideo from "../../../components/CustomVideo";
 const ImageModal = ({ route }) => {
   const { data, isEmbed } = route.params || {};
 
@@ -35,6 +35,8 @@ const ImageModal = ({ route }) => {
     }
   };
 
+  console.log("ad", data);
+
   return (
     <View style={{ flex: 1 }}>
       <BackHeader />
@@ -44,25 +46,52 @@ const ImageModal = ({ route }) => {
         pagingEnabled
         scrollEnabled={false}
         showsHorizontalScrollIndicator={false}
+        onScroll={(e) => {
+          const index = Math.round(e.nativeEvent.contentOffset.x / sizes.width);
+          setCurrentIndex(index);
+        }}
+        scrollEventThrottle={16}
         style={{ flex: 1 }}
         contentContainerStyle={{
           width: sizes.width * data.babl.items.length,
         }}
       >
-        {data?.babl?.items?.map((item, index) => (
-          <FastImage
-            key={index}
-            source={{ uri: item.cover }} // ya da item, kontrol et
-            style={{
-              width: sizes.width,
-              height: sizes.height,
-            }}
-            resizeMode={FastImage.resizeMode.cover}
-          />
-        ))}
+        {data?.babl?.items?.map((item, index) => {
+          const isActive = index === currentIndex;
+          const isVideo = !!item.coverVideo;
+
+          return (
+            <View
+              key={index}
+              style={{
+                width: sizes.width,
+                height: sizes.height,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {isVideo ? (
+                <CustomVideo
+                  source={{ uri: item.coverVideo }}
+                  style={{ width: sizes.width, height: sizes.height }}
+                  ignoreSilentSwitch="ignore"
+                  volume={0.5}
+                  shouldPlay={isActive}
+                  isLooping
+                  isMuted={false}
+                />
+              ) : (
+                <FastImage
+                  source={{ uri: item.cover }}
+                  style={{ width: sizes.width, height: sizes.height }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              )}
+            </View>
+          );
+        })}
       </ScrollView>
 
-      {/* Sol ok */}
       <TouchableOpacity
         onPress={goLeft}
         style={{
@@ -78,7 +107,6 @@ const ImageModal = ({ route }) => {
         <Text style={{ color: "white", fontSize: 24 }}>‹</Text>
       </TouchableOpacity>
 
-      {/* Sağ ok */}
       <TouchableOpacity
         onPress={goRight}
         style={{

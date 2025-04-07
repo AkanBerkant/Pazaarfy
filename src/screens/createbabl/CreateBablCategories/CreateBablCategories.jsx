@@ -154,13 +154,17 @@ const CreateBablCategories = () => {
 
   const setSelectedVideo = async (selectedVideo) => {
     try {
+      const videoCount = Object.keys(bablForm.items.VIDEO_MANUAL || {}).length;
+      if (videoCount >= 1) {
+        Alert.alert(t("Warnings"), "Sadece bir video yükleyebilirsiniz.");
+        return;
+      }
+
       const thumbnail = await createThumbnail({
         url: selectedVideo.path,
       });
 
       const { cover } = await Queries.uploadMedia(thumbnail);
-
-      console.log("COVER", cover);
       setCover(cover);
 
       uploadVideoMutation.mutate({
@@ -376,6 +380,11 @@ const CreateBablCategories = () => {
     setVisible(false);
   };
 
+  const mediaItems = [
+    ...Object.values(bablForm.items.PHOTO_MANUAL || {}),
+    ...Object.values(bablForm.items.VIDEO_MANUAL || {}),
+  ];
+
   return (
     <>
       <View
@@ -392,6 +401,10 @@ const CreateBablCategories = () => {
           onPhotoPress={() => {
             ImageCropPicker.openPicker({
               cropping: true,
+              includeExif: true, // EXIF bilgilerini dahil et
+              compressImageQuality: 0.9, // Opsiyonel: kaliteyi biraz düşür
+              cropperToolbarTitle: "Resmi Düzenle", // Opsiyonel
+              forceJpg: true, // HEIC yerine JPG zorla
             })
               .then((res) => {
                 setSelectedPhoto(res).finally(() => {
@@ -481,11 +494,7 @@ const CreateBablCategories = () => {
               scrollEventThrottle={16}
               style={{ width: sizes.width }}
             >
-              {Object.values(
-                bablForm.items.PHOTO_MANUAL ||
-                  bablForm.items.VIDEO_MANUAL ||
-                  {},
-              ).map((item) => {
+              {mediaItems.map((item) => {
                 return (
                   <View
                     key={item.id}
@@ -498,19 +507,20 @@ const CreateBablCategories = () => {
                     <Image
                       style={{ width: "100%", height: "100%" }}
                       resizeMode="contain"
-                      source={{ uri: item.cover }}
+                      source={{ uri: item.cover || item.coverVideo }}
                     />
 
                     <TouchableOpacity
                       onPress={() => {
                         setBablForm((prev) => {
+                          const type = item.type;
                           const { [item.id]: removed, ...remaining } =
-                            prev.items.PHOTO_MANUAL || {};
+                            prev.items[type] || {};
                           return {
                             ...prev,
                             items: {
                               ...prev.items,
-                              PHOTO_MANUAL: remaining,
+                              [type]: remaining,
                             },
                           };
                         });
@@ -525,7 +535,6 @@ const CreateBablCategories = () => {
                         zIndex: 10,
                       }}
                     >
-                      {/* Eğer PNG ikon kullanıyorsan */}
                       <Image
                         source={require("../../../assets/bin.png")}
                         style={{ width: 20, height: 20, tintColor: "#fff" }}
@@ -544,9 +553,7 @@ const CreateBablCategories = () => {
               marginTop: 10,
             }}
           >
-            {Object.values(
-              bablForm.items.PHOTO_MANUAL || bablForm.items.VIDEO_MANUAL || {},
-            ).map((_, index) => (
+            {mediaItems.map((_, index) => (
               <View
                 key={index}
                 style={{
@@ -622,7 +629,7 @@ const CreateBablCategories = () => {
           title={t("continue")}
           onPress={() => {
             const photoCount = Object.keys(
-              bablForm.items.PHOTO_MANUAL || bablForm.items.VIDEO_MANUAL || {},
+              bablForm.items.VIDEO_MANUAL || bablForm.items.PHOTO_MANUAL || {},
             ).length;
 
             if (photoCount === 0) {
