@@ -530,7 +530,7 @@ export default {
   Product: "Product",
   PazaarfyAI: "Artificial Intelligence",
   NoMatchingProductFound: "No matching product found",
-  PleaseSelectPhotoOrVideo: "Please Select Image from Camera or Gallery",
+  PleaseSelectPhotoOrVideo: "Please select a video or image",
   Logout: "Logout",
   Sends: "Posts",
   Likeda: "Favorites",

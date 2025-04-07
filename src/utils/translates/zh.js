@@ -483,7 +483,7 @@ export default {
   Product: "所有产品",
   PazaarfyAI: "人工智能搜索",
   NoMatchingProductFound: "未找到匹配的产品",
-  PleaseSelectPhotoOrVideo: "請從相機或圖庫中選擇影像",
+  PleaseSelectPhotoOrVideo: "	请选择视频或图片",
   Logout: "退出",
   Sends: "我的发布",
   Likeda: "喜欢的",

@@ -516,8 +516,7 @@ export default {
   Product: "Все товары",
   PazaarfyAI: "Поиск с ИИ",
   NoMatchingProductFound: "Совпадающих товаров не найдено",
-  PleaseSelectPhotoOrVideo:
-    "Пожалуйста, выберите изображение с камеры или галереи",
+  PleaseSelectPhotoOrVideo: " Пожалуйста, выберите видео или изображение",
   Logout: "Выйти",
   Sends: "Мои публикации",
   Likeda: "Понравившиеся",

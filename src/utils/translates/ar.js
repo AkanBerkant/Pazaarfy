@@ -305,7 +305,7 @@ export default {
   Product: "منتجات",
   PazaarfyAI: "الذكاء الاصطناعي",
   NoMatchingProductFound: "لم يتم العثور على منتج مطابق",
-  PleaseSelectPhotoOrVideo: "الرجاء تحديد صورة من الكاميرا أو المعرض",
+  PleaseSelectPhotoOrVideo: "الرجاء اختيار فيديو أو صورة",
   Logout: "تسجيل الخروج",
   Sends: "دعامات",
   Likeda: "إعجاباتي",

@@ -29,6 +29,7 @@ import * as Queries from "../../../utils/queries";
 import { splitArrayIntoChunks } from "../../../utils/split-array";
 import HomeItem from "./HomeItem";
 import Situation from "./Situation";
+import SituationItem from "./SituationItem";
 const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
   const offset = useCurrentTabScrollY();
   const focusedTab = useFocusedTab();
@@ -140,34 +141,40 @@ const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
         scrollEventThrottle={16}
         refreshControl={refreshControl}
       >
-        <Text
-          style={{
-            color: "#FFF",
-            marginBottom: 15,
-            marginTop: 15,
-            fontFamily: fonts.bold,
-            width: sizes.width / 1.07,
-            alignSelf: "center",
-          }}
-        >
-          {t("MySituation")}
-        </Text>
+        {dataList.length ? (
+          <Text
+            style={{
+              color: "#FFF",
+              marginBottom: 15,
+              marginTop: 15,
+              fontFamily: fonts.bold,
+              width: sizes.width / 1.07,
+              alignSelf: "center",
+            }}
+          >
+            {t("MySituation")}
+          </Text>
+        ) : null}
 
-        {dataBabl.map((item, index) => {
-          return (
-            <View style={styles.listContainer}>
-              <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-                <Situation
-                  chunk={item}
-                  getAllData={() => {
-                    return dataList;
-                  }}
-                  targetUserId={user._id}
-                />
-              </ScrollView>
-            </View>
-          );
-        })}
+        <View style={{ height: dataList.length ? 180 : 0 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              alignItems: "center",
+              paddingHorizontal: 10,
+            }}
+          >
+            {dataList.map((item, index) => (
+              <SituationItem
+                key={index}
+                item={item}
+                getAllData={() => dataList}
+                targetUserId={user._id}
+              />
+            ))}
+          </ScrollView>
+        </View>
 
         {data.map((categoryList, categoryIndex) => {
           if (!categoryList.length) return null;
@@ -207,5 +214,6 @@ export default React.memo(HomeTab);
 const styles = StyleSheet.create({
   listContainer: {
     width: sizes.width,
+    alignItems: "flex-start",
   },
 });

@@ -509,7 +509,7 @@ export default {
   Product: "Tüm Ürünler",
   PazaarfyAI: "Yapay Zeka İle Arama",
   NoMatchingProductFound: "Eşleşen ürün bulunamadı",
-  PleaseSelectPhotoOrVideo: "Lütfen Kamaredan Veya Galeriden Görsel Seçin",
+  PleaseSelectPhotoOrVideo: "Lütfen Video Veya Görsel Seçin",
   Logout: "Çıkış Yap",
   Sends: "Gönderilerim",
   Likeda: "Beğendiklerim",
