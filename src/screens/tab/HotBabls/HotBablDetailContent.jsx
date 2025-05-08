@@ -16,6 +16,7 @@ import {
   StackActions,
   useIsFocused,
 } from "@react-navigation/native";
+import { Share } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Asset } from "expo-asset";
 import { useAtom, useAtomValue } from "jotai";
@@ -106,6 +107,14 @@ const HotBablDetailContent = ({
 
   const { _id, user, title, coverVideo, cover, coverItem } = data.babl;
   const { babl, commentCount } = data;
+
+  const onShareBabl = async () => {
+    try {
+      await Share.share({
+        message: `${title}\n\n${t("ShareLink")}: pazaarfy://babl/${babl?._id}`,
+      });
+    } catch (error) {}
+  };
 
   React.useEffect(() => {
     if (coverVideo && !localAsset) {
@@ -276,9 +285,7 @@ const HotBablDetailContent = ({
       width: 23.91,
       height: 27.81,
       tintColor: "#FFF",
-      onPress: () => {
-        modalizeRef.current?.open();
-      },
+      onPress: onShareBabl, // <-- Buraya değişiklik
     },
   ];
 
@@ -298,9 +305,7 @@ const HotBablDetailContent = ({
     onMutate: () => {
       onPositiveAction();
     },
-    onError: (err) => {
-      console.log("err", err);
-    },
+    onError: (err) => {},
   });
 
   const unfollowMutation = useMutation(Queries.unfollow, {
@@ -362,9 +367,7 @@ const HotBablDetailContent = ({
       onSuccess: (res) => {
         setCurrentCount(res.followInfo?.followerCount);
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
       placeholderData: {
         profile: {},
         followInfo: {},
