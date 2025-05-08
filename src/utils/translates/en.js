@@ -597,4 +597,5 @@ export default {
   LikedStore: "Stores You May Like",
   SearchStore: "Search Store",
   ShareStatus: "Share as Status",
+  GenerateQR: "Generate QR",
 };

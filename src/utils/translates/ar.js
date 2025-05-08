@@ -420,4 +420,5 @@ export default {
   LikedStore: "المتاجر التي قد تعجبك",
   SearchStore: "ابحث عن متجر",
   ShareStatus: "مشاركة كحالة",
+  GenerateQR: "توليد ريال قطري",
 };

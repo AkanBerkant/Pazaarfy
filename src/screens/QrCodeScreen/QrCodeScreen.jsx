@@ -4,6 +4,7 @@ import QRCode from "react-native-qrcode-svg";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../utils/atoms";
 import { BackHeader } from "../../components";
+import { useTranslation } from "react-i18next";
 
 const QrCodeScreen = () => {
   const user = useAtomValue(userAtom);
@@ -20,6 +21,7 @@ const QrCodeScreen = () => {
     });
   };
 
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -27,9 +29,8 @@ const QrCodeScreen = () => {
         flex: 1,
       }}
     >
-      <BackHeader />
+      <BackHeader title={t("GenerateQR")} />
       <View style={styles.container}>
-        <Text style={styles.title}>QR Kodun</Text>
         <QRCode
           value={deepLink}
           size={240}
@@ -39,7 +40,7 @@ const QrCodeScreen = () => {
         />
         <Text style={styles.link}>{deepLink}</Text>
         <TouchableOpacity style={styles.button} onPress={onShare}>
-          <Text style={styles.buttonText}>Paylaş</Text>
+          <Text style={styles.buttonText}>{t("Share")}</Text>
         </TouchableOpacity>
       </View>
     </View>

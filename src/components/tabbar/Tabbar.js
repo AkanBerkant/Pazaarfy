@@ -172,8 +172,12 @@ const TabBar = () => {
           onPress={onPazaar}
           style={{
             alignItems: "center",
-            width: sizes.width / 5,
             height: 70,
+            width: 70,
+            bottom: 25,
+            justifyContent: "center",
+            backgroundColor: "#755CCC",
+            borderRadius: 99,
             // shadowOpacity: activeRoute === routes.Home ? 1 : 0,
             // shadowColor: activeRoute === routes.Home ? '#FFF' : '#000',
             // shadowRadius: 10,
@@ -185,8 +189,7 @@ const TabBar = () => {
               width: 27.35,
               height: 70,
 
-              tintColor:
-                activeRoute === routes.HotBabls ? "#9A84EA" : "#676767",
+              tintColor: activeRoute === routes.HotBabls ? "#9A84EA" : "#FFF",
             }}
             source={
               activeRoute === routes.HotBabls

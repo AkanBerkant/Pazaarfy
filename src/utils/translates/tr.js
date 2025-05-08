@@ -576,4 +576,5 @@ export default {
   LikedStore: "Beğenebileceğin Mağazalar",
   SearchStore: "Mağaza Ara",
   ShareStatus: "Durum Olarak Paylaş",
+  GenerateQR: "QR Üret",
 };

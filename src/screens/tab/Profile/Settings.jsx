@@ -109,7 +109,7 @@ const Settings = ({ navigation }) => {
       },
     },
     {
-      label: t("qr"),
+      label: t("GenerateQR"),
       icon: require("../../../assets/deletekk.png"),
       onPress: () => {
         navigation.navigate(routes.QrCodeScreen);

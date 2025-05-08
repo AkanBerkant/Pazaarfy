@@ -12,6 +12,7 @@ import Video from "react-native-video"; // video desteği
 import { sizes } from "../../../theme";
 import CustomVideo from "../../../components/CustomVideo";
 import fonts from "../../../theme/fonts";
+import { useTranslation } from "react-i18next";
 
 const { width } = Dimensions.get("window");
 
@@ -19,10 +20,11 @@ const ImagesSlider = ({
   items = [],
   onFollowPress,
   onMessagePress,
+  followStatus,
   shouldPlay,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const { t } = useTranslation();
   if (!items || items.length === 0) return null;
 
   const handleScroll = (event) => {
@@ -69,7 +71,7 @@ const ImagesSlider = ({
               <TouchableOpacity onPress={onMessagePress} style={styles.button}>
                 <Text style={styles.buttonText}>sohbete başla</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={onFollowPress}>
+              <TouchableOpacity onPress={onFollowPress} style={styles.button}>
                 <Text style={styles.buttonText}>
                   {followStatus ? t("following") : t("Follow")}
                 </Text>

@@ -583,4 +583,5 @@ export default {
   LikedStore: "Магазины, которые вам могут понравиться",
   SearchStore: "Поиск магазина",
   ShareStatus: "Поделиться как статусом",
+  GenerateQR: "генерировать qr",
 };

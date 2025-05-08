@@ -78,7 +78,7 @@ const FollowItem = ({ targetUser, initialStatus = true }) => {
 
         <Text style={styles.name}>{targetUser.username}</Text>
       </View>
-
+      {/* 
       {followStatus ? (
         <Button
           fontSize={12}
@@ -94,7 +94,7 @@ const FollowItem = ({ targetUser, initialStatus = true }) => {
           title={t("Follow")}
           onPress={onFollowPress}
         />
-      )}
+      )} */}
     </TouchableOpacity>
   );
 };
