@@ -10,17 +10,10 @@ import {
 import FastImage from "react-native-fast-image";
 import Video from "react-native-video"; // video desteği
 import { sizes } from "../../../theme";
-import CustomVideo from "../../../components/CustomVideo";
-import fonts from "../../../theme/fonts";
 
 const { width } = Dimensions.get("window");
 
-const ImagesSlider = ({
-  items = [],
-  onFollowPress,
-  onMessagePress,
-  shouldPlay,
-}) => {
+const TestSlider = ({ items = [] }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   if (!items || items.length === 0) return null;
@@ -46,16 +39,12 @@ const ImagesSlider = ({
             style={{ width, height: sizes.width * 1.2 }}
           >
             {item.coverVideo ? (
-              <CustomVideo
+              <Video
                 source={{ uri: item.coverVideo }}
                 style={{ width: "100%", height: "100%" }}
                 resizeMode="cover"
-                ignoreSilentSwitch="ignore"
                 repeat
-                shouldPlay={shouldPlay}
-                isLooping
-                isMuted={false}
-                volume={0.5}
+                muted={false}
               />
             ) : (
               <FastImage
@@ -66,13 +55,11 @@ const ImagesSlider = ({
             )}
             {/* Butonlar */}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={onMessagePress} style={styles.button}>
+              <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>sohbete başla</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={onFollowPress}>
-                <Text style={styles.buttonText}>
-                  {followStatus ? t("following") : t("Follow")}
-                </Text>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>takip et</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -105,15 +92,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    width: sizes.width / 2.2,
-    justifyContent: "center",
-    alignItems: "center",
     borderWidth: 2,
     borderColor: "#b087f8",
   },
   buttonText: {
     color: "#fff",
-    fontFamily: fonts.medium,
+    fontWeight: "600",
   },
   paginator: {
     flexDirection: "row",
@@ -129,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImagesSlider;
+export default TestSlider;

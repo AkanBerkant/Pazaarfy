@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React from "react";
+import React, { useState } from "react";
 import {
   Dimensions,
   Image,
@@ -7,9 +7,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Switch,
 } from "react-native";
 
-import { MenuView } from "@react-native-menu/menu";
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BlurView } from "expo-blur";
@@ -85,7 +85,10 @@ const EditBabl = ({ route }) => {
   );
   const lastItem = allItems[allItems.length - 1];
 
-  console.log("ad", lastItem.coverVideo);
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
   const onSharePress = async () => {
     if (!check) {
       return Notifier.showNotification({
@@ -391,6 +394,31 @@ const EditBabl = ({ route }) => {
               </Text>
             </TouchableOpacity>
           </TouchableOpacity>
+
+          <View
+            style={{
+              flexDirection: "row",
+              width: sizes.width / 1.1,
+              alignSelf: "center",
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+
+              paddingHorizontal: 10,
+            }}
+          >
+            <Text style={{ fontFamily: fonts.bold, color: "#755CCC" }}>
+              {t("ShareStatus")}
+            </Text>
+
+            <Switch
+              trackColor={{ false: "#55CCC", true: "#755CCC" }}
+              thumbColor={isEnabled ? "#fff" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+          </View>
         </>
         <ButtonLinear
           title={t("share")}

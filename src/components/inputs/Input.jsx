@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { sizes } from "../../theme";
 import fonts from "../../theme/fonts";
 
-const Input = ({ multiline, title, width, ...props }) => {
+const Input = ({ multiline, title, big, width, ...props }) => {
   return (
     <>
       {title && <Text style={styles.title}>{title}</Text>}
@@ -15,7 +15,7 @@ const Input = ({ multiline, title, width, ...props }) => {
           alignSelf: "center",
           borderRadius: 50,
           justifyContent: multiline ? "" : "center",
-          height: 55,
+          height: big ? sizes.width / 2 : 55,
           padding: 10,
           margin: 5,
         }}

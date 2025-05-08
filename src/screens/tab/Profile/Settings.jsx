@@ -108,6 +108,13 @@ const Settings = ({ navigation }) => {
         setVisibleDelete(!visibleDelete);
       },
     },
+    {
+      label: t("qr"),
+      icon: require("../../../assets/deletekk.png"),
+      onPress: () => {
+        navigation.navigate(routes.QrCodeScreen);
+      },
+    },
   ];
 
   const renderItem = ({ item }) => {

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import {useQuery} from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import * as Queries from '../../../utils/queries';
+import * as Queries from "../../../utils/queries";
 
-import HotBablDetailContent from './HotBablDetailContent';
+import HotBablDetailContent from "./HotBablDetailContent";
 
-const HotBablDetailContentWrapper = ({bablId, lowerChapter, ...props}) => {
+const HotBablDetailContentWrapper = ({ bablId, lowerChapter, ...props }) => {
   /*
   const { data } = useQuery(['BABL', bablId], () => { return Queries.getBablById(bablId); }, {
     placeholderData: {

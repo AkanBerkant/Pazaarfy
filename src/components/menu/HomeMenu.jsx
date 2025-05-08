@@ -68,15 +68,21 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
       ]}
     >
       <View style={styles.menuContainer}>
-        <Image
-          resizeMode="contain"
-          style={{
-            width: 56,
-            height: 30,
-            tintColor: "#8858EA",
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(routes.ProfilSettings);
           }}
-          source={require("../../assets/plus-sign.png")}
-        />
+        >
+          <Image
+            resizeMode="contain"
+            style={{
+              width: 56,
+              height: 30,
+              tintColor: "#8858EA",
+            }}
+            source={require("../../assets/loved.png")}
+          />
+        </TouchableOpacity>
         <Image
           style={styles.logo}
           resizeMode="contain"

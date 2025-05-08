@@ -90,8 +90,7 @@ const TabBar = () => {
   };
 
   return (
-    <BlurView
-      intensity={10}
+    <View
       resizeMode="contain"
       style={[
         {
@@ -99,7 +98,8 @@ const TabBar = () => {
           justifyContent: "space-between",
           width: sizes.width,
           height: BOTTOM_TAB_HEIGHT,
-          backgroundColor: Platform.OS == "ios" ? null : "#000",
+          backgroundColor: "#fff",
+          backgroundColor: "#000",
           alignSelf: "center",
           position: "absolute",
         },
@@ -252,7 +252,7 @@ const TabBar = () => {
           />
         </TouchableOpacity>
       </View>
-    </BlurView>
+    </View>
   );
 };
 

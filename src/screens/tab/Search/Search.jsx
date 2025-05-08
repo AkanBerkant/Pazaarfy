@@ -58,6 +58,10 @@ const Search = () => {
       time: t("ForYou"),
       _id: "forYou",
     },
+    {
+      time: t("SearchStore"),
+      _id: "people",
+    },
   ];
 
   const pagerRef = React.useRef();
@@ -125,13 +129,10 @@ const Search = () => {
           },
         ]}
       >
-        <TouchableOpacity
+        <View
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.proButton}
-          onPress={() => {
-            navigation.navigate(routes.PeopleSearch);
-          }}
         >
           <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -144,7 +145,7 @@ const Search = () => {
               source={require("../../../assets/user.png")}
             />
           </LinearGradient>
-        </TouchableOpacity>
+        </View>
         <Text style={styles.title}>{t("Pazar")}</Text>
         <TouchableOpacity
           onPress={() => {
@@ -171,7 +172,7 @@ const Search = () => {
               value={searchTerm}
               onChangeText={setSearchTerm}
               style={styles.inInput}
-              placeholder={t("SearchProduct")}
+              placeholder={`${t("Search")}..`}
               // autoFocus
             />
 
@@ -195,7 +196,8 @@ const Search = () => {
         style={[
           styles.header,
           {
-            width: sizes.width / 2,
+            width: sizes.width / 1.1,
+            alignSelf: "center",
           },
         ]}
       >
@@ -360,6 +362,7 @@ const styles = StyleSheet.create({
   menu: {
     alignItems: "center",
     marginBottom: 20,
+    margin: 10,
   },
 
   proButton: {

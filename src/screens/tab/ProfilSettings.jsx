@@ -16,7 +16,6 @@ import { t } from "i18next";
 import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
 import ImageCropPicker from "react-native-image-crop-picker";
-import LinearGradient from "react-native-linear-gradient";
 import * as yup from "yup";
 
 import { BackHeader, ButtonLinear, Container, Input } from "../../components";
@@ -268,6 +267,7 @@ const ProfilSettings = () => {
               <Input
                 placeholder={t("About")}
                 multiline
+                big
                 onChangeText={onChange}
                 value={value}
               />

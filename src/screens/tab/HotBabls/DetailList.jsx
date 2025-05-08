@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Dimensions,
   FlatList,
@@ -6,17 +6,18 @@ import {
   StatusBar,
   StyleSheet,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-import routes from '../../../constants/routes';
-import Emitter from '../../../utils/emitter';
+import routes from "../../../constants/routes";
+import Emitter from "../../../utils/emitter";
 
-import HotBablDetailContent from './HotBablDetailContent';
+import HotBablDetailContent from "./HotBablDetailContent";
 
-const dim = Dimensions.get('window');
-const ITEM_HEIGHT = dim.height + (Platform.OS === 'android' ? StatusBar.currentHeight : 0);
+const dim = Dimensions.get("window");
+const ITEM_HEIGHT =
+  dim.height + (Platform.OS === "android" ? StatusBar.currentHeight : 0);
 
 const DetailItem = ({
   item,
@@ -74,7 +75,7 @@ const ListItem = ({
       );
 
       Emitter.emit(
-        'RUN_DETAIL',
+        "RUN_DETAIL",
         `DETAIL_${selectedCategoryRef.current}_${
           selectedItemRef.current[selectedCategoryRef.current]
         }`,
@@ -144,7 +145,7 @@ const DetailList = () => {
 
   return (
     <View style={styles.container}>
-      {Platform.OS === 'android' && (
+      {Platform.OS === "android" && (
         <StatusBar translucent backgroundColor="transparent" />
       )}
       <ListItem
@@ -166,8 +167,8 @@ const styles = StyleSheet.create({
   container: {
     height: ITEM_HEIGHT,
     width: dim.width,
-    justifyContent: 'space-between',
-    backgroundColor: '#000',
+    justifyContent: "space-between",
+    backgroundColor: "#000",
   },
   contentContainer: {
     height: ITEM_HEIGHT,

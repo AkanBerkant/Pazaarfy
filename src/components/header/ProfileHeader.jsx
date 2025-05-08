@@ -1,16 +1,14 @@
-import React from 'react';
-import {
-  Image, StyleSheet, Text, TouchableOpacity, View,
-} from 'react-native';
+import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { useNavigation } from '@react-navigation/native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { sizes } from '../../theme';
-import fonts from '../../theme/fonts';
+import { sizes } from "../../theme";
+import fonts from "../../theme/fonts";
 
-const ProfileHeader = ({ title, shadow, onPress }) => {
+const ProfileHeader = ({ title, shadow, share, onPress }) => {
   const navigation = useNavigation();
   const safeAreaInsets = useSafeAreaInsets();
 
@@ -31,31 +29,27 @@ const ProfileHeader = ({ title, shadow, onPress }) => {
           paddingTop: safeAreaInsets.top,
           paddingBottom: 10,
           marginBottom: 10,
-          backgroundColor: '#000',
+          backgroundColor: "#000",
           zIndex: 3,
         },
       ]}
     >
-      <View
-        style={[
-          styles.headerIn,
-        ]}
-      >
+      <View style={[styles.headerIn]}>
         <TouchableOpacity
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
           onPress={handleGeriTusu}
         >
           <Image
-            source={require('../../assets/back.png')} // Geri ok resminin yolunu belirtin
+            source={require("../../assets/back.png")} // Geri ok resminin yolunu belirtin
             style={styles.back}
             resizeMode="contain"
           />
           <Text
             style={{
-              color: '#000',
+              color: "#000",
             }}
           >
             asdasdasda
@@ -66,25 +60,47 @@ const ProfileHeader = ({ title, shadow, onPress }) => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <Text
             style={{
-              color: '#000',
+              color: "#000",
             }}
           >
             asdasdasda
           </Text>
-          <View
-            style={{
-              width: 40, // Resim genişliği
-              height: 24, // Resim yüksekliği
-              marginRight: 8, // Resim ile metin arasındaki boşluk
-              tintColor: '#BBBBBB',
-            }}
-          />
+          {share ? (
+            <TouchableOpacity
+              style={{
+                width: 40, // Resim genişliği
+                height: 24, // Resim yüksekliği
+                marginRight: 8, // Resim ile metin arasındaki boşluk
+                tintColor: "#BBBBBB",
+              }}
+              onPress={share}
+            >
+              <Image
+                style={{
+                  tintColor: "#FFF",
+                  width: 46,
+                  height: 29,
+                }}
+                resizeMode="contain"
+                source={require("../../assets/send.png")}
+              />
+            </TouchableOpacity>
+          ) : (
+            <View
+              style={{
+                width: 40, // Resim genişliği
+                height: 24, // Resim yüksekliği
+                marginRight: 8, // Resim ile metin arasındaki boşluk
+                tintColor: "#BBBBBB",
+              }}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -93,12 +109,12 @@ const ProfileHeader = ({ title, shadow, onPress }) => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    position: 'absolute',
-    backgroundColor: '#000',
+    position: "absolute",
+    backgroundColor: "#000",
 
     width: sizes.width,
-    alignItems: 'center',
-    shadowColor: '#FFF',
+    alignItems: "center",
+    shadowColor: "#FFF",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -108,30 +124,30 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   headerIn: {
-    backgroundColor: '#000',
-    flexDirection: 'row',
+    backgroundColor: "#000",
+    flexDirection: "row",
     width: sizes.width,
-    alignItems: 'center',
+    alignItems: "center",
   },
   left: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: 40,
-    alignItems: 'center',
+    alignItems: "center",
   },
   centeredText: {
     flex: 1, // Yazıyı ortalayabilmek için kullanılır
-    alignItems: 'center',
-    color: '#FFF',
+    alignItems: "center",
+    color: "#FFF",
   },
   back: {
     width: 40, // Resim genişliği
     height: 24, // Resim yüksekliği
     marginRight: 8, // Resim ile metin arasındaki boşluk
-    tintColor: '#BBBBBB',
+    tintColor: "#BBBBBB",
   },
   title: {
     fontSize: 18,
-    color: '#FFF',
+    color: "#FFF",
     fontFamily: fonts.roboto,
   },
 });

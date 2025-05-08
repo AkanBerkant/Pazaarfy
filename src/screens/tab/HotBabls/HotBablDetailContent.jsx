@@ -20,10 +20,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Asset } from "expo-asset";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
-import FastImage from "react-native-fast-image";
 import HapticFeedback from "react-native-haptic-feedback";
 import { Modalize } from "react-native-modalize";
-import { BoxShadow } from "react-native-shadow";
+import ImagesSlider from "./ImagesSlider";
 
 import CustomVideo from "../../../components/CustomVideo";
 import routes from "../../../constants/routes";
@@ -42,6 +41,7 @@ import TwitterWidget from "../../BablContentList/TwitterWidget";
 import Rebabls from "./Rebabls";
 import TapToEnter from "./TapToEnter";
 import BablContentModal from "../../BablContent/BablContentModal";
+import { BackHeader } from "../../../components";
 
 const backIcon = require("../../../assets/back.png");
 const commentIcon = require("../../../assets/comments.png");
@@ -250,17 +250,6 @@ const HotBablDetailContent = ({
   const [visible, setVisible] = React.useState(null);
   const icons = [
     {
-      image: savedIcon,
-      number: null,
-      width: 23.91,
-      height: 27.81,
-      tintColor: "#FFF",
-      onPress: () => {
-        setVisible(!visible);
-      },
-    },
-
-    {
       image: likeStatus ? heartFillIcon : heartEmptyIcon,
       number: likeCount,
       width: 25.91,
@@ -282,13 +271,14 @@ const HotBablDetailContent = ({
       },
     },
     {
-      image: reloadIcon,
-      number: rebablCount,
-      width: 25.91,
-      height: 23.16,
-      disabled: currentUser?._id === user?._id,
-      tintColor: rebablStatus ? "#5DFF77" : "#FFF",
-      onPress: onRebablPress,
+      image: require("../../../assets/send.png"),
+      number: data?.viewCount,
+      width: 23.91,
+      height: 27.81,
+      tintColor: "#FFF",
+      onPress: () => {
+        modalizeRef.current?.open();
+      },
     },
   ];
 
@@ -302,6 +292,45 @@ const HotBablDetailContent = ({
 
   const onRebablsClosePress = () => {
     modalizeRef.current?.close();
+  };
+
+  const followMutation = useMutation(Queries.follow, {
+    onMutate: () => {
+      onPositiveAction();
+    },
+    onError: (err) => {
+      console.log("err", err);
+    },
+  });
+
+  const unfollowMutation = useMutation(Queries.unfollow, {
+    onMutate: () => {
+      onNegativeAction();
+    },
+    onError: (err) => {},
+  });
+
+  const onFollowPress = () => {
+    if (unfollowMutation.isLoading || followMutation.isLoading) return null;
+
+    if (followStatus) {
+      unfollowMutation.mutate(data?.babl?.user._id);
+    } else {
+      followMutation.mutate(data?.babl?.user._id);
+    }
+  };
+
+  const onMessagePress = () => {
+    navigation.navigate(routes.MessageScreen, {
+      item: {
+        user: {
+          _id: data?.babl?.user._id,
+          firstname: data?.babl?.user.username,
+          username: data?.babl?.user?.username,
+          photo: data?.babl?.user?.photo,
+        },
+      },
+    });
   };
 
   const videoItem = (
@@ -327,533 +356,179 @@ const HotBablDetailContent = ({
   );
 
   const imgItem = (
-    <FastImage
-      source={{ uri: cover }}
-      style={[
-        styles.image,
-        isEmbed && {
-          transform: [
-            {
-              translateY: -30,
-            },
-          ],
-        },
-      ]}
+    <ImagesSlider
+      shouldPlay={shouldPlay && isFocused}
+      items={data.babl.items}
+      onMessagePress={onMessagePress}
     />
   );
 
-  const showedItem =
-    coverItem?.resourceType === "TEXT_TWITTER" ? (
-      <View
-        style={{
-          ...StyleSheet.absoluteFillObject,
-          zIndex: -99,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <TwitterWidget item={coverItem} shouldPlay={shouldPlay && isFocused} />
-      </View>
-    ) : localAsset ? (
-      videoItem
-    ) : (
-      imgItem
-    );
+  const showedItem = imgItem;
 
   const [imageModal, setImageModal] = React.useState(null);
+
+  <Text style={styles.title} numberOfLines={1}>
+    {title?.length > 35 ? title?.substring(0, 35) + "..." : title}
+  </Text>;
   return (
     <>
-      {Platform.OS == "ios" ? (
-        <>
+      <>
+        <View
+          style={styles.container}
+          disabled={!onPress}
+          onPress={onPress}
+          activeOpacity={0.9}
+          onLongPress={() => {
+            return setLock(true);
+          }}
+          onPressOut={() => {
+            return setLock(false);
+          }}
+        >
+          <BackHeader
+            title={t("LikedStore")}
+            textBg={"#050608"}
+            bg={"#0D0F15"}
+          />
+
           <View
-            style={styles.container}
-            disabled={!onPress}
-            onPress={onPress}
-            activeOpacity={0.9}
-            onLongPress={() => {
-              return setLock(true);
-            }}
-            onPressOut={() => {
-              return setLock(false);
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              backgroundColor: "#0D0F15",
+              padding: 10,
             }}
           >
-            {showedItem}
-
-            <View style={styles.between}>
-              <View
-                style={[
-                  styles.itemLeftBetween,
-                  !showBack && {
-                    height: (sizes.height + StatusBar.currentHeight) / 1.1,
-                  },
-                ]}
-              >
-                <TouchableOpacity
-                  onPress={navigation.goBack}
-                  disabled={!showBack}
-                  style={styles.backImgContainer}
-                >
-                  <View
-                    style={{
-                      justifyContent: "space-between",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    {showBack && (
-                      <Image
-                        resizeMode="contain"
-                        source={backIcon}
-                        style={styles.backImg}
-                      />
-                    )}
-                    <Text style={styles.title} numberOfLines={1}>
-                      {title?.length > 35
-                        ? title?.substring(0, 35) + "..."
-                        : title}
-                    </Text>
-
-                    <View style={styles.backImg} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate(routes.ImagesSlider, { data: data });
-                  }}
-                  style={styles.tapToEnter}
-                >
-                  <TapToEnter />
-
-                  <Text style={styles.tapToEnterText}>
-                    {t("TapScreenToEnter")}
-                  </Text>
-                </TouchableOpacity>
-
-                <View
-                  style={
-                    isEmbed
-                      ? {
-                          transform: [
-                            {
-                              translateY: -40,
-                            },
-                          ],
-                        }
-                      : {}
-                  }
-                >
-                  <TouchableOpacity
-                    style={styles.marginRowTop}
-                    onPress={onUserPress}
-                  >
-                    <Image style={styles.pp} source={{ uri: user?.photo }} />
-                    <Text style={styles.name}>{user?.username}</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <BablContentModal
-                bablId={bablId}
-                bablContent={{ ...babl }}
-                user={user}
-                visible={visible}
-                onClose={() => {
-                  setVisible(false);
-                }}
-              />
-
-              <View
-                style={[
-                  styles.itemRightBetween,
-                  isEmbed
-                    ? {
-                        transform: [
-                          {
-                            translateY: -90,
-                          },
-                        ],
-                      }
-                    : {},
-                ]}
-              >
-                <View style={styles.disableTitle} />
-
-                <View style={styles.between}>
-                  <View
-                    style={[
-                      styles.positionIcon,
-                      {
-                        bottom:
-                          sizes.width > 375
-                            ? sizes.width / 5
-                            : sizes.width / 12,
-                      },
-                    ]}
-                  >
-                    {icons.map((item, index) => {
-                      if (item.disabled) return null;
-
-                      return (
-                        <TouchableOpacity
-                          key={`detail_icon_${index}`}
-                          onPress={item.onPress}
-                          disabled={item.disabled}
-                          style={styles.center}
-                        >
-                          <Image
-                            source={item?.image}
-                            resizeMode="contain"
-                            style={[
-                              styles.icon,
-                              {
-                                width: 25.91,
-                                height: 22.16,
-                                tintColor: item.tintColor,
-                              },
-                            ]}
-                          />
-                          <Text
-                            style={styles.number}
-                            onPress={item.onTextPress}
-                          >
-                            {item?.number}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-
-                  <View style={styles.alignCenter}>
-                    <Image
-                      resizeMode="contain"
-                      style={styles.eye}
-                      source={require("../../../assets/eyed.png")}
-                    />
-                    <Text style={styles.eyeText}>{data?.viewCount}</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          {shouldPlay && (
-            <Modalize
-              adjustToContentHeight
-              handlePosition="inside"
-              handleStyle={styles.handleStyle}
-              modalStyle={styles.modalStyle}
-              scrollViewProps={{
-                scrollEnabled: false,
+            <TouchableOpacity style={styles.marginRowTop} onPress={onUserPress}>
+              <Image style={styles.pp} source={{ uri: user?.photo }} />
+              <Text style={styles.name}>{user?.username}</Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                backgroundColor: "#1D1E20",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 99,
+                padding: 10,
               }}
-              ref={modalizeRef}
             >
-              <Rebabls
-                title={title}
-                bablId={bablId}
-                cover={cover}
-                onClose={onRebablsClosePress}
-              />
-            </Modalize>
-          )}
-        </>
-      ) : (
-        <>
-          <View
-            style={styles.container}
-            disabled={!onPress}
-            onPress={onPress}
-            activeOpacity={0.9}
-            onLongPress={() => {
-              return setLock(true);
-            }}
-            onPressOut={() => {
-              return setLock(false);
-            }}
-          >
-            {showedItem}
-
-            <View style={styles.between}>
-              <View
-                style={[
-                  styles.itemLeftBetween,
-                  !showBack && {
-                    height: (sizes.height + StatusBar.currentHeight) / 1.1,
-                  },
-                ]}
+              <Text
+                style={{
+                  color: "#fff",
+                  fontFamily: fonts.bold,
+                  fontSize: 12,
+                }}
               >
-                <TouchableOpacity
-                  onPress={navigation.goBack}
-                  disabled={!showBack}
-                  style={styles.backImgContainer}
-                >
-                  <View
-                    style={[
-                      styles.row,
-                      isEmbed && {
-                        transform: [
-                          {
-                            translateY: -30,
-                          },
-                        ],
-                      },
-                    ]}
-                  >
-                    {showBack && (
-                      <BoxShadow
-                        setting={{
-                          width: 20,
-                          height: 20,
-                          color: "#E5E5E5",
-                          border: 10,
-                          radius: 10,
-                          opacity: 0.3,
-                          x: 0,
-                          y: 2,
-                          style: {
-                            marginTop: 25,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginRight: 10,
-                          },
-                        }}
-                      >
-                        <Image
-                          resizeMode="contain"
-                          source={backIcon}
-                          style={styles.backImg}
-                        />
-                      </BoxShadow>
-                    )}
-                    <Text style={[styles.title]} numberOfLines={1}>
-                      {title?.length > 35
-                        ? title?.substring(0, 35) + "..."
-                        : title}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-
-                <BablContentModal
-                  bablId={bablId}
-                  bablContent={{ ...babl }}
-                  user={user}
-                  visible={visible}
-                  onClose={() => {
-                    setVisible(false);
-                  }}
-                />
-
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate(routes.ImagesSlider, { data: data });
-                  }}
-                  style={styles.tapToEnter}
-                >
-                  <TapToEnter />
-
-                  <Text style={styles.tapToEnterText}>
-                    {t("TapScreenToEnter")}
-                  </Text>
-                </TouchableOpacity>
-
-                <View
-                  style={
-                    isEmbed
-                      ? {
-                          transform: [
-                            {
-                              translateY: -40,
-                            },
-                          ],
-                        }
-                      : {}
-                  }
-                >
-                  <TouchableOpacity
-                    style={styles.marginRowTop}
-                    onPress={onUserPress}
-                  >
-                    <Image style={styles.pp} source={{ uri: user?.photo }} />
-                    <Text style={styles.name}>{user?.username}</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View
-                style={[
-                  styles.itemRightBetween,
-                  isEmbed
-                    ? {
-                        transform: [
-                          {
-                            translateY: -90,
-                          },
-                        ],
-                      }
-                    : {},
-                ]}
-              >
-                <View style={styles.disableTitle} />
-
-                {!!data?.babl?.coverUrl &&
-                  data?.babl?.coverUrl !== "MANUAL" && (
-                    <TouchableOpacity
-                      onPress={() => {
-                        Alert.alert(t("goOrigin"), null, [
-                          {
-                            text: t("yes"),
-                            onPress: () => {
-                              Linking.openURL(data?.babl?.coverUrl);
-                            },
-                          },
-                          {
-                            text: t("no"),
-                          },
-                        ]);
-                      }}
-                    >
-                      <Image
-                        resizeMode="contain"
-                        style={{
-                          width: 30,
-                          height: 30,
-                          marginLeft: 7,
-                          marginTop: 40,
-                        }}
-                        source={
-                          platformLogos[
-                            getPlatformFromUrl(data?.babl?.coverUrl)
-                          ]
-                        }
-                      />
-                    </TouchableOpacity>
-                  )}
-
-                <View style={styles.between}>
-                  <View
-                    style={[
-                      styles.positionIcon,
-                      {
-                        bottom:
-                          sizes.width > 375
-                            ? sizes.width / 3.5
-                            : sizes.width / 12,
-                      },
-                    ]}
-                  >
-                    {icons.map((item, index) => {
-                      if (item.disabled) return null;
-
-                      return (
-                        <TouchableOpacity
-                          key={`detail_icon_${index}`}
-                          onPress={item.onPress}
-                          disabled={item.disabled}
-                          style={styles.center}
-                        >
-                          <BoxShadow
-                            setting={{
-                              width: 20,
-                              height: 20,
-                              color: "#E5E5E5",
-                              border: 10,
-                              radius: 10,
-                              opacity: 0.3,
-                              x: 0,
-                              y: 2,
-                              style: {
-                                justifyContent: "center",
-                                alignItems: "center",
-                                marginRight: 0,
-                              },
-                            }}
-                          >
-                            <Image
-                              source={item?.image}
-                              resizeMode="contain"
-                              style={[
-                                styles.icon,
-                                {
-                                  width: 25.91,
-                                  height: 22.16,
-                                  tintColor: item?.tintColor,
-                                },
-                              ]}
-                            />
-                          </BoxShadow>
-                          <Text
-                            style={styles.number}
-                            onPress={item.onTextPress}
-                          >
-                            {item?.number}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-
-                  <View style={styles.alignCenter}>
-                    <BoxShadow
-                      setting={{
-                        width: 20,
-                        height: 20,
-                        color: "#E5E5E5",
-                        border: 10,
-                        radius: 10,
-                        opacity: 0.3,
-                        x: 0,
-                        y: 2,
-                        style: {
-                          justifyContent: "center",
-                          alignItems: "center",
-
-                          marginLeft: 15,
-                        },
-                      }}
-                    >
-                      <Image
-                        resizeMode="contain"
-                        style={styles.eye}
-                        source={require("../../../assets/eyed.png")}
-                      />
-                    </BoxShadow>
-                    <Text style={styles.eyeText}>{data?.viewCount}</Text>
-                  </View>
-                  <TouchableOpacity
-                    style={{
-                      bottom: 15,
-                      right: 20,
-                    }}
-                    onPress={() => {
-                      Alert.alert(t("WouldYouLikeToGoOriginalContent"), null, [
-                        {
-                          text: t("no"),
-                        },
-                        {
-                          text: t("yes"),
-                          onPress: () => {
-                            Linking.openURL(data?.babl?.coverUrl);
-                          },
-                        },
-                      ]);
-                    }}
-                  >
-                    <Image
-                      source={
-                        platformLogos[getPlatformFromUrl(data?.babl?.coverUrl)]
-                      }
-                      resizeMode="contain"
-                      style={{
-                        height: 36,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
+                İstanbul / Turkey
+              </Text>
             </View>
           </View>
-        </>
-      )}
+
+          <View>{showedItem}</View>
+
+          <View
+            style={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              width: sizes.width / 1.1,
+              alignSelf: "center",
+            }}
+          >
+            <BablContentModal
+              bablId={bablId}
+              bablContent={{ ...babl }}
+              user={user}
+              visible={visible}
+              onClose={() => {
+                setVisible(false);
+              }}
+            />
+
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              {icons.map((item, index) => {
+                if (item.disabled) return null;
+
+                return (
+                  <TouchableOpacity
+                    key={`detail_icon_${index}`}
+                    onPress={item.onPress}
+                    disabled={item.disabled}
+                    style={styles.center}
+                  >
+                    <Image
+                      source={item?.image}
+                      resizeMode="contain"
+                      style={[
+                        styles.icon,
+                        {
+                          width: 25.91,
+                          height: 22.16,
+                          tintColor: item.tintColor,
+                        },
+                      ]}
+                    />
+                    <Text style={styles.number} onPress={item.onTextPress}>
+                      {item?.number}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                setVisible(!visible);
+              }}
+            >
+              <Image
+                style={{
+                  width: 25.91,
+                  height: 22.16,
+                  marginTop: 10,
+                }}
+                resizeMode="contain"
+                source={savedIcon}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text
+            style={{
+              width: sizes.width / 1.1,
+              alignSelf: "center",
+              color: "#fff",
+              marginTop: 30,
+              fontFamily: fonts.medium,
+            }}
+          >
+            {data?.babl?.title}
+          </Text>
+        </View>
+
+        {shouldPlay && (
+          <Modalize
+            adjustToContentHeight
+            handlePosition="inside"
+            handleStyle={styles.handleStyle}
+            modalStyle={styles.modalStyle}
+            scrollViewProps={{
+              scrollEnabled: false,
+            }}
+            ref={modalizeRef}
+          >
+            <Rebabls
+              title={title}
+              bablId={bablId}
+              cover={cover}
+              onClose={onRebablsClosePress}
+            />
+          </Modalize>
+        )}
+      </>
     </>
   );
 };
@@ -904,13 +579,11 @@ const stylesAndroid = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "space-between",
   },
   between: {
     justifyContent: "space-between",
     flexDirection: "row",
     width: sizes.width,
-    marginBottom: Platform.OS == "ios" ? 0 : 50,
   },
   handleStyle: {
     backgroundColor: "#212121",
@@ -958,7 +631,6 @@ const stylesAndroid = StyleSheet.create({
   marginRowTop: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
   },
   pp: {
     width: 33,
@@ -1000,7 +672,7 @@ const stylesAndroid = StyleSheet.create({
   },
   itemRightBetween: {
     justifyContent: "space-between",
-    height: (sizes.height + StatusBar.currentHeight) / 1.01,
+
     padding: 15,
   },
   disableTitle: {
@@ -1010,90 +682,12 @@ const stylesAndroid = StyleSheet.create({
     fontSize: 26,
     width: sizes.width / 3,
   },
-  center: {
-    alignItems: "center",
-    marginTop: 10,
-    width: 45,
-    justifyContent: "center",
-    height: 45,
-  },
-  number: {
-    color: "#FFF",
-    fontWeight: "bold",
-    fontSize: 14,
-    fontFamily: fonts.roboto,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 2, // Sadece Android için gerekli
-    ...Platform.select({
-      ios: {
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-      },
-      android: {
-        textShadowColor: "rgba(0, 0, 0, 0.8)",
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-        elevation: 5, // Android'de gölge için
-      },
-    }),
-  },
-  icon: {
-    tintColor: "white",
-    shadowOpacity: 10,
-    shadowColor: "#000",
-    elevation: 5, // Yükseklik değerini ayarlayın
-    shadowOffset: { width: 0, height: -0.2 },
 
-    shadowRadius: 0,
-  },
-  positionIcon: {
-    position: "absolute",
-    bottom: sizes.width / 5,
-  },
-  tapToEnter: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 30,
-    position: "absolute",
-    right: -60,
-    zIndex: 99,
-    top: sizes.width / 4,
-  },
   row: {
     flexDirection: "row",
     alignItems: "center",
   },
-  tapToEnterText: {
-    position: "absolute",
-    color: "#FFF",
-    fontSize: 12,
-    alignSelf: "center",
-    fontFamily: fonts.georgiaPro,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    ...Platform.select({
-      ios: {
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-      },
-      android: {
-        textShadowColor: "rgba(0, 0, 0, 0.8)",
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
-        elevation: 5, // Android'de gölge için
-      },
-    }),
-    elevation: 2, // Sadece Android için gerekliadowColor: 'rgba(0, 0, 0, 0.5)'
-  },
+
   backImgContainer: {
     flexDirection: "row",
 
@@ -1208,7 +802,6 @@ const stylesApple = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "space-between",
   },
   between: {
     justifyContent: "space-between",
@@ -1247,7 +840,6 @@ const stylesApple = StyleSheet.create({
   marginRowTop: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
   },
   pp: {
     width: 33,

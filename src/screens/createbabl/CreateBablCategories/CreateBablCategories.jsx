@@ -400,16 +400,22 @@ const CreateBablCategories = () => {
           }}
           onPhotoPress={() => {
             ImageCropPicker.openPicker({
-              cropping: true,
-              includeExif: true, // EXIF bilgilerini dahil et
-              compressImageQuality: 0.9, // Opsiyonel: kaliteyi biraz düşür
-              cropperToolbarTitle: "Resmi Düzenle", // Opsiyonel
-              forceJpg: true, // HEIC yerine JPG zorla
+              multiple: true,
+              mediaType: "photo",
+              includeExif: true,
+              compressImageQuality: 0.9,
+              forceJpg: true,
             })
-              .then((res) => {
-                setSelectedPhoto(res).finally(() => {
-                  return setVisible(false);
-                });
+              .then((resArray) => {
+                const currentCount = Object.keys(
+                  bablForm.items.PHOTO_MANUAL || {},
+                ).length;
+                const remaining = 5 - currentCount;
+                const selected = resArray.slice(0, remaining);
+
+                Promise.all(
+                  selected.map((res) => setSelectedPhoto(res)),
+                ).finally(() => setVisible(false));
               })
               .catch((err) => {
                 onPermissionErr(err);

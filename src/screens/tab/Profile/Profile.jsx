@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  Share,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -246,6 +247,29 @@ const ListHeader = ({
           </View>
         </View>
       </View>
+      <Text
+        style={{
+          color: "#414141",
+          width: sizes.width / 1.2,
+          alignSelf: "center",
+          fontSize: 16,
+          fontFamily: fonts.bold,
+        }}
+      >
+        {t("InfoMarket")}
+      </Text>
+      <Text
+        style={{
+          color: "#fff",
+          width: sizes.width / 1.2,
+          alignSelf: "center",
+          marginTop: 10,
+          fontSize: 13,
+          marginBottom: 20,
+        }}
+      >
+        {user.about}
+      </Text>
     </View>
   );
 };
@@ -366,8 +390,8 @@ const Profile = () => {
       },
     },
   );
-  const profile = profileData.profile || {};
-  const followInfo = profileData.followInfo || {};
+  const profile = profileData?.profile || {};
+  const followInfo = profileData?.followInfo || {};
 
   useFocusEffect(
     React.useCallback(() => {
@@ -493,6 +517,16 @@ const Profile = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const onShareProfile = async () => {
+    try {
+      await Share.share({
+        message: `${t("ShareLink")} pazaarfy://profile/${profile._id}`,
+      });
+    } catch (error) {
+      console.log("Share error", error.message);
+    }
+  };
+
   const onPress = () => {
     setIsModalVisible(true);
   };
@@ -512,7 +546,9 @@ const Profile = () => {
         }}
       />
 
-      {backMenu ? <ProfileHeader title={profile.username} /> : null}
+      {backMenu ? (
+        <ProfileHeader title={profile.username} share={onShareProfile} />
+      ) : null}
 
       <View style={styles.header}>
         {defaultData?.data?.package_purchase ? (
@@ -564,18 +600,32 @@ const Profile = () => {
           <View />
         )}
 
-        <Text style={styles.store}>{t("MySProore")}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate(routes.Notification);
+        <Text style={styles.store}>{t("MyStore")}</Text>
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
           }}
         >
-          <Image
-            style={styles.notification}
-            resizeMode="contain"
-            source={require("../../../assets/notification.png")}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(routes.Notification);
+            }}
+          >
+            <Image
+              style={styles.notification}
+              resizeMode="contain"
+              source={require("../../../assets/notification.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onShareProfile}>
+            <Image
+              style={styles.share}
+              resizeMode="contain"
+              source={require("../../../assets/send.png")}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <Tabs.Container
@@ -693,30 +743,36 @@ const Profile = () => {
         }}
         renderHeader={() => {
           return (
-            <ListHeader
-              followerCount={followerCount}
-              profile={profile}
-              targetUserId={targetUserId}
-              user={user}
-              followInfo={followInfo}
-              sharedModal={sharedModal}
-              icons={icons}
-              backMenu={backMenu}
-              tabs={tabs}
-              customFilter={customFilter}
-              setCustomFilter={setCustomFilter}
-              pagerRef={pagerRef}
-              onFollowPress={onFollowPress}
-              followLoading={
-                unfollowMutation.isLoading || followMutation.isLoading
-              }
-              followStatus={followStatus}
-              onMessagePress={onMessagePress}
-              modalizeProfileViewRef={modalizeProfileViewRef}
-              onOpenModal={() => {
-                setProfilePhoto(true);
+            <View
+              style={{
+                backgroundColor: "#000",
               }}
-            />
+            >
+              <ListHeader
+                followerCount={followerCount}
+                profile={profile}
+                targetUserId={targetUserId}
+                user={user}
+                followInfo={followInfo}
+                sharedModal={sharedModal}
+                icons={icons}
+                backMenu={backMenu}
+                tabs={tabs}
+                customFilter={customFilter}
+                setCustomFilter={setCustomFilter}
+                pagerRef={pagerRef}
+                onFollowPress={onFollowPress}
+                followLoading={
+                  unfollowMutation.isLoading || followMutation.isLoading
+                }
+                followStatus={followStatus}
+                onMessagePress={onMessagePress}
+                modalizeProfileViewRef={modalizeProfileViewRef}
+                onOpenModal={() => {
+                  setProfilePhoto(true);
+                }}
+              />
+            </View>
           );
         }}
       >
@@ -829,6 +885,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: sizes.width / 1.09,
     marginTop: 20,
+    height: sizes.width / 5,
     marginBottom: 20,
   },
 
@@ -981,6 +1038,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   notification: {
+    width: 26,
+    height: 29,
+  },
+  share: {
+    tintColor: "#595959",
     width: 46,
     height: 29,
   },

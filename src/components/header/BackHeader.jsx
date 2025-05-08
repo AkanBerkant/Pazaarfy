@@ -15,7 +15,15 @@ import { sizes } from "../../theme";
 import fonts from "../../theme/fonts";
 import ButtonLinear from "../buttons/Button";
 
-const BackHeader = ({ title, buttonPress, bg, button, onPress, style }) => {
+const BackHeader = ({
+  title,
+  textBg,
+  buttonPress,
+  bg,
+  button,
+  onPress,
+  style,
+}) => {
   const navigation = useNavigation();
 
   const handleGeriTusu = () => {
@@ -68,7 +76,18 @@ const BackHeader = ({ title, buttonPress, bg, button, onPress, style }) => {
             asdasd
           </Text>
         </TouchableOpacity>
-        <View style={styles.centeredText}>
+        <View
+          style={[
+            styles.centeredText,
+            {
+              backgroundColor: textBg ? textBg : null,
+              borderRadius: 99,
+              height: textBg ? 35 : null,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+          ]}
+        >
           <Text style={[styles.title]}>{title}</Text>
         </View>
         <View

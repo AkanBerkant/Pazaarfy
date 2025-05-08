@@ -38,6 +38,7 @@ export default {
   LoginApple: "تسجيل الدخول باستخدام أبل",
   DontHaveAnAccount: "ليس لديك حساب بعد؟",
   DoHaveAnAccount: "هل لديك حساب بالفعل؟",
+  name: "اسم المتجر",
   SignUp: "تسجيل",
   Username: "اسم المستخدم",
   PasswordAgain: "إعادة كلمة المرور",
@@ -413,4 +414,10 @@ export default {
   kv13: "6. انتهاك الشروط",
   kv14: "قد يتم تعليق أو حذف حسابات المستخدمين المخالفين دون سابق إنذار.",
   preview: "معاينة",
+  InfoMarket: "معلومات المتجر",
+  ShareProfile: "مشاركة الملف الشخصي",
+  ShareLink: "ابحث عن متجرك على تطبيق Pazaarfy",
+  LikedStore: "المتاجر التي قد تعجبك",
+  SearchStore: "ابحث عن متجر",
+  ShareStatus: "مشاركة كحالة",
 };

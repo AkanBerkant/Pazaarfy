@@ -373,7 +373,7 @@ export default {
   AccessPermissionGranted: "Access permission to the gallery was not granted.",
   DoYouWantAccess: "Do you want to go to settings and grant access?",
   PersonalInformation: "Personal Information",
-  name: "Name",
+  name: "Store Name",
   SocialMediaLink: "Social Media Links",
   BablFocusedNoSlide: "Babl focused (no slider)",
 
@@ -591,4 +591,10 @@ export default {
   kv13: "6. Breach of Agreement",
   kv14: "Accounts violating the rules may be suspended or terminated without warning.",
   preview: "PREVİEW",
+  InfoMarket: "Store Information",
+  ShareProfile: "Share Profile",
+  ShareLink: "Find your store on the Pazaarfy app",
+  LikedStore: "Stores You May Like",
+  SearchStore: "Search Store",
+  ShareStatus: "Share as Status",
 };

@@ -6,6 +6,7 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import messaging from "@react-native-firebase/messaging";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as Linking from "expo-linking";
 
 import { useAtomValue } from "jotai";
 import moment from "moment";
@@ -26,7 +27,7 @@ import Register from "../screens/authentication/Register";
 import Splash from "../screens/authentication/Splash";
 import WhatdoYouLike from "../screens/authentication/WhatdoYouLike";
 import BablContent from "../screens/BablContent/BablContent";
-
+import QrCodeScreen from "../screens/QrCodeScreen/QrCodeScreen";
 import BablContentList from "../screens/BablContentList/BablContentList";
 import BablFollowers from "../screens/BablFollowers/BablFollowers";
 import BablLikes from "../screens/BablLikes/BablLikes";
@@ -120,6 +121,17 @@ const StackNavigation = () => {
     moment.locale(i18n.language);
   }, [i18n.language]);
 
+  const linking = {
+    prefixes: ["pazaarfy://"],
+    config: {
+      screens: {
+        [routes.UserProfile]: "profile/:userId", // 👈 username değil, artık userId
+        [routes.Home]: "home",
+        // diğer ekranlar burada kalabilir
+      },
+    },
+  };
+
   React.useEffect(() => {
     if (user) {
       if (Platform.OS === "ios") {
@@ -152,6 +164,7 @@ const StackNavigation = () => {
 
   return (
     <NavigationContainer
+      linking={linking}
       ref={navigationRef}
       navigationInChildEnabled
       onReady={() => {
@@ -274,6 +287,10 @@ const StackNavigation = () => {
               <Stack.Screen
                 name={routes.CollectionDetail}
                 component={CollectionDetail}
+              />
+              <Stack.Screen
+                name={routes.QrCodeScreen}
+                component={QrCodeScreen}
               />
               <Stack.Screen
                 name={routes.PasswordCode}

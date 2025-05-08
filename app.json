@@ -2,6 +2,7 @@
   "expo": {
     "name": "Pazaarfy",
     "slug": "Pazaarfy",
+    "deepLinking": true,
     "version": "1.0.5",
     "extra": {
       "eas": {
