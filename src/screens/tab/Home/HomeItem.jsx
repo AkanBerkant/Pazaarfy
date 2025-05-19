@@ -46,7 +46,7 @@ const HomeItem = ({ item, index, onPress, categoryIndex }) => {
         }
         localAsset={Platform.OS === "ios" && localAsset}
       />
-      <View style={styles.positionContainer}>
+      {/* <View style={styles.positionContainer}>
         <View style={styles.position}>
           <FastImage
             source={{
@@ -56,7 +56,7 @@ const HomeItem = ({ item, index, onPress, categoryIndex }) => {
             style={styles.pp}
           />
         </View>
-      </View>
+      </View> */}
 
       <Text pointerEvents="none" style={styles.itemTitle}>
         {item.title?.length > 10

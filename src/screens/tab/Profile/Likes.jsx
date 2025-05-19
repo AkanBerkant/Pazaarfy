@@ -42,7 +42,7 @@ const Likes = ({ targetUserId, header }) => {
       <View style={styles.item}>
         <TouchableOpacity
           onPress={() => {
-            return navigation.navigate(routes.DetailList, {
+            return navigation.navigate(routes.DetailListProfile, {
               item,
               allData: [likedBablsQuery.data],
               categoryIndex: 0,

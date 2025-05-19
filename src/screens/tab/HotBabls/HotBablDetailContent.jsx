@@ -105,8 +105,8 @@ const HotBablDetailContent = ({
     },
   );
 
-  const { _id, user, title, coverVideo, cover, coverItem } = data.babl;
-  const { babl, commentCount } = data;
+  const { _id, user, title, coverVideo, cover, coverItem } = data?.babl || {};
+  const { babl, commentCount } = data || {};
 
   const onShareBabl = async () => {
     try {
@@ -147,8 +147,8 @@ const HotBablDetailContent = ({
     onNegativeAction,
     onPositiveAction,
   } = useActionStatus({
-    initialCount: data.likeCount,
-    initialStatus: data.likeStatus,
+    initialCount: data?.likeCount,
+    initialStatus: data?.likeStatus,
   });
 
   const {
@@ -158,8 +158,8 @@ const HotBablDetailContent = ({
     onNegativeAction: onRebablNegativeAction,
     onPositiveAction: onRebablPositiveAction,
   } = useActionStatus({
-    initialCount: data.rebablCount,
-    initialStatus: data.rebablStatus,
+    initialCount: data?.rebablCount,
+    initialStatus: data?.rebablStatus,
   });
 
   const likeBablMutation = useMutation(
@@ -351,11 +351,11 @@ const HotBablDetailContent = ({
   );
 
   const { data: profileData } = useQuery(
-    ["PROFILE_X", data.babl.user._id],
+    ["PROFILE_X", data?.babl?.user?._id],
     async () => {
       const [profile, followInfo] = await Promise.all([
-        Queries.getUserById(data.babl.user._id),
-        Queries.getFollowInfo(data.babl.user._id),
+        Queries.getUserById(data?.babl?.user._id),
+        Queries.getFollowInfo(data?.babl?.user._id),
       ]);
 
       return {

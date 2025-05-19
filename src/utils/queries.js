@@ -573,3 +573,15 @@ export const getDefaultDataFindOne = (query) => {
 export const paytrPayment = async (body) => {
   return instance.post(`/payment/paytrPayment`, body);
 };
+
+export const getFollowingStories = (searchQuery) => {
+  return instance.get(`/babl/getFollowingStories?${searchQuery}`);
+};
+
+export const getPaginationFollowings = (userId) => {
+  return instance.get(`/follow/${userId}/paginationfollowings`);
+};
+
+export const getBablsQuery = (searchParams) => {
+  return instance.get(`/babl/getBablsQuery?${searchParams}`);
+};

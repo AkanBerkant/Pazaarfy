@@ -551,4 +551,5 @@ export default {
   SearchStore: "搜索商店",
   ShareStatus: "作为状态分享",
   GenerateQR: "產生二維碼",
+  ForYou: "為你",
 };

@@ -584,4 +584,5 @@ export default {
   SearchStore: "Поиск магазина",
   ShareStatus: "Поделиться как статусом",
   GenerateQR: "генерировать qr",
+  ForYou: "Для тебя",
 };

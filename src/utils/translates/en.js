@@ -598,4 +598,5 @@ export default {
   SearchStore: "Search Store",
   ShareStatus: "Share as Status",
   GenerateQR: "Generate QR",
+  ForYou: "For You",
 };

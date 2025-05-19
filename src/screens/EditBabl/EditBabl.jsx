@@ -12,7 +12,7 @@ import {
 
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BlurView } from "expo-blur";
+
 import { useAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { useTranslation } from "react-i18next";
@@ -102,6 +102,7 @@ const EditBabl = ({ route }) => {
       category: bablForm.category,
       templateCategory: 0,
       template: randomTemplate,
+      isStory: isEnabled,
       coverSource: lastItem.coverVideo ? lastItem.coverVideo : lastItem?.cover,
       coverUrl: "MANUAL",
       coverItem: lastItem.coverVideo ? lastItem.coverVideo : lastItem?.cover,

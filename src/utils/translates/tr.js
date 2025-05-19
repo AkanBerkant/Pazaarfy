@@ -540,7 +540,7 @@ export default {
   sl4: "⏳ Kısa ve Öz Bilgili",
   sl5: "🛒 Kampanya ve İndirim Odaklı",
   sl6: "🌍 Global ve Yenilikçi Ürünler",
-  MySituation: "Durumlar",
+  MySituation: "Durumum",
   SearchUser: "Kullanıcı arayın",
   Warnings: "Uyarı",
   PhotoWarning: "Lütfen en az bir fotoğraf seçin",
@@ -577,4 +577,5 @@ export default {
   SearchStore: "Mağaza Ara",
   ShareStatus: "Durum Olarak Paylaş",
   GenerateQR: "QR Üret",
+  ForYou: "Senin İçin",
 };

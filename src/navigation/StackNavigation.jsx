@@ -70,6 +70,8 @@ import SharedSavings from "../screens/SharedSavings/SharedSavings";
 import Follower from "../screens/tab/Follower";
 import Follows from "../screens/tab/Follows";
 import DetailList from "../screens/tab/HotBabls/DetailList";
+import DetailListProfile from "../screens/tab/HotBabls/DetailListProfile";
+
 import HotBablDetail from "../screens/tab/HotBabls/HotBablDetail";
 import Messages from "../screens/tab/Messages";
 import Notification from "../screens/tab/Notification";
@@ -125,9 +127,9 @@ const StackNavigation = () => {
     prefixes: ["pazaarfy://"],
     config: {
       screens: {
-        [routes.UserProfile]: "profile/:userId", // 👈 username değil, artık userId
+        [routes.UserProfile]: "profile/:userId",
+        [routes.BablContent]: "babl/:bablId", // ✅ Bunu ekle
         [routes.Home]: "home",
-        // diğer ekranlar burada kalabilir
       },
     },
   };
@@ -334,6 +336,14 @@ const StackNavigation = () => {
                 name={routes.DetailList}
                 component={DetailList}
               />
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name={routes.DetailListProfile}
+                component={DetailListProfile}
+              />
+
               <Stack.Screen
                 name={routes.CreateBablCategories}
                 component={CreateBablCategories}

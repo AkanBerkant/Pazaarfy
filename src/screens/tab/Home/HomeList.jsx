@@ -30,13 +30,13 @@ const scrollAnimation = {
   },
 };
 
-const HomeItemWrapper = ({ item, index, categoryIndex, getAllData }) => {
+const HomeItemWrapper = ({ item, data, index, categoryIndex, getAllData }) => {
   const navigation = useNavigation();
 
   const onItemPress = () => {
     navigation.navigate(routes.DetailList, {
       item,
-      allData: getAllData(),
+      allData: data,
       categoryIndex,
       itemIndex: index,
     });
@@ -61,6 +61,7 @@ const HomeList = ({ data, isReverse, getAllData, categoryIndex }) => {
     return (
       <HomeItemWrapper
         item={item}
+        data={data}
         index={index}
         getAllData={getAllData}
         categoryIndex={categoryIndex}
@@ -106,7 +107,6 @@ const HomeList = ({ data, isReverse, getAllData, categoryIndex }) => {
       autoPlayReverse={isReverse}
       horizontal
       showsHorizontalScrollIndicator={false}
-      // customAnimation={animationStyle}
       onProgressChange={Platform.OS === "ios" ? onProgressChange : undefined}
       withAnimation={scrollAnimation}
       pagingEnabled={false}

@@ -1,13 +1,18 @@
-import React from 'react';
+import React from "react";
 import {
-  View, Text, StyleSheet, Image, FlatList, TouchableOpacity,
-} from 'react-native';
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
-import { useNavigation, StackActions } from '@react-navigation/native';
+import { useNavigation, StackActions } from "@react-navigation/native";
 
-import routes from '../../../constants/routes';
-import { sizes } from '../../../theme';
-import fonts from '../../../theme/fonts';
+import routes from "../../../constants/routes";
+import { sizes } from "../../../theme";
+import fonts from "../../../theme/fonts";
 
 const People = ({ data }) => {
   const navigation = useNavigation();
@@ -27,14 +32,29 @@ const People = ({ data }) => {
         <Image source={{ uri: item.photo }} style={styles.pp} />
         <View style={styles.left}>
           <Text style={styles.username}>{item.username}</Text>
-          {item.firstname ? <Text style={styles.name}>{item.firstname}</Text> : null}
+          {item.firstname ? (
+            <Text style={styles.name}>{item.firstname}</Text>
+          ) : null}
         </View>
       </TouchableOpacity>
     );
   };
   return (
     <View style={styles.container}>
-      <FlatList data={data} renderItem={renderItem} />
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={renderItem}
+        ListFooterComponent={() => {
+          return (
+            <View
+              style={{
+                marginBottom: 100,
+              }}
+            />
+          );
+        }}
+      />
     </View>
   );
 };
@@ -42,14 +62,14 @@ const People = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   item: {
     width: sizes.width / 1.1,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 7,
     padding: 5,
   },
@@ -60,11 +80,11 @@ const styles = StyleSheet.create({
   },
   username: {
     fontFamily: fonts.roboto,
-    color: '#FFF',
+    color: "#FFF",
   },
   name: {
     fontFamily: fonts.regular,
-    color: '#BBBBBB',
+    color: "#BBBBBB",
   },
   left: {
     marginLeft: 10,

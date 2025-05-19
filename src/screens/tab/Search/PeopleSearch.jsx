@@ -85,7 +85,7 @@ const PeopleSearch = () => {
             resizeMode="contain"
           />
         </View>
-        <Text style={styles.title}>{t("People")}</Text>
+        <Text style={styles.title}>{t("Stores")}</Text>
         <View
           style={styles.notification}
           resizeMode="contain"
@@ -105,8 +105,7 @@ const PeopleSearch = () => {
               value={searchTerm}
               onChangeText={setSearchTerm}
               style={styles.inInput}
-              placeholder={t("SearchUser")}
-              // autoFocus
+              placeholder={t("SearchStore")}
             />
 
             <View
@@ -118,7 +117,6 @@ const PeopleSearch = () => {
       </View>
 
       <View style={styles.borderBottom} />
-      {/* <Text style={styles.title}>{'You may like'}</Text> */}
       <PagerView
         style={{ flex: 1 }}
         initialPage={0}

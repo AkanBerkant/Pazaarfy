@@ -2,8 +2,7 @@
   "expo": {
     "name": "Pazaarfy",
     "slug": "Pazaarfy",
-    "deepLinking": true,
-    "version": "1.0.5",
+    "version": "1.0.6",
     "extra": {
       "eas": {
         "projectId": "434edff1-65bf-4e72-a71f-3a1e049cf6d1"

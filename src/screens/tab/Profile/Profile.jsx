@@ -171,7 +171,7 @@ const ListHeader = ({
         </View>
 
         <View>
-          <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center", marginLeft: 40 }}>
             <View style={styles.marginRow}>
               {icons.map((item) => {
                 if (!item.link) {
@@ -564,7 +564,7 @@ const Profile = () => {
               borderRadius: 99,
             }}
           >
-            <LinearGradient
+            {/* <LinearGradient
               style={{
                 width: 76,
                 height: 31,
@@ -594,7 +594,7 @@ const Profile = () => {
               >
                 {t("Pro")}
               </Text>
-            </LinearGradient>
+            </LinearGradient> */}
           </TouchableOpacity>
         ) : (
           <View />

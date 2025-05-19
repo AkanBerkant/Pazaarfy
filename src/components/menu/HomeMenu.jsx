@@ -70,7 +70,7 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
       <View style={styles.menuContainer}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate(routes.ProfilSettings);
+            navigation.navigate(routes.PeopleSearch);
           }}
         >
           <Image
@@ -95,7 +95,7 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
               style={styles.notification}
               resizeMode="contain"
             />
-
+            {/* 
             {unseenNotificationCountQuery.data > 0 && (
               <View
                 style={[
@@ -106,7 +106,7 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
                   },
                 ]}
               />
-            )}
+            )} */}
           </TouchableOpacity>
         </TouchableOpacity>
       </View>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   notification: {
     width: 56,
     height: 30,
-    tintColor: "#525252",
+    tintColor: "#755CCC",
   },
   message: {
     width: 20,

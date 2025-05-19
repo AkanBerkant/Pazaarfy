@@ -149,7 +149,7 @@ const DetailList = () => {
         <StatusBar translucent backgroundColor="transparent" />
       )}
       <ListItem
-        item={allData}
+        item={allData[initialCategoryIndex]}
         index={initialCategoryIndex}
         itemIndex={itemIndex}
         initialCategoryIndex={initialCategoryIndex}

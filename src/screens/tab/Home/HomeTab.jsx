@@ -14,6 +14,7 @@ import {
   useCurrentTabScrollY,
   useFocusedTab,
 } from "react-native-collapsible-tab-view";
+import FolowingCard from "../../../components/FollowingCard";
 import ProfileShape1 from "../Profile/ProfileShape1";
 import { RefreshControl } from "react-native-gesture-handler";
 import { runOnJS, useDerivedValue } from "react-native-reanimated";
@@ -30,6 +31,7 @@ import { splitArrayIntoChunks } from "../../../utils/split-array";
 import HomeItem from "./HomeItem";
 import Situation from "./Situation";
 import SituationItem from "./SituationItem";
+import TextGradient from "../../../components/TextGradient";
 const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
   const offset = useCurrentTabScrollY();
   const focusedTab = useFocusedTab();
@@ -141,67 +143,30 @@ const HomeTab = ({ tabName, isFetching, onRefresh, data, onScroll }) => {
         scrollEventThrottle={16}
         refreshControl={refreshControl}
       >
-        {dataList.length ? (
-          <Text
-            style={{
-              color: "#FFF",
-              marginBottom: 15,
-              marginTop: 15,
-              fontFamily: fonts.bold,
-              width: sizes.width / 1.07,
-              alignSelf: "center",
-            }}
-          >
-            {t("MySituation")}
-          </Text>
-        ) : null}
-
-        <View style={{ height: dataList.length ? 180 : 0 }}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              alignItems: "center",
-              paddingHorizontal: 10,
-            }}
-          >
-            {dataList.map((item, index) => (
-              <SituationItem
-                key={index}
-                item={item}
-                getAllData={() => dataList}
-                targetUserId={user._id}
-              />
-            ))}
-          </ScrollView>
-        </View>
+        <TextGradient
+          style={{
+            color: "#FFF",
+            fontSize: 16,
+            fontFamily: fonts.bold,
+            width: sizes.width / 1.07,
+            alignSelf: "center",
+            marginTop: 20,
+          }}
+          locations={[0, 1]}
+          text={t("Stores")}
+          colors={["#B5A0FF", "#755CCC"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        />
 
         {data.map((categoryList, categoryIndex) => {
-          if (!categoryList.length) return null;
-
           return (
-            <View key={`list_${categoryIndex}`} style={styles.listContainer}>
-              {categoryIndex == 0 && (
-                <Text
-                  style={{
-                    color: "#FFF",
-                    marginBottom: 15,
-                    marginTop: 15,
-                    fontFamily: fonts.bold,
-                    width: sizes.width / 1.07,
-                    alignSelf: "center",
-                  }}
-                >
-                  {t("Stores")}
-                </Text>
-              )}
-              <HomeList
-                getAllData={getAllData}
-                data={categoryList}
-                categoryIndex={categoryIndex}
-                isReverse={categoryIndex % 2 === 0}
-              />
-            </View>
+            <FolowingCard
+              getAllData={getAllData}
+              categoryList={categoryList}
+              categoryIndex={categoryIndex}
+              isReverse={categoryIndex % 2 === 0}
+            />
           );
         })}
       </Tabs.ScrollView>

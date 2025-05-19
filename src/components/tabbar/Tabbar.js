@@ -178,9 +178,6 @@ const TabBar = () => {
             justifyContent: "center",
             backgroundColor: "#755CCC",
             borderRadius: 99,
-            // shadowOpacity: activeRoute === routes.Home ? 1 : 0,
-            // shadowColor: activeRoute === routes.Home ? '#FFF' : '#000',
-            // shadowRadius: 10,
           }}
         >
           <Image

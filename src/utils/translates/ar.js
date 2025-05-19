@@ -421,4 +421,5 @@ export default {
   SearchStore: "ابحث عن متجر",
   ShareStatus: "مشاركة كحالة",
   GenerateQR: "توليد ريال قطري",
+  ForYou: "لك",
 };

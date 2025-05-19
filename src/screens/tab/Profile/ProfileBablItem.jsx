@@ -105,7 +105,7 @@ const ProfileBablItem = ({
             return y._id === item._id;
           });
 
-          return navigation.navigate(routes.DetailList, {
+          return navigation.navigate(routes.DetailListProfile, {
             item,
             allData: [allData],
             categoryIndex: 0,

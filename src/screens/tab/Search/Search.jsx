@@ -115,12 +115,14 @@ const Search = () => {
   };
 
   return (
-    <SafeAreaView
+    <ImageBackground
       style={{
         flex: 1,
         backgroundColor: "#000",
       }}
+      source={require("../../../assets/bag.png")}
     >
+      <SafeAreaView />
       <View
         style={[
           styles.header,
@@ -226,7 +228,7 @@ const Search = () => {
         })}
       </View>
       <View style={styles.borderBottom} />
-      {/* <Text style={styles.title}>{'You may like'}</Text> */}
+
       <PagerView
         style={{ flex: 1 }}
         initialPage={0}
@@ -255,7 +257,7 @@ const Search = () => {
           );
         })}
       </PagerView>
-    </SafeAreaView>
+    </ImageBackground>
   );
 };
 
