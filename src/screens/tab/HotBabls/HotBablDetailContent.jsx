@@ -342,54 +342,9 @@ const HotBablDetailContent = ({
     />
   );
 
-  const { data: profileData } = useQuery(
-    ["PROFILE_X", data?.babl?.user?._id],
-    async () => {
-      const [profile, followInfo] = await Promise.all([
-        Queries.getUserById(data?.babl?.user._id),
-        Queries.getFollowInfo(data?.babl?.user._id),
-      ]);
-
-      return {
-        profile,
-        followInfo,
-      };
-    },
-    {
-      onSuccess: (res) => {
-        setCurrentCount(res.followInfo?.followerCount);
-      },
-      onError: (err) => {},
-      placeholderData: {
-        profile: {},
-        followInfo: {},
-      },
-    },
-  );
-
-  const profile = profileData?.profile || {};
-  const followInfo = profileData?.followInfo || {};
-
-  const { actionStatus: followStatus, currentCount: followerCount } =
-    useActionStatus({
-      initialCount: followInfo.followerCount,
-      initialStatus: followInfo.followingStatus,
-    });
-
-  const onFollowPress = () => {
-    if (unfollowMutation.isLoading || followMutation.isLoading) return null;
-
-    if (followStatus) {
-      unfollowMutation.mutate(data?.babl?.user?._id);
-    } else {
-      followMutation.mutate(data?.babl?.user?._id);
-    }
-  };
-
   const imgItem = (
     <ImagesSlider
       shouldPlay={shouldPlay && isFocused}
-      followStatus={followStatus}
       items={data.babl.items}
       onMessagePress={onMessagePress}
       onFollowPress={onUserPress}
