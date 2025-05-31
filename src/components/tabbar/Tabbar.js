@@ -94,7 +94,7 @@ const TabBar = () => {
       resizeMode="contain"
       style={[
         {
-          bottom: -sizes.width / 9,
+          bottom: Platform.OS == "ios" ? -sizes.width / 9 : -sizes.width / 11,
           justifyContent: "space-between",
           width: sizes.width,
           height: BOTTOM_TAB_HEIGHT,

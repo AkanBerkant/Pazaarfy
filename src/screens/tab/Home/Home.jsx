@@ -7,14 +7,10 @@ import {
   View,
   FlatList,
   Image,
-  Pressable,
   TouchableOpacity,
   ActivityIndicator,
-  ImageBackground, // <-- loading için eklendi
 } from "react-native";
-import InstagramStories, {
-  InstagramStoriesPublicMethods,
-} from "@birdwingo/react-native-instagram-stories";
+import InstagramStories from "@birdwingo/react-native-instagram-stories";
 import TextGradient from "../../../components/TextGradient";
 import dynamicLinks from "@react-native-firebase/dynamic-links";
 import messaging from "@react-native-firebase/messaging";
@@ -305,6 +301,14 @@ const Home = () => {
     },
   );
 
+  const getMediaTypeFromUrl = (url = "") => {
+    const videoExtensions = [".mp4", ".mov", ".webm", ".mkv", ".avi"];
+    const isVideo = videoExtensions.some((ext) =>
+      url.toLowerCase().includes(ext),
+    );
+    return isVideo ? "video" : "image";
+  };
+
   const mapStoriesFromBackend = (datas) => {
     if (!Array.isArray(datas)) return [];
 
@@ -316,11 +320,14 @@ const Home = () => {
         id: user._id,
         name: user.username,
         avatarSource: { uri: user.photo },
-        stories: items.map((item, index) => ({
-          id: item._id || `story-${index}`,
-          source: { uri: item.items[0].url }, // hangi alan varsa
-          mediaType: item.video ? "video" : "image",
-        })),
+        stories: items.map((item, index) => {
+          const url = item.items[0]?.url;
+          return {
+            id: item._id || `story-${index}`,
+            source: { uri: url },
+            mediaType: getMediaTypeFromUrl(url),
+          };
+        }),
       };
     });
   };

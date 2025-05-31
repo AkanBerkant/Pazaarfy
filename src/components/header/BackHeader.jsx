@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     marginRight: 8, // Resim ile metin arasındaki boşluk
   },
   title: {
-    fontSize: 16,
+    fontSize: Platform.OS == "ios" ? 16 : 13,
     color: "#FFF",
     fontFamily: fonts.medium,
   },

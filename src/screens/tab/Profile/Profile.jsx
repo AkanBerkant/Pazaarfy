@@ -9,6 +9,7 @@ import {
   Share,
   TouchableOpacity,
   View,
+  Platform,
 } from "react-native";
 
 import {
@@ -21,7 +22,7 @@ import routes from "../../../constants/routes";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { Tabs } from "react-native-collapsible-tab-view";
-import { InAppBrowser } from "react-native-inappbrowser-reborn";
+
 import LinearGradient from "react-native-linear-gradient";
 import { Modalize } from "react-native-modalize";
 import ProfileHeader from "../../../components/header/ProfileHeader";
@@ -171,7 +172,12 @@ const ListHeader = ({
         </View>
 
         <View>
-          <View style={{ alignItems: "center", marginLeft: 40 }}>
+          <View
+            style={{
+              alignItems: "center",
+              marginLeft: Platform.OS == "ios" ? 40 : 0,
+            }}
+          >
             <View style={styles.marginRow}>
               {icons.map((item) => {
                 if (!item.link) {
@@ -179,11 +185,7 @@ const ListHeader = ({
                 }
 
                 return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      InAppBrowser.open(item.link);
-                    }}
-                  >
+                  <TouchableOpacity onPress={() => {}}>
                     <Image
                       tintColor="#252526"
                       resizeMode="contain"

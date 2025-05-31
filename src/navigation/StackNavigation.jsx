@@ -6,7 +6,6 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import messaging from "@react-native-firebase/messaging";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import * as Linking from "expo-linking";
 
 import { useAtomValue } from "jotai";
 import moment from "moment";

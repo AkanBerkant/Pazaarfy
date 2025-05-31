@@ -10,7 +10,7 @@ import {
 
 import { Asset } from "expo-asset";
 import moment from "moment";
-import InAppBrowser from "react-native-inappbrowser-reborn";
+
 import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
