@@ -585,4 +585,5 @@ export default {
   ShareStatus: "Поделиться как статусом",
   GenerateQR: "генерировать qr",
   ForYou: "Для тебя",
+  Address: "Адрес",
 };

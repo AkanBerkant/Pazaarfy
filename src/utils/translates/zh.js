@@ -552,4 +552,5 @@ export default {
   ShareStatus: "作为状态分享",
   GenerateQR: "產生二維碼",
   ForYou: "為你",
+  Address: "地址",
 };

@@ -10,7 +10,6 @@ export const unseenMessageCount = () => {
 };
 
 export const uploadMedia = (media, onUploadProgress) => {
-  console.log("ad", media);
   const formData = new FormData();
   formData.append("file", {
     name: "file",

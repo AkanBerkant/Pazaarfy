@@ -415,9 +415,7 @@ const Profile = () => {
     onMutate: () => {
       onPositiveAction();
     },
-    onError: (err) => {
-      console.log("err", err);
-    },
+    onError: (err) => {},
   });
 
   const unfollowMutation = useMutation(Queries.unfollow, {
@@ -428,10 +426,6 @@ const Profile = () => {
   });
 
   const icons = [
-    {
-      icon: require("../../../assets/youtube.png"),
-      link: user.socialMediaLinks?.facebook,
-    },
     {
       icon: require("../../../assets/twitter.png"),
       link: user.socialMediaLinks?.twitter,
@@ -522,9 +516,7 @@ const Profile = () => {
       await Share.share({
         message: `${t("ShareLink")} pazaarfy://profile/${profile._id}`,
       });
-    } catch (error) {
-      console.log("Share error", error.message);
-    }
+    } catch (error) {}
   };
 
   const onPress = () => {
@@ -1034,7 +1026,7 @@ const styles = StyleSheet.create({
   },
   store: {
     color: "#FFF",
-    fontFamily: fonts.regular,
+    fontFamily: fonts.bold,
     fontSize: 16,
   },
   notification: {

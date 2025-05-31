@@ -33,6 +33,7 @@ import HomeTab from "./HomeTab";
 import Snap from "./Snap";
 import fonts from "../../../theme/fonts";
 import { useTranslation } from "react-i18next";
+import LinearGradient from "react-native-linear-gradient";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -311,8 +312,6 @@ const Home = () => {
       const user = story.user;
       const items = story.stories || [];
 
-      console.log("adadada", user.username);
-
       return {
         id: user._id,
         name: user.username,
@@ -347,9 +346,7 @@ const Home = () => {
 
   const renderHeader = React.useCallback(() => {
     return (
-      <View
-        style={{ backgroundColor: Platform.OS == "ios" ? "#000" : "#121212" }}
-      >
+      <LinearGradient colors={["#000", "#0F0C19", "#231C3B"]}>
         {Platform.OS == "android" && (
           <View
             style={{
@@ -360,20 +357,13 @@ const Home = () => {
         <HomeMenu style={styles.homeMenu} tabsRef={tabsRef} />
         <View style={{ marginTop: 10 }} />
 
-        <View>
-          <View
-            style={{
-              marginTop: 10,
-            }}
-          />
-          <InstagramStories
-            ref={ref}
-            stories={formattedStories}
-            avatarSize={70}
-            storyCircleSize={68}
-            showUsername
-          />
-        </View>
+        <InstagramStories
+          ref={ref}
+          stories={formattedStories}
+          avatarSize={70}
+          storyCircleSize={68}
+          showUsername
+        />
 
         <TextGradient
           style={{
@@ -396,7 +386,7 @@ const Home = () => {
           data={searchBablsQuery.data.babls}
           renderItem={renderItem}
         />
-      </View>
+      </LinearGradient>
     );
   }, [followingFeed, isFetching, searchBablsQuery.data.babls]);
 
@@ -412,8 +402,8 @@ const Home = () => {
   }
 
   return (
-    <ImageBackground
-      source={require("../../../assets/la.png")}
+    <LinearGradient
+      colors={["#B5A0FF", "#0F0C19", "#231C3B"]}
       style={styles.container}
     >
       <Tabs.Container
@@ -443,7 +433,7 @@ const Home = () => {
           />
         </Tabs.Tab>
       </Tabs.Container>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 

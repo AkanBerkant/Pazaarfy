@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
   Switch,
+  Keyboard,
+  TextInput,
 } from "react-native";
 
 import { StackActions, useNavigation } from "@react-navigation/native";
@@ -19,10 +21,10 @@ import { useTranslation } from "react-i18next";
 import { Notifier } from "react-native-notifier";
 import { useAnimatedRef } from "react-native-reanimated";
 
-import { ButtonLinear } from "../../components";
+import { ButtonLinear, Input } from "../../components";
 import routes from "../../constants/routes";
 import { notify } from "../../helpers/notify";
-import { sizes } from "../../theme";
+import { colors, sizes } from "../../theme";
 import fonts from "../../theme/fonts";
 import { bablFormAtom, draftAtom, helpAtom } from "../../utils/atoms";
 import * as Queries from "../../utils/queries";
@@ -43,6 +45,24 @@ const EditBabl = ({ route }) => {
   const [helpState, setHelpState] = useAtom(helpAtom);
 
   const [check, setCheck] = React.useState(null);
+
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  React.useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false),
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const previewPositions = [
     { top: 100, left: 30, rotate: "-15deg" },
@@ -87,6 +107,8 @@ const EditBabl = ({ route }) => {
 
   const [isEnabled, setIsEnabled] = useState(false);
 
+  const [address, setAddress] = React.useState("");
+
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const onSharePress = async () => {
@@ -95,6 +117,7 @@ const EditBabl = ({ route }) => {
         title: t("errorKVKK"),
       });
     }
+
     const dto = {
       editId: bablForm.editId,
       hashtags: bablForm.hashtags,
@@ -106,7 +129,7 @@ const EditBabl = ({ route }) => {
       coverSource: lastItem.coverVideo ? lastItem.coverVideo : lastItem?.cover,
       coverUrl: "MANUAL",
       coverItem: lastItem.coverVideo ? lastItem.coverVideo : lastItem?.cover,
-      text: bablForm?.settings?.text,
+      text: address,
       coverVideoCropped: bablForm?.selectedCoverCrop?.endsWith?.("mp4")
         ? bablForm?.selectedCoverCrop
         : null,
@@ -194,7 +217,6 @@ const EditBabl = ({ route }) => {
 
   const createBablMutation = useMutation(Queries.createBabl, {
     onSuccess: async (res) => {
-      console.log("AKANRES", res);
       if (res.isHidden) {
         notify({
           title: t("congratsSubBablAdded"),
@@ -349,10 +371,25 @@ const EditBabl = ({ route }) => {
         style={{
           position: "absolute",
           zIndex: 99,
-          bottom: 40,
+          bottom: keyboardVisible ? sizes.width / 2 : 40,
           alignSelf: "center",
+          backgroundColor: colors.black,
+          borderRadius: 10,
         }}
       >
+        <View
+          style={{
+            marginTop: 10,
+          }}
+        />
+        <Input
+          width={sizes.width / 1.2}
+          placeholder={t("Adress")}
+          onChangeText={(a) => {
+            setAddress(a);
+          }}
+          value={address}
+        />
         <>
           <TouchableOpacity
             onPress={() => setCheck(!check)}
@@ -412,13 +449,19 @@ const EditBabl = ({ route }) => {
               {t("ShareStatus")}
             </Text>
 
-            <Switch
-              trackColor={{ false: "#55CCC", true: "#755CCC" }}
-              thumbColor={isEnabled ? "#fff" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
+            <View
+              style={{
+                marginLeft: 5,
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#55CCC", true: "#755CCC" }}
+                thumbColor={isEnabled ? "#fff" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
           </View>
         </>
         <ButtonLinear

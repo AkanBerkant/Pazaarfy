@@ -578,4 +578,5 @@ export default {
   ShareStatus: "Durum Olarak Paylaş",
   GenerateQR: "QR Üret",
   ForYou: "Senin İçin",
+  Address: "Adres",
 };

@@ -81,7 +81,7 @@ const App = () => {
             <StatusBar
               barStyle="light-content"
               backgroundCoxwlor={Platform.OS === "ios" ? null : "#000"}
-              hidden={false}
+              hidden={true}
             />
             <StackNavigation />
             <Listeners />

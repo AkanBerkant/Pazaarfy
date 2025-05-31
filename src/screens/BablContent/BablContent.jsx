@@ -219,9 +219,7 @@ const BablContent = () => {
       onSuccess: (res) => {
         queryClient.invalidateQueries(["LIKED_BABLS"]);
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
     },
   );
 
@@ -236,9 +234,7 @@ const BablContent = () => {
       onSuccess: (res) => {
         queryClient.invalidateQueries(["LIKED_BABLS"]);
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
     },
   );
 
@@ -250,9 +246,7 @@ const BablContent = () => {
       onMutate: () => {
         onRebablPositiveAction();
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
     },
   );
 
@@ -264,9 +258,7 @@ const BablContent = () => {
       onMutate: () => {
         onRebablNegativeAction();
       },
-      onError: (err) => {
-        console.log("err", err);
-      },
+      onError: (err) => {},
     },
   );
 

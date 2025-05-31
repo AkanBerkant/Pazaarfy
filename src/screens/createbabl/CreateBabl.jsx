@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   Keyboard,
+  ImageBackground,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 
@@ -309,10 +310,7 @@ const CreateBabl = () => {
   };
 
   return (
-    <View
-      style={{ flex: 1, backgroundColor: "#000" }}
-      source={require("../../assets/neon.png")}
-    >
+    <View style={{ flex: 1, backgroundColor: "#000" }}>
       <CreateBablHeaderNeon onPress={onContinuePress} firstScreen />
 
       <KeyboardAvoidingView>

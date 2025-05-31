@@ -422,4 +422,5 @@ export default {
   ShareStatus: "مشاركة كحالة",
   GenerateQR: "توليد ريال قطري",
   ForYou: "لك",
+  Address: "عنوان",
 };

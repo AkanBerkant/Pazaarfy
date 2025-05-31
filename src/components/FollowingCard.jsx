@@ -10,7 +10,6 @@ import * as Queries from "../utils/queries";
 const FolowingCard = ({ getAllData, categoryList, categoryIndex }) => {
   const [user, setUser] = useAtom(userAtom);
 
-  console.log("ad", categoryList._id);
   const { data: userPostsData } = useQuery(
     [
       "getBablsQuery",

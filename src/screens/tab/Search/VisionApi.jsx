@@ -78,11 +78,6 @@ const Search = ({ route }) => {
         { headers: { "Content-Type": "application/json" } },
       );
 
-      console.log(
-        "Google Vision API Yanıtı:",
-        JSON.stringify(response.data, null, 2),
-      );
-
       const labels =
         response.data.responses[0]?.labelAnnotations?.map(
           (label) => label.description,
@@ -90,7 +85,6 @@ const Search = ({ route }) => {
 
       // 🚀 İngilizce etiketleri Türkçeye çevir
       const translatedLabels = await translateText(labels);
-      console.log("Türkçeye Çevrilen Etiketler:", translatedLabels);
 
       setLabels(translatedLabels);
       filterResults(translatedLabels);

@@ -62,7 +62,7 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
           zIndex: 3,
           width: sizes.width,
 
-          backgroundColor: "#121212",
+          backgroundColor: "#000",
         },
         style,
       ]}
@@ -77,7 +77,7 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
             resizeMode="contain"
             style={{
               width: 56,
-              height: 30,
+              height: 35,
               tintColor: "#8858EA",
             }}
             source={require("../../assets/loved.png")}
@@ -113,6 +113,7 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
 
       <View
         style={{
+          width: 56,
           height: 35,
         }}
       />
@@ -125,7 +126,7 @@ export default HomeMenu;
 const styles = StyleSheet.create({
   notification: {
     width: 56,
-    height: 30,
+    height: 35,
     tintColor: "#755CCC",
   },
   message: {

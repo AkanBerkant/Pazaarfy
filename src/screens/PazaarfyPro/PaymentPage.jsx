@@ -28,7 +28,6 @@ const PaymentPage = ({ navigation, route }) => {
 
   const initPaymentMutation = useMutation(Queries.paytrPayment, {
     onSuccess: (data) => {
-      console.log("AKANANA", data);
       setShowIFrame(true);
 
       setToken(data?.token);

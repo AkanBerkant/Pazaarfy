@@ -599,4 +599,5 @@ export default {
   ShareStatus: "Share as Status",
   GenerateQR: "Generate QR",
   ForYou: "For You",
+  Address: "Address",
 };

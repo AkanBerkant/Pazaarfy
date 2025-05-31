@@ -1,8 +1,6 @@
 import React from "react";
 import {
-  Alert,
   Image,
-  Linking,
   StatusBar,
   StyleSheet,
   Text,
@@ -32,25 +30,19 @@ import { sizes } from "../../../theme";
 import fonts from "../../../theme/fonts";
 import { helpAtom, userAtom } from "../../../utils/atoms";
 import Emitter from "../../../utils/emitter";
-import {
-  getPlatformFromUrl,
-  platformLogos,
-} from "../../../utils/platform-colors";
+
 import * as Queries from "../../../utils/queries";
-import TwitterWidget from "../../BablContentList/TwitterWidget";
 
 import Rebabls from "./Rebabls";
-import TapToEnter from "./TapToEnter";
+
 import BablContentModal from "../../BablContent/BablContentModal";
 import { BackHeader } from "../../../components";
 
-const backIcon = require("../../../assets/back.png");
 const commentIcon = require("../../../assets/comments.png");
-const fireIcon = require("../../../assets/firee.png");
+
 const heartEmptyIcon = require("../../../assets/like.png");
 const heartFillIcon = require("../../../assets/like.png");
-const sendIcon = require("../../../assets/ned.png");
-const reloadIcon = require("../../../assets/reload.png");
+
 const savedIcon = require("../../../assets/saved.png");
 
 const HotBablDetailContent = ({
@@ -445,25 +437,28 @@ const HotBablDetailContent = ({
               <Image style={styles.pp} source={{ uri: user?.photo }} />
               <Text style={styles.name}>{user?.username}</Text>
             </TouchableOpacity>
-            <View
-              style={{
-                backgroundColor: "#1D1E20",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 99,
-                padding: 10,
-              }}
-            >
-              <Text
+
+            {data?.babl?.text ? (
+              <View
                 style={{
-                  color: "#fff",
-                  fontFamily: fonts.bold,
-                  fontSize: 12,
+                  backgroundColor: "#1D1E20",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 99,
+                  padding: 10,
                 }}
               >
-                İstanbul / Turkey
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontFamily: fonts.bold,
+                    fontSize: 12,
+                  }}
+                >
+                  {data?.babl?.text}
+                </Text>
+              </View>
+            ) : null}
           </View>
 
           <View>{showedItem}</View>

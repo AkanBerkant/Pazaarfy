@@ -1,1 +1,1 @@
-export const API_URL = "https://oyster-app-4semj.ondigitalocean.app/";
+export const API_URL = "https://hammerhead-app-2-5zwwg.ondigitalocean.app/";

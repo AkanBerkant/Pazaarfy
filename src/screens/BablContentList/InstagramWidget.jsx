@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Dimensions,
   Image,
@@ -6,21 +6,19 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { Asset } from 'expo-asset';
-import moment from 'moment';
-import InAppBrowser from 'react-native-inappbrowser-reborn';
-import Carousel from 'react-native-reanimated-carousel';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Asset } from "expo-asset";
+import moment from "moment";
+import InAppBrowser from "react-native-inappbrowser-reborn";
+import Carousel from "react-native-reanimated-carousel";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import CustomVideo from '../../components/CustomVideo';
-import InstagramWidgetModal from '../BablContent/InstagramWidgetModal';
+import CustomVideo from "../../components/CustomVideo";
+import InstagramWidgetModal from "../BablContent/InstagramWidgetModal";
 
-import InstagramIconSvg from './InstagramIconSvg';
-import TiktokIconSvg from './TiktokIconSvg';
-
-const youtubeIcon = require('../../assets/youtube.png');
+import InstagramIconSvg from "./InstagramIconSvg";
+import TiktokIconSvg from "./TiktokIconSvg";
 
 export const InstagramWidgetHeader = ({ item, createdBy }) => {
   const { bottom } = useSafeAreaInsets();
@@ -30,93 +28,6 @@ export const InstagramWidgetHeader = ({ item, createdBy }) => {
 
   return (
     <>
-      <View
-        style={{
-          paddingHorizontal: 16,
-          gap: 16,
-          position: 'absolute',
-          bottom,
-          left: 0,
-          width: Dimensions.get('window').width / 1.2,
-          zIndex: 1,
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            InAppBrowser.open(item.url);
-          }}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View
-            style={{
-              width: 40,
-              height: 40,
-            }}
-          >
-            {createdBy ? (
-              <Image
-                source={{ uri: createdBy.photo }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 40,
-                }}
-              />
-            ) : type === 'SHORT_INSTAGRAM' || type === 'PHOTO_INSTAGRAM' ? (
-              <InstagramIconSvg width={40} height={40} />
-            ) : type === 'SHORT_YOUTUBE' ? (
-              <Image
-                source={youtubeIcon}
-                style={{
-                  width: 40,
-                  height: (59 / 84) * 40,
-                }}
-              />
-            ) : (
-              <TiktokIconSvg width={32} height={32} />
-            )}
-          </View>
-
-          <Text
-            style={{
-              color: '#FFF',
-              fontSize: 14,
-              fontWeight: '600',
-              marginLeft: 8,
-
-              shadowColor: 'black',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.5,
-              shadowRadius: 2,
-
-              elevation: 2, // Sadece Android için gerekliadowColor: 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            {createdBy ? createdBy.username : metadata?.username}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { return setVisible(true); }}>
-          <Text
-            numberOfLines={3}
-            style={{
-              color: '#FFF',
-
-              shadowColor: 'black',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.5,
-              shadowRadius: 2,
-
-              elevation: 2, // Sadece Android için gerekliadowColor: 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            {item.title}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
       <InstagramWidgetModal
         title={item.title}
         visible={visible}
@@ -130,7 +41,7 @@ export const InstagramWidgetHeader = ({ item, createdBy }) => {
 
 const InstagramWidget = ({ item, shouldPlay }) => {
   const { metadata } = item;
-  const sliderWidth = Dimensions.get('window').width;
+  const sliderWidth = Dimensions.get("window").width;
   const [localAssets, setLocalAssets] = React.useState([]);
 
   React.useEffect(() => {
@@ -149,18 +60,16 @@ const InstagramWidget = ({ item, shouldPlay }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#000',
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: "#000",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <InstagramWidgetHeader
-        item={item}
-      />
+      <InstagramWidgetHeader item={item} />
 
       <View
         style={{
-          alignSelf: 'stretch',
+          alignSelf: "stretch",
         }}
       >
         {(!!item.cover || !!metadata?.assets?.length) && (
@@ -174,11 +83,11 @@ const InstagramWidget = ({ item, shouldPlay }) => {
               width={sliderWidth}
               height={sliderWidth / 1.3}
               renderItem={({ item: media }) => {
-                if (media.includes('mp4') || media.includes('m3u8')) {
+                if (media.includes("mp4") || media.includes("m3u8")) {
                   return (
                     <CustomVideo
                       style={{
-                        alignSelf: 'stretch',
+                        alignSelf: "stretch",
                         aspectRatio: 1.3,
                       }}
                       source={{
@@ -195,7 +104,7 @@ const InstagramWidget = ({ item, shouldPlay }) => {
                 return (
                   <Image
                     style={{
-                      alignSelf: 'stretch',
+                      alignSelf: "stretch",
                       aspectRatio: 1.3,
                     }}
                     source={{
@@ -213,32 +122,30 @@ const InstagramWidget = ({ item, shouldPlay }) => {
           <View
             style={{
               paddingHorizontal: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <View>
               <Text
                 style={{
                   marginTop: 10,
-                  color: '#FFF',
+                  color: "#FFF",
                   fontSize: 14,
-                  fontWeight: '600',
+                  fontWeight: "600",
                 }}
               >
-                {metadata.likeCount}
-                {' '}
-                beğenme
+                {metadata.likeCount} beğenme
               </Text>
 
               <Text
                 numberOfLines={1}
                 style={{
                   marginTop: 10,
-                  color: '#FFF',
+                  color: "#FFF",
                   fontSize: 14,
-                  fontWeight: '400',
+                  fontWeight: "400",
                 }}
               >
                 {item.title}
@@ -248,10 +155,10 @@ const InstagramWidget = ({ item, shouldPlay }) => {
                 style={{
                   marginTop: 16,
                   fontSize: 14,
-                  color: 'rgb(115, 115, 115)',
+                  color: "rgb(115, 115, 115)",
                 }}
               >
-                {moment(metadata.date).format('DD MMMM YYYY')}
+                {moment(metadata.date).format("DD MMMM YYYY")}
               </Text>
             </View>
           </View>
