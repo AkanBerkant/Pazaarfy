@@ -1,4 +1,4 @@
-package com.pazaarfy
+package com.pazaar
 
 import android.os.Build
 import android.os.Bundle
