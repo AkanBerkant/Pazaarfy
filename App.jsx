@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Platform,
   StatusBar,
@@ -23,11 +23,15 @@ import fonts from "./src/theme/fonts";
 
 import storage from "@react-native-firebase/storage";
 
-// use https://www.npmjs.com/package/react-native-global-props if need more default props
+import { useAtomValue, useSetAtom } from "jotai";
+import { userAtom, chatsAtom } from "./src/utils/atoms";
+import { getAllChats } from "./src/utils/firestore-queries";
+
+// Global vars
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
-TextInput.defaultProps = Text.defaultProps || {};
+TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 TextInput.defaultProps.textContentType = "oneTimeCode";
 TextInput.defaultProps.placeholderTextColor = "#A5A5A5";
@@ -72,21 +76,45 @@ const renderFallback = ({ resetError }) => {
   );
 };
 
+const AppContent = () => {
+  const user = useAtomValue(userAtom);
+  const setChats = useSetAtom(chatsAtom);
+
+  useEffect(() => {
+    if (!user?._id) return;
+
+    console.log("👤 Login olan kullanıcı:", user._id);
+
+    getAllChats(user._id)
+      .then((data) => {
+        console.log("🔥 Chat verisi geldi:", data);
+        setChats(data);
+      })
+      .catch((err) => {
+        console.log("❌ getAllChats hatası:", err.message);
+      });
+  }, [user?._id]);
+
+  return (
+    <GestureHandlerRootView style={styles.gestureRoot}>
+      <NotifierWrapper>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={Platform.OS === "ios" ? null : "#000"}
+          hidden={true}
+        />
+        <Listeners />
+        <StackNavigation />
+      </NotifierWrapper>
+    </GestureHandlerRootView>
+  );
+};
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <React.Suspense fallback={<View style={styles.fallback} />}>
-        <GestureHandlerRootView style={styles.gestureRoot}>
-          <NotifierWrapper>
-            <StatusBar
-              barStyle="light-content"
-              backgroundCoxwlor={Platform.OS === "ios" ? null : "#000"}
-              hidden={true}
-            />
-            <StackNavigation />
-            <Listeners />
-          </NotifierWrapper>
-        </GestureHandlerRootView>
+        <AppContent />
       </React.Suspense>
     </QueryClientProvider>
   );

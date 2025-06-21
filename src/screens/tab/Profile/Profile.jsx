@@ -923,10 +923,7 @@ const styles = StyleSheet.create({
   },
 
   followBtnContainer: {
-    marginLeft: 3,
-
     gap: 5,
-    paddingHorizontal: 30,
   },
   followBtn: {
     height: 27,

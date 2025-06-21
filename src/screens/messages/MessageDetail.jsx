@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -10,7 +10,6 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useAtomValue } from "jotai";
 import moment from "moment";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { MessageInput } from "../../components";
 import { chatsAtom, userAtom } from "../../utils/atoms";
@@ -23,13 +22,13 @@ import PortalView from "./PortalView";
 
 const MessageScreen = () => {
   const navigation = useNavigation();
-  const listRef = React.useRef();
+  const listRef = useRef();
   const route = useRoute();
   const user = useAtomValue(userAtom);
   const { item: chatItem } = route.params;
-  const [text, setText] = React.useState("");
+  const [text, setText] = useState("");
   const chats = useAtomValue(chatsAtom);
-  const messages = chats[chatItem.user._id]?.messages || [];
+  const messages = chats?.[chatItem.user._id]?.messages || [];
 
   const [messageCordinates, setMessageCordinates] = useState({ x: 0, y: 0 });
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -39,19 +38,11 @@ const MessageScreen = () => {
     const { pageY, locationY } = e.nativeEvent;
     const y = pageY - locationY;
 
-    setMessageCordinates({
-      x: 0,
-      y,
-    });
+    setMessageCordinates({ x: 0, y });
     setSelectedMessage(message);
   };
 
-  React.useEffect(() => {
-    /* updateLastSeen({
-      currentUser: user.id,
-      otherUser: chatItem.user.id,
-    }); */
-
+  useEffect(() => {
     return () => {
       FirestoreQueries.updateLastSeen({
         currentUser: user._id,
@@ -72,9 +63,7 @@ const MessageScreen = () => {
         currentUser: user._id,
         otherUser: chatItem.user._id,
       })
-        .finally(() => {
-          return setText("");
-        })
+        .finally(() => setText(""))
         .finally(() => {
           Queries.sendMessage({
             message: text,
@@ -85,7 +74,7 @@ const MessageScreen = () => {
   };
 
   const scrollToEnd = () => {
-    listRef.current?.scrollToOffset({ offset: 999 * 9999, animated: false });
+    listRef.current?.scrollToOffset({ offset: 999999, animated: false });
   };
 
   return (
@@ -102,24 +91,20 @@ const MessageScreen = () => {
         <FlatList
           ref={listRef}
           data={messages}
-          onContentSizeChange={() => {
-            scrollToEnd();
-          }}
-          keyExtractor={(item) => {
-            return item.createdAt;
-          }}
+          onContentSizeChange={scrollToEnd}
+          keyExtractor={(item, index) => `${item.id ?? index}`}
           renderItem={({ item }) => {
-            const messageDate = moment(
-              new Date(
-                item.date.seconds * 1000 + item.date.nanoseconds / 1000000,
-              ),
-            );
+            const messageDate = item?.date?.seconds
+              ? moment(
+                  new Date(
+                    item.date.seconds * 1000 + item.date.nanoseconds / 1000000,
+                  ),
+                )
+              : moment();
 
             return (
               <Message
-                content={{
-                  text: item.text,
-                }}
+                content={{ text: item.text }}
                 isSender={item.sender === user._id}
                 sender={{
                   avatar:
@@ -138,12 +123,7 @@ const MessageScreen = () => {
           setSelectedMessage={setSelectedMessage}
           isSender={isSender}
         />
-        <View
-          style={{
-            backgroundColor: "#151515",
-            padding: 10,
-          }}
-        >
+        <View style={{ backgroundColor: "#151515", padding: 10 }}>
           <MessageInput
             value={text}
             onChangeText={setText}

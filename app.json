@@ -3,7 +3,7 @@
     "name": "Pazaarfy",
     "slug": "Pazaarfy",
     "deepLinking": true,
-    "version": "2.0.0",
+    "version": "2.0.7",
     "extra": {
       "eas": {
         "projectId": "434edff1-65bf-4e72-a71f-3a1e049cf6d1"

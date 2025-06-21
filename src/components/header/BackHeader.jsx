@@ -21,6 +21,7 @@ const BackHeader = ({
   buttonPress,
   bg,
   button,
+  size,
   onPress,
   style,
 }) => {

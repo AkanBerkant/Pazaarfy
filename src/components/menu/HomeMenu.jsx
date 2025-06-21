@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  SafeAreaView,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
@@ -52,22 +59,22 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
   };
 
   return (
-    <Animated.View
-      style={[
-        {
-          position: "absolute",
-          paddingTop: safeAreaInsets.top + 10,
-          left: 0,
-          right: 0,
-          zIndex: 3,
-          width: sizes.width,
-
-          backgroundColor: "#000",
-        },
-        style,
-      ]}
+    <SafeAreaView
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: 10,
+        width: sizes.width / 1.1,
+        alignSelf: "center",
+      }}
     >
-      <View style={styles.menuContainer}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
         <TouchableOpacity
           onPress={() => {
             navigation.navigate(routes.PeopleSearch);
@@ -76,48 +83,57 @@ const HomeMenu = ({ backgroundColor, style, tabsRef }) => {
           <Image
             resizeMode="contain"
             style={{
-              width: 56,
-              height: 35,
+              width: 30,
+              height: 30,
               tintColor: "#8858EA",
             }}
             source={require("../../assets/loved.png")}
           />
         </TouchableOpacity>
-        <Image
-          style={styles.logo}
-          resizeMode="contain"
-          source={require("../../assets/pazaarfy/logo.png")}
-        />
-        <TouchableOpacity onPress={onNotifPress} style={styles.between}>
-          <TouchableOpacity onPress={onNotifPress}>
-            <Image
-              source={notifIcon}
-              style={styles.notification}
-              resizeMode="contain"
-            />
-            {/* 
-            {unseenNotificationCountQuery.data > 0 && (
-              <View
-                style={[
-                  styles.badge,
-                  {
-                    top: 1.2,
-                    right: 18,
-                  },
-                ]}
-              />
-            )} */}
-          </TouchableOpacity>
-        </TouchableOpacity>
+        <View>
+          <View
+            resizeMode="contain"
+            style={{
+              width: 36,
+              height: 35,
+              tintColor: "#8858EA",
+            }}
+            source={require("../../assets/loved.png")}
+          />
+        </View>
       </View>
-
+      <Image
+        style={styles.logo}
+        resizeMode="contain"
+        source={require("../../assets/pazaarfy/logo.png")}
+      />
       <View
         style={{
-          width: 56,
-          height: 35,
+          flexDirection: "row",
+          alignItems: "center",
         }}
-      />
-    </Animated.View>
+      >
+        <TouchableOpacity onPress={onNotifPress}>
+          <Image
+            source={notifIcon}
+            style={styles.notification}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(routes.Messages);
+          }}
+        >
+          <Image
+            source={require("../../assets/mes.png")}
+            style={styles.message}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -125,16 +141,15 @@ export default HomeMenu;
 
 const styles = StyleSheet.create({
   notification: {
-    width: 56,
-    height: 35,
+    width: 30,
+    height: 30,
     tintColor: "#755CCC",
+    marginRight: 10,
   },
   message: {
-    width: 20,
-    height: 26,
-    marginLeft: 12,
-    margin: 5,
-    tintColor: "#FFF",
+    width: 30,
+    height: 30,
+    tintColor: "#755CCC",
   },
   badge: {
     width: 8,
@@ -149,15 +164,7 @@ const styles = StyleSheet.create({
     width: 34,
     height: 28,
   },
-  menuContainer: {
-    marginTop: -15,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: sizes.width / 1.05,
-    alignSelf: "center",
-    marginBottom: -10,
-  },
+
   logo: {
     width: 133,
     height: 30,

@@ -246,7 +246,7 @@ const EditBabl = ({ route }) => {
         notify({
           title: t("congratsBablShared"),
         });
-        navigation.navigate(routes.Home);
+        navigation.navigate(t("Home"));
         queryClient.invalidateQueries(["BABLS"]);
         queryClient.invalidateQueries(["BABLS_PAGINATION"]);
         queryClient.invalidateQueries(["FEED"]);

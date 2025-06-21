@@ -553,4 +553,7 @@ export default {
   GenerateQR: "產生二維碼",
   ForYou: "為你",
   Address: "地址",
+  Home: "主页",
+  Profile: "个人资料",
+  Pazaar: "市场",
 };

@@ -2,18 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>943784748832-c3qs5plsejo0uljurv0saba0qsoptfat.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.943784748832-c3qs5plsejo0uljurv0saba0qsoptfat</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>943784748832-v7lmer5cofg30cm5552v710fkdoe2cst.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA-sZ9h9SuzeyCifUTA9PnxvlJibVB1cXI</string>
+	<string>AIzaSyANb4sBQDX_9FIv_W5OVRNZ6teRukkyhi4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>966332905085</string>
+	<string>943784748832</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.pazaarfy.ios</string>
+	<string>sosyo</string>
 	<key>PROJECT_ID</key>
-	<string>pazaarfy-48d4d</string>
+	<string>sosyal-337d7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>pazaarfy-48d4d.firebasestorage.app</string>
+	<string>sosyal-337d7.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:966332905085:ios:88022548781d48c4f3e314</string>
+	<string>1:943784748832:ios:01f5276b58899912b01945</string>
 </dict>
 </plist>

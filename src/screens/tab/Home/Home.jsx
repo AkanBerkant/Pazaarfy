@@ -353,7 +353,7 @@ const Home = () => {
 
   const renderHeader = React.useCallback(() => {
     return (
-      <LinearGradient colors={["#000", "#0F0C19", "#231C3B"]}>
+      <LinearGradient colors={["#190444", "#1D064F", "#070118"]}>
         {Platform.OS == "android" && (
           <View
             style={{
@@ -410,7 +410,7 @@ const Home = () => {
 
   return (
     <LinearGradient
-      colors={["#B5A0FF", "#0F0C19", "#231C3B"]}
+      colors={["#190444", "#1D064F", "#070118"]}
       style={styles.container}
     >
       <Tabs.Container

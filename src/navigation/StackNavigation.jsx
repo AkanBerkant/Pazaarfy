@@ -107,6 +107,7 @@ import GuestDetail from "../screens/GuestMode/GuestDetail";
 import PazaarfyPro from "../screens/PazaarfyPro/PazaarfyPro";
 import Price from "../screens/PazaarfyPro/Price";
 import PaymentPage from "../screens/PazaarfyPro/PaymentPage";
+import Message from "../screens/messages/Message";
 
 const Stack = createNativeStackNavigator();
 
@@ -162,6 +163,8 @@ const StackNavigation = () => {
       }
     }
   }, [user]);
+
+  const { t } = useTranslation();
 
   return (
     <NavigationContainer
@@ -225,7 +228,6 @@ const StackNavigation = () => {
                 name={routes.EnterYourNewPassword}
                 component={EnterYourNewPassword}
               />
-
               <Stack.Screen
                 name={routes.DeleteAccountResponse}
                 component={DeleteAccountResponse}
@@ -246,7 +248,6 @@ const StackNavigation = () => {
               <Stack.Screen name={routes.VideoEditor} component={VideoEditor} />
               <Stack.Screen name={routes.TextEditor} component={TextEditor} />
               <Stack.Screen name={routes.Feedback} component={Feedback} />
-
               <Stack.Screen
                 name={routes.ImagesSlider}
                 component={ImagesSlider}
@@ -260,7 +261,6 @@ const StackNavigation = () => {
                 }}
               />
               <Stack.Screen name={routes.BablOptions} component={BablOptions} />
-
               <Stack.Screen
                 options={{
                   headerShown: false,
@@ -342,18 +342,17 @@ const StackNavigation = () => {
                 name={routes.DetailListProfile}
                 component={DetailListProfile}
               />
-
               <Stack.Screen
                 name={routes.CreateBablCategories}
                 component={CreateBablCategories}
               />
               <Stack.Screen name={routes.Shop} component={Shop} />
-
               <Stack.Screen
                 name={routes.Notification}
                 component={Notification}
               />
 
+              <Stack.Screen name={routes.Messages} component={Messages} />
               <Stack.Screen name={routes.Comments} component={Comments} />
               <Stack.Screen name={routes.Friends} component={Friends} />
               <Stack.Screen
@@ -437,9 +436,7 @@ const StackNavigation = () => {
                   headerShown: false,
                 }}
               />
-
               <Stack.Screen name={routes.Pro} component={Pro} />
-
               <Stack.Screen
                 name={routes.SharedSavings}
                 component={SharedSavings}
@@ -490,7 +487,6 @@ const StackNavigation = () => {
                 name={routes.SelectCover}
                 component={SelectCover}
               />
-
               <Stack.Screen name={routes.CreateBabl} component={CreateBabl} />
               <Stack.Screen
                 name={routes.PathGradient}
@@ -504,7 +500,6 @@ const StackNavigation = () => {
                   presentation: "transparentModal",
                 }}
               />
-
               <Stack.Screen
                 name={routes.DeleteAccountResponse}
                 component={DeleteAccountResponse}

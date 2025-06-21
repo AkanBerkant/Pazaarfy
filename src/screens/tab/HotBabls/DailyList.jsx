@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList } from "react-native-gesture-handler";
 
-import { sizes } from '../../../theme';
-import Emitter from '../../../utils/emitter';
+import { sizes } from "../../../theme";
+import Emitter from "../../../utils/emitter";
 
-import DailyItem from './DailyItem';
+import DailyItem from "./DailyItem";
 
 const DailyList = ({
   hotBablsOfDay,
@@ -18,18 +18,24 @@ const DailyList = ({
   const [playingIndex, setPlayingIndex] = React.useState(0);
 
   React.useEffect(() => {
-    const listener = Emitter.on('RESET_HOT_BABLS', () => {
+    const listener = Emitter.on("RESET_HOT_BABLS", () => {
       setPlayingIndex(0);
     });
 
-    return () => { return listener.remove(); };
+    return () => {
+      return listener.remove();
+    };
   }, []);
 
   const onScrollX = (event) => {
     onScroll(event);
   };
 
-  const onFinish = () => { return setPlayingIndex((prev) => { return prev + 1; }); };
+  const onFinish = () => {
+    return setPlayingIndex((prev) => {
+      return prev + 1;
+    });
+  };
 
   return (
     <FlatList
@@ -42,7 +48,9 @@ const DailyList = ({
             loading={loading}
             index={index}
             item={item}
-            getAllData={() => { return [hotBablsOfDay]; }}
+            getAllData={() => {
+              return [hotBablsOfDay];
+            }}
             isPlaying={index === playingIndex}
             shouldPlay={index === playingIndex && !shouldPause}
             isFocused={isFocused}
@@ -51,7 +59,9 @@ const DailyList = ({
         );
       }}
       onScroll={onScrollX}
-      keyExtractor={(item) => { return `DAILY_${item._id}`; }}
+      keyExtractor={(item) => {
+        return `DAILY_${item._id}`;
+      }}
     />
   );
 };

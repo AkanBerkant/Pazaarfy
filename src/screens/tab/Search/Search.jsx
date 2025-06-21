@@ -115,12 +115,9 @@ const Search = () => {
   };
 
   return (
-    <ImageBackground
-      style={{
-        flex: 1,
-        backgroundColor: "#000",
-      }}
-      source={require("../../../assets/bag.png")}
+    <LinearGradient
+      style={{ flex: 1 }}
+      colors={["#190444", "#1D064F", "#070118"]}
     >
       <SafeAreaView />
       <View
@@ -257,7 +254,7 @@ const Search = () => {
           );
         })}
       </PagerView>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 

@@ -423,4 +423,7 @@ export default {
   GenerateQR: "توليد ريال قطري",
   ForYou: "لك",
   Address: "عنوان",
+  Home: "الصفحة الرئيسية",
+  Profile: "الملف الشخصي",
+  Pazaar: "السوق",
 };

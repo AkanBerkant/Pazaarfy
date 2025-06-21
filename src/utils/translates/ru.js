@@ -586,4 +586,7 @@ export default {
   GenerateQR: "генерировать qr",
   ForYou: "Для тебя",
   Address: "Адрес",
+  Home: "Главная",
+  Profile: "Профиль",
+  Pazaar: "Рынок",
 };

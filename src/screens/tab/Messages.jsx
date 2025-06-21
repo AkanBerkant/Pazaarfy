@@ -17,7 +17,7 @@ import { useAtomValue } from "jotai";
 import moment from "moment";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import { Container } from "../../components";
+import { BackHeader, Container } from "../../components";
 import ReactNativeAnimatedSearchbox from "../../components/animated/card/AnimatedSearchBar";
 import routes from "../../constants/routes";
 import { sizes } from "../../theme";
@@ -202,30 +202,8 @@ const Messages = () => {
   };
 
   return (
-    <Container scrollview={false}>
-      <View style={styles.between}>
-        <View style={styles.row}>
-          <View
-            style={styles.backContainer}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Text style={styles.title}>{t("Messages")}</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate(routes.Friends);
-          }}
-        >
-          <Image
-            source={require("../../assets/messagess.png")}
-            style={styles.messages}
-          />
-        </TouchableOpacity>
-      </View>
+    <Container safearea={false} scrollview={false}>
+      <BackHeader title={t("Messages")} />
 
       <ReactNativeAnimatedSearchbox
         isScaled={isScaled}

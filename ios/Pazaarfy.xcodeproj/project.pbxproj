@@ -41,7 +41,7 @@
 		BC5EAFA1922546DF9AF98B2D /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E54F964881F4019B60661CD /* Poppins-Medium.ttf */; };
 		BC644303E1B14CFABFADD4C6 /* Avenir 2.ttc in Resources */ = {isa = PBXBuildFile; fileRef = B0838B1E2561462B97AB7561 /* Avenir 2.ttc */; };
 		C55E5EBD81234968A7B013AC /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8F83690B13C41879062FB5C /* Roboto-Light.ttf */; };
-		CF8042FA2D74F0980080B21F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF8042F92D74F0980080B21F /* GoogleService-Info.plist */; };
+		CFE60C0F2E06ABFF00B67A82 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFE60C0E2E06ABFF00B67A82 /* GoogleService-Info.plist */; };
 		D38BB1BBB2E2498D958EB0A7 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAA46F2254C449CBB6E342B6 /* Poppins-Regular.ttf */; };
 		E5B4F08F133443D19975411B /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CA61D0D4A7A4F20AD154A0A /* Roboto-BoldItalic.ttf */; };
 		ED01334E1415409CABAFBB0D /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4E5C4E99EB64104B4E8AF4D /* Poppins-ExtraLightItalic.ttf */; };
@@ -88,7 +88,7 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		C33C34BBDDC747BE98D96339 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-MediumItalic.ttf"; path = "../src/assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		CDA7E1D508A34F35B2E11AA3 /* GeorgiaPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "GeorgiaPro-Regular.ttf"; path = "../src/assets/fonts/GeorgiaPro-Regular.ttf"; sourceTree = "<group>"; };
-		CF8042F92D74F0980080B21F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CFE60C0E2E06ABFF00B67A82 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D4518C1BA8AF42F0ADCB0189 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../src/assets/fonts/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
 		D5D8BAB1B26A49A294E7E7EE /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../src/assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -115,7 +115,7 @@
 		13B07FAE1A68108700A75B9A /* Pazaarfy */ = {
 			isa = PBXGroup;
 			children = (
-				CF8042F92D74F0980080B21F /* GoogleService-Info.plist */,
+				CFE60C0E2E06ABFF00B67A82 /* GoogleService-Info.plist */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -308,11 +308,11 @@
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				CF8042FA2D74F0980080B21F /* GoogleService-Info.plist in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				227DA5E1EF9B88FA1ACEB99C /* PrivacyInfo.xcprivacy in Resources */,
 				EEBA0FDF64EB45BC8810AEEA /* GeorgiaPro-Regular.ttf in Resources */,
 				9E2266BE7F41491AA2ED3E90 /* Poppins-Black.ttf in Resources */,
+				CFE60C0F2E06ABFF00B67A82 /* GoogleService-Info.plist in Resources */,
 				373090F994C84607AD41535E /* Poppins-BlackItalic.ttf in Resources */,
 				1D48D0FA7FB749598DEE90C6 /* Poppins-Bold.ttf in Resources */,
 				294E90418FEB4FE199B73022 /* Poppins-BoldItalic.ttf in Resources */,
@@ -546,7 +546,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = FB4276HW3H;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -559,7 +559,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -580,7 +580,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = FB4276HW3H;
 				INFOPLIST_FILE = Pazaarfy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -588,7 +588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

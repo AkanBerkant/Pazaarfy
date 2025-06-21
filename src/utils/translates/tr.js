@@ -579,4 +579,7 @@ export default {
   GenerateQR: "QR Üret",
   ForYou: "Senin İçin",
   Address: "Adres",
+  Home: "Ana Sayfa",
+  Profile: "Profil",
+  Pazaar: "Pazar",
 };

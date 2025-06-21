@@ -600,4 +600,7 @@ export default {
   GenerateQR: "Generate QR",
   ForYou: "For You",
   Address: "Address",
+  Home: "Home",
+  Profile: "Profile",
+  Pazaar: "Market",
 };

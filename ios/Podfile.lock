@@ -1169,8 +1169,6 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (14.0.3):
     - ExpoModulesCore
-  - ExpoLinking (7.1.4):
-    - ExpoModulesCore
   - ExpoModulesCore (2.2.2):
     - DoubleConversion
     - glog
@@ -2672,6 +2670,27 @@ PODS:
     - React
   - react-native-insta-story (1.1.9):
     - React
+  - react-native-keyboard-controller (1.17.5):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - react-native-menu (1.2.2):
     - React
   - react-native-netinfo (11.4.1):
@@ -3154,8 +3173,6 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController (~> 2.7.4)
-  - RNInAppBrowser (3.7.0):
-    - React-Core
   - RNLocalize (3.4.1):
     - React-Core
   - RNReactNativeHapticFeedback (2.3.3):
@@ -3369,7 +3386,6 @@ DEPENDENCIES:
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
-  - ExpoLinking (from `../node_modules/expo-linking/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
@@ -3411,6 +3427,7 @@ DEPENDENCIES:
   - react-native-create-thumbnail (from `../node_modules/react-native-create-thumbnail`)
   - react-native-heic-converter (from `../node_modules/react-native-heic-converter`)
   - react-native-insta-story (from `../node_modules/react-native-insta-story`)
+  - react-native-keyboard-controller (from `../node_modules/react-native-keyboard-controller`)
   - "react-native-menu (from `../node_modules/@react-native-menu/menu`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -3457,7 +3474,6 @@ DEPENDENCIES:
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
-  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReactNativeSharedGroupPreferences (from `../node_modules/react-native-shared-group-preferences`)
@@ -3522,8 +3538,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
-  ExpoLinking:
-    :path: "../node_modules/expo-linking/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
   FBLazyVector:
@@ -3603,6 +3617,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-heic-converter"
   react-native-insta-story:
     :path: "../node_modules/react-native-insta-story"
+  react-native-keyboard-controller:
+    :path: "../node_modules/react-native-keyboard-controller"
   react-native-menu:
     :path: "../node_modules/@react-native-menu/menu"
   react-native-netinfo:
@@ -3695,8 +3711,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
-  RNInAppBrowser:
-    :path: "../node_modules/react-native-inappbrowser-reborn"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNReactNativeHapticFeedback:
@@ -3729,7 +3743,6 @@ SPEC CHECKSUMS:
   ExpoFileSystem: 2d804c73034c0d65eb2a640e0a77627033b69edc
   ExpoFont: f354e926f8feae5e831ec8087f36652b44a0b188
   ExpoKeepAwake: b0171a73665bfcefcfcc311742a72a956e6aa680
-  ExpoLinking: b6a0320bf46ae36807d3dc27b4a1d4474505f99c
   ExpoModulesCore: 4b5a098cfad99a7f238dfad07ae1f2b83fcf8b56
   FBLazyVector: ca8044c9df513671c85167838b4188791b6f37e1
   Firebase: d80354ed7f6df5f9aca55e9eb47cc4b634735eaf
@@ -3792,6 +3805,7 @@ SPEC CHECKSUMS:
   react-native-create-thumbnail: 733160dca9a548262e1030e7fcdae90a93d203ca
   react-native-heic-converter: dff4b6e0e37dab29d54e58e644ff9c6804d6db47
   react-native-insta-story: 2f1028459065547b4b4cd81dd0a3f5a08fa25eb1
+  react-native-keyboard-controller: 2d296d5052d5b3a9756b49ac6b1d5b8b08a89058
   react-native-menu: c394bbb3578281165d0025e500c9711f164e8fe1
   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
   react-native-pager-view: 1b70e63833fef9845f895d5ca0bad88cb4267938
@@ -3838,7 +3852,6 @@ SPEC CHECKSUMS:
   RNFlashList: 6a406b8bc6cab84934716405772f4ea6e6b2fbdb
   RNGestureHandler: 4a7cce66468343e82d601e8f6cdc0148b18b6c6b
   RNImageCropPicker: b0afedeefd8655254a15c34103718455fde6ce59
-  RNInAppBrowser: 6d3eb68d471b9834335c664704719b8be1bfdb20
   RNLocalize: 15463c4d79c7da45230064b4adcf5e9bb984667e
   RNReactNativeHapticFeedback: c873497ad3f9fa80447baa18daa9474e671d24bf
   RNReactNativeSharedGroupPreferences: d4869af3c7757405b6b5ac633d0ef5f9886a9be7

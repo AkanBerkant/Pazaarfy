@@ -3,7 +3,6 @@ import * as React from "react";
 
 import TabBar from "../components/tabbar/Tabbar";
 import routes from "../constants/routes";
-import CreateBabl from "../screens/createbabl/CreateBabl";
 import Favorites from "../screens/tab/Favorites";
 import Home from "../screens/tab/Home/Home";
 
@@ -12,7 +11,12 @@ import { BottomTab } from "./stacks";
 import Messages from "../screens/tab/Messages";
 import Search from "../screens/tab/Search/Search";
 import Profile from "../screens/tab/Profile/Profile";
+import CustomNavBar from "../components/CustomNavBar";
+import Reels from "../screens/tab/Reels/Reels";
+import { useTranslation } from "react-i18next";
+import HotBabls from "../screens/tab/HotBabls/HotBabls";
 const BottomTabs = () => {
+  const { t } = useTranslation();
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -20,18 +24,17 @@ const BottomTabs = () => {
         lazy: true,
       }}
       detachInactiveScreens
-      initialRouteName={routes.Home}
-      tabBar={() => {
-        return <TabBar />;
+      initialRouteName={t("Home")}
+      tabBar={(props) => {
+        return <CustomNavBar {...props} />;
       }}
     >
-      <BottomTab.Screen name={routes.Home} component={Home} />
-      <BottomTab.Screen name={routes.Messages} component={Messages} />
-      <BottomTab.Screen name={routes.Profile} component={Profile} />
-      <BottomTab.Screen name={routes.Search} component={Search} />
-      <BottomTab.Screen name={routes.Favorites} component={Favorites} />
-      <BottomTab.Screen name={routes.UserProfile} component={Profile} />
-      <BottomTab.Screen name={routes.Settings} component={Settings} />
+      <BottomTab.Screen name={t("Home")} component={Home} />
+      <BottomTab.Screen name={t("Reels")} component={Reels} />
+
+      <BottomTab.Screen name={t("Search")} component={Search} />
+      <BottomTab.Screen name={t("Profile")} component={Profile} />
+      <BottomTab.Screen name={t("settings")} component={Settings} />
     </BottomTab.Navigator>
   );
 };

@@ -107,6 +107,7 @@ const routes = {
   PaymentPage: "PaymentPage",
   QrCodeScreen: "QrCodeScreen",
   DetailListProfile: "DetailListProfile",
+  Reels: "Reels",
 };
 
 export default routes;
